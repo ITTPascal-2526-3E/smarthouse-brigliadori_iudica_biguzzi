@@ -3,9 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6C83A596-D32D-B35F-00DD-F0C99B673980}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B6BB343E-3750-46F8-AA58-2986A95018DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4CE9C245-76C9-4442-9435-41233E1C7983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain", "src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj", "{E3B89069-AEB8-49C2-AC42-990BF972B3F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Console", "src\BlaisePascal.SmartHouse.Console\BlaisePascal.SmartHouse.Console.csproj", "{26279106-58A8-4B8A-A107-8D681159506C}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3B89069-AEB8-49C2-AC42-990BF972B3F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B89069-AEB8-49C2-AC42-990BF972B3F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B89069-AEB8-49C2-AC42-990BF972B3F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B89069-AEB8-49C2-AC42-990BF972B3F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26279106-58A8-4B8A-A107-8D681159506C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26279106-58A8-4B8A-A107-8D681159506C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26279106-58A8-4B8A-A107-8D681159506C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26279106-58A8-4B8A-A107-8D681159506C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3B89069-AEB8-49C2-AC42-990BF972B3F2} = {4CE9C245-76C9-4442-9435-41233E1C7983}
+		{26279106-58A8-4B8A-A107-8D681159506C} = {4CE9C245-76C9-4442-9435-41233E1C7983}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51845AFD-D489-4A4A-80C4-96BC58FCB1F8}
