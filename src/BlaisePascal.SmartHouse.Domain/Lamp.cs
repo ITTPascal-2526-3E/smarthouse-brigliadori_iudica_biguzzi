@@ -2,6 +2,6 @@
 {
     public class Lamp
     {
-        //biguzzi stupido E SCEMO
+        //biguzzi 
     }
 }
