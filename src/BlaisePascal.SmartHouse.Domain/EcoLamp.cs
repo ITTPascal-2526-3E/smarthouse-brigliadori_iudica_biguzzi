@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }     // how much energy the lamp consumes in W
         public int maxTimeOn { get; } = 1; // max time the lamp can stay on in hours
+        public Timer timer;
 
         // costructor for lamp
         public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue)
@@ -34,11 +36,13 @@ namespace BlaisePascal.SmartHouse.Domain
         //metod for the light on
         public void turnOn()
         {
+            DateTime now = DateTime.Now;
             isOn = true;
         }
         //metod for the light off
         public void turnOff()
         {
+            
             isOn = false;
         }
         // property for lightPower you can set your light power from 0 to 100
@@ -84,5 +88,9 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             return actualColor;
         }
+
+        
+
+
     }
 }
