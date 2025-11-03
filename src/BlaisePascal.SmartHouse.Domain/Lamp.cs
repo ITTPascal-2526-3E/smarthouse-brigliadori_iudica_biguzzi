@@ -1,4 +1,6 @@
-﻿namespace BlaisePascal.SmartHouse.Domain
+﻿using System.Diagnostics.Metrics;
+
+namespace BlaisePascal.SmartHouse.Domain
 {
     internal class Lamp
     {
@@ -28,7 +30,7 @@
             isOn = ison;
 
             isWireless = iswireless;
-            if (lightonspecifictime > 1 && lightoffspecifictime > 1 && lightoffspecifictime <= 24 && lightonspecifictime <= 24)
+            if (lightonspecifictime > 0 && lightoffspecifictime > 0 && lightoffspecifictime <= 23 && lightonspecifictime <= 23)
             {
                 lightOnSpecificTime = lightonspecifictime;
                 lightOffSpecificTime = lightoffspecifictime;
@@ -66,7 +68,7 @@
         // metod to set the color of the lamp
         public void setColor(string color)
         {
-            // controllo sulla string vuota
+            // ceck if the color is valid
             if (string.IsNullOrEmpty(color))
             {
                 //Console.WriteLine("Color can't be empty");
@@ -88,41 +90,33 @@
         {
             return actualColor;
         }
-
-        public void SetSchedule(int onHour, int offHour)
+        // metod to set the schedule of the lamp
+        public void ApllyScheduleNow()
         {
-            if (onHour < 0 || onHour > 23 || offHour < 0 || offHour > 23)
-            {
-
-
-                lightOnSpecificTime = onHour;
-                lightOffSpecificTime = offHour;
-                // Applica subito lo stato in base all'ora corrente
+            
+                //apply the schedule hours immediately
                 CheckAndApplySchedule(DateTime.Now);
-            }
+            
         }
 
         public void CheckAndApplySchedule(DateTime currentTime)
         {
-            if (lightOnSpecificTime < 0 || lightOffSpecificTime < 0)
-                return; // schedule non impostata
-
             int h = currentTime.Hour;
 
             bool shouldBeOn;
             if (lightOnSpecificTime == lightOffSpecificTime)
             {
-                // comportamento scelto: se uguali -> sempre spento
+                //choosen same hour for always off
                 shouldBeOn = false;
             }
             else if (lightOnSpecificTime < lightOffSpecificTime)
             {
-                // es. on=8 off=22 -> acceso se h in [8,21]
+                // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
                 shouldBeOn = (h >= lightOnSpecificTime && h < lightOffSpecificTime);
             }
             else
             {
-                // es. on=20 off=6 -> acceso se h >=20 OR h <6 (attraversa mezzanotte)
+                //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
                 shouldBeOn = (h >= lightOnSpecificTime || h < lightOffSpecificTime);
             }
 

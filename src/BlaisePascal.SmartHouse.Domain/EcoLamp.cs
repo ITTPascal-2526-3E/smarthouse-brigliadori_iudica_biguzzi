@@ -17,7 +17,8 @@ namespace BlaisePascal.SmartHouse.Domain
         private string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }     // how much energy the lamp consumes in W
         public int maxTimeOn { get; } = 1; // max time the lamp can stay on in hours
-        public Timer timer;
+        public DateTime? startTime;
+
 
         // costructor for lamp
         public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue)
@@ -36,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain
         //metod for the light on
         public void turnOn()
         {
-            DateTime now = DateTime.Now;
+            
             isOn = true;
         }
         //metod for the light off
@@ -89,7 +90,33 @@ namespace BlaisePascal.SmartHouse.Domain
             return actualColor;
         }
 
-        
+        public void SaveAccensionTime()
+        {
+            startTime = DateTime.Now;
+        }
+
+      
+
+        public void EcoActivation()
+        {
+            if (startTime == null)
+                return;
+
+            DateTime now = DateTime.Now;
+
+            // after an hour till the activetion
+            if ((now - startTime.Value).TotalHours >= 1)
+            {
+                isOn= false;
+            }
+
+            // at night from 10pm to 6am
+            if (now.Hour >= 23 || now.Hour < 7)
+            {
+                isOn = false;
+            }
+        }
+
 
 
     }
