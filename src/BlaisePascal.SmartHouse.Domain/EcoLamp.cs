@@ -1,38 +1,35 @@
-﻿namespace BlaisePascal.SmartHouse.Domain
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class Lamp
+    internal class EcoLamp
     {
+
         private bool isOn;// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
-        private  bool isWireless;// true = wireless , false = wired
+        private bool isWireless;// true = wireless , false = wired
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
-        public int consumationValue { get; }// how much energy the lamp consumes in W
-        private int lightOnSpecificTime;// at what time the lamp goes on every day
-        private int lightOffSpecificTime; // at what time the lamp goes off every day
+        public int consumationValue { get; }     // how much energy the lamp consumes in W
+        public int maxTimeOn { get; } = 1; // max time the lamp can stay on in hours
 
         // costructor for lamp
-        public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue,int lightonspecifictime,int lightoffspecifictime)
+        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue)
         {
-            if (consumationvalue < 100 && consumationvalue>0)
+           if (consumationvalue <20)
             {
-                consumationValue = consumationvalue;
+                consumationValue = consumationvalue; // limit the consumption value to 20W for EcoLamp
             }
-
-            if (ligthpower > 0 && ligthpower < 100) 
+            if (ligthpower > 0 && ligthpower < 20)
             {
                 lightIntensity = ligthpower;
             }
-
             isOn = ison;
-            
             isWireless = iswireless;
-            if(lightonspecifictime>1 && lightoffspecifictime> 1 && lightoffspecifictime<=24 && lightonspecifictime<= 24)
-            {
-                lightOnSpecificTime = lightonspecifictime;
-                lightOffSpecificTime = lightoffspecifictime;
-            }
-           
         }
         //metod for the light on
         public void turnOn()
@@ -51,13 +48,13 @@
             set
             {
                 // controllo sul range
-                if (value > 0 && value < 100)
+                if (value > 0 && value < 20)
                 {
                     value = lightIntensity;
                 }
-                else 
+                else
                 {
-                    //Console.WriteLine("Light intensity must be between 0 and 100");
+                    //Console.WriteLine("Light intensity must be between 0 and 20");
                 }
             }
 
@@ -69,7 +66,7 @@
             if (string.IsNullOrEmpty(color))
             {
                 //Console.WriteLine("Color can't be empty");
-            }  
+            }
             foreach (string c in ligthColorsArray)
             {
                 if (c == color)
@@ -87,7 +84,5 @@
         {
             return actualColor;
         }
-
-        
-    
+    }
 }
