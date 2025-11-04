@@ -2,9 +2,9 @@
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class Lamp
+     class Lamp
     {
-        private bool isOn { get; private set; }// true = on , false = off
+        public bool isOn { get; private set; }// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
         public bool isWireless { get; }// true = wireless , false = wired
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
@@ -48,22 +48,10 @@ namespace BlaisePascal.SmartHouse.Domain
             isOn = false;
         }
         // property for lightPower you can set your light power from 0 to 100
-        public int lightIntensityProperty
+        public int lightIntensityPropriety
         {
             get { return lightIntensity; }
-            set
-            {
-                // controllo sul range
-                if (value > 0 && value < 100)
-                {
-                    value = lightIntensity;
-                }
-                else
-                {
-                    //Console.WriteLine("Light intensity must be between 0 and 100");
-                }
-            }
-
+            set { lightIntensity = value; }
         }
         // metod to set the color of the lamp
         public void setColor(string color)

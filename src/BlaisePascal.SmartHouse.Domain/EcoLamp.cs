@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class EcoLamp
+    public class EcoLamp
     {
 
         public bool isOn { get; private set; }// true = on , false = off
@@ -16,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }     // how much energy the lamp consumes in W
-        public int maxTimeOn { get; private set; }; // max time the lamp can stay on in hours
+        public int maxTimeOn { get; private set; } // max time the lamp can stay on in hours
         public DateTime? startTime;
 
 
