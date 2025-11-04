@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain
         //metod for the light on
         public void turnOn()
         {
-            
+            SaveAccensionTime();
             isOn = true;
         }
         //metod for the light off
