@@ -4,12 +4,12 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     internal class Lamp
     {
-        private bool isOn;// true = on , false = off
+        private bool isOn { get; private set; }// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
-        private bool isWireless;// true = wireless , false = wired
+        public bool isWireless { get; }// true = wireless , false = wired
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
-        public int consumationValue { get; }// how much energy the lamp consumes in W
+        public int consumationValue { get;}// how much energy the lamp consumes in W
         private int lightOnSpecificTime;// at what time the lamp goes on every day
         private int lightOffSpecificTime; // at what time the lamp goes off every day
         
@@ -95,11 +95,11 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             
                 //apply the schedule hours immediately
-                CheckAndApplySchedule(DateTime.Now);
+                AutomaticLightOn(DateTime.Now);
             
         }
 
-        public void CheckAndApplySchedule(DateTime currentTime)
+        private void AutomaticLightOn(DateTime currentTime)
         {
             int h = currentTime.Hour;
 

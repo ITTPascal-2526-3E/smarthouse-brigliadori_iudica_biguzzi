@@ -10,18 +10,18 @@ namespace BlaisePascal.SmartHouse.Domain
     internal class EcoLamp
     {
 
-        private bool isOn;// true = on , false = off
+        public bool isOn { get; private set; }// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
-        private bool isWireless;// true = wireless , false = wired
+        private bool isWireless { get; }// true = wireless , false = wired
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }     // how much energy the lamp consumes in W
-        public int maxTimeOn { get; } = 1; // max time the lamp can stay on in hours
+        public int maxTimeOn { get; private set; }; // max time the lamp can stay on in hours
         public DateTime? startTime;
 
 
         // costructor for lamp
-        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue)
+        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon)
         {
            if (consumationvalue <20)
             {
@@ -33,6 +33,10 @@ namespace BlaisePascal.SmartHouse.Domain
             }
             isOn = ison;
             isWireless = iswireless;
+            if (maxtimeon >= 0 && maxtimeon <= 3)
+            {
+                maxTimeOn = maxtimeon;
+            }
         }
         //metod for the light on
         public void turnOn()
@@ -90,7 +94,7 @@ namespace BlaisePascal.SmartHouse.Domain
             return actualColor;
         }
 
-        public void SaveAccensionTime()
+        private void SaveAccensionTime()
         {
             startTime = DateTime.Now;
         }
@@ -105,7 +109,7 @@ namespace BlaisePascal.SmartHouse.Domain
             DateTime now = DateTime.Now;
 
             // after an hour till the activetion
-            if ((now - startTime.Value).TotalHours >= 1)
+            if ((now - startTime.Value).TotalHours >= maxTimeOn)
             {
                 isOn= false;
             }
