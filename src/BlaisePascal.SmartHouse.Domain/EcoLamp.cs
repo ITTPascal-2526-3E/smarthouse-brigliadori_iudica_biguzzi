@@ -43,12 +43,14 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             SaveAccensionTime();
             isOn = true;
+            lightIntensity = 100;
         }
         //metod for the light off
         public void turnOff()
         {
             
             isOn = false;
+            lightIntensity = 0;
         }
         // property for lightPower you can set your light power from 0 to 100
         public int lightIntensityProperty
@@ -112,12 +114,14 @@ namespace BlaisePascal.SmartHouse.Domain
             if ((now - startTime.Value).TotalHours >= maxTimeOn)
             {
                 isOn= false;
+                lightIntensity = 0;
             }
 
             // at night from 10pm to 6am
             if (now.Hour >= 23 || now.Hour < 7)
             {
                 isOn = false;
+                lightIntensity = 0;
             }
         }
 

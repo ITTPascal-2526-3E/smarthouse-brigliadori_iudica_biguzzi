@@ -37,15 +37,19 @@ namespace BlaisePascal.SmartHouse.Domain
             }
 
         }
+
+
         //metod for the light on
         public void turnOn()
         {
             isOn = true;
+            lightIntensity = 100;
         }
         //metod for the light off
         public void turnOff()
         {
             isOn = false;
+            lightIntensity = 0;
         }
         // property for lightPower you can set your light power from 0 to 100
         public int lightIntensityPropriety
