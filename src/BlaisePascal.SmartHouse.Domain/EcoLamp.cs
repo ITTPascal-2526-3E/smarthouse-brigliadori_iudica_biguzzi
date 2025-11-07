@@ -11,7 +11,7 @@ namespace BlaisePascal.SmartHouse.Domain
     {
 
         public bool isOn { get; private set; }// true = on , false = off
-        private int lightIntensity;// how much light power the lamp has range 1-100
+        private int lightIntensity;// how much light power the lamp has range 1-20
         public bool isWireless { get; }// true = wireless , false = wired
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
@@ -61,7 +61,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 // controllo sul range
                 if (value > 0 && value < 20)
                 {
-                    value = lightIntensity;
+                    lightIntensity= value;
                 }
                
             }
