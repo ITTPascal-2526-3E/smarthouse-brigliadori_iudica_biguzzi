@@ -3,7 +3,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
+        Lamp lamp = new Lamp(true, 50, true, 60, 18, 23,);
         Console.WriteLine("lamp is on: " + lamp.isOn);
         Console.WriteLine("lamp light intensity: " + lamp.lightIntensityPropriety);
         Console.WriteLine("lamp is wireless: " + lamp.isWireless);
@@ -34,10 +34,9 @@ internal class Program
         ecoLamp.EcoActivation();
         Console.WriteLine("--------------------------------------------");
 
-        LampDevice lampDevice = new LampDevice();
+        TwoLampDevice lampDevice = new TwoLampDevice();
         lampDevice.addLamp(lamp);
         lampDevice.addEcoLamp(ecoLamp);
-        lampDevice.lampDeviceStatus();
 
 
 

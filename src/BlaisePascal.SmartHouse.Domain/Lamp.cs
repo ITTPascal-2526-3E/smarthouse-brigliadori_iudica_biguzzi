@@ -12,7 +12,7 @@ namespace BlaisePascal.SmartHouse.Domain
         public int consumationValue { get;}// how much energy the lamp consumes in W
         public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
         public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
-
+        public Guid Id { get; }= Guid.NewGuid();
 
         // costructor for lamp
         public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int lightonspecifictime, int lightoffspecifictime)
@@ -36,6 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 lightOffSpecificTime = lightoffspecifictime;
             }
 
+            
         }
 
 

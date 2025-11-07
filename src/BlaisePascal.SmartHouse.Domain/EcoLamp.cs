@@ -18,12 +18,12 @@ namespace BlaisePascal.SmartHouse.Domain
         public int consumationValue { get; }     // how much energy the lamp consumes in W
         public int maxTimeOn { get; private set; } // max time the lamp can stay on in hours
         public DateTime? startTime;
-
+        public Guid Id { get; }
 
         // costructor for lamp
-        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon)
+        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon, Guid id)
         {
-           if (consumationvalue <20)
+            if (consumationvalue < 20)
             {
                 consumationValue = consumationvalue; // limit the consumption value to 20W for EcoLamp
             }
@@ -37,6 +37,8 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 maxTimeOn = maxtimeon;
             }
+
+            Id = id;
         }
         //metod for the light on
         public void turnOn()
