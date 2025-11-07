@@ -63,10 +63,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 {
                     value = lightIntensity;
                 }
-                else
-                {
-                    //Console.WriteLine("Light intensity must be between 0 and 20");
-                }
+               
             }
 
         }

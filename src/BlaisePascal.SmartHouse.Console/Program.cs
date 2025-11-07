@@ -15,7 +15,7 @@ internal class Program
             lamp.lightIntensityPropriety = 80;
             Console.WriteLine("lamp light intensity after setting to 80: " + lamp.lightIntensityPropriety);
             lamp.setColor("red");
-            Console.WriteLine("lamp actual color after setting to blue: " + lamp.getColor());
+            Console.WriteLine("lamp actual color after setting to : " + lamp.getColor());
             lamp.ApllyScheduleNow();
             Console.WriteLine("lamp is on after CheckAndApplySchedule method: " + lamp.isOn);
             Console.WriteLine("-----------------------------");
