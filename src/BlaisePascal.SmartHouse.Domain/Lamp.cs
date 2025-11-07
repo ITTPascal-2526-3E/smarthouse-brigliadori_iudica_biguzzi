@@ -2,7 +2,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-     class Lamp
+     public class Lamp
     {
         public bool isOn { get; private set; }// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
@@ -10,9 +10,9 @@ namespace BlaisePascal.SmartHouse.Domain
         private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         private string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get;}// how much energy the lamp consumes in W
-        private int lightOnSpecificTime;// at what time the lamp goes on every day
-        private int lightOffSpecificTime; // at what time the lamp goes off every day
-        
+        public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
+        public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
+
 
         // costructor for lamp
         public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int lightonspecifictime, int lightoffspecifictime)
