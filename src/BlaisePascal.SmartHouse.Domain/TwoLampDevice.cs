@@ -10,45 +10,46 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class TwoLampDevice
     {
-        ArrayList lampDevice = new ArrayList();
+        public ArrayList LampDevice = new ArrayList();
 
+        
         public void addLamp( Lamp lamp)
         { 
-           if (lampDevice.Count<2)
-            lampDevice.Add(lamp);
+           if (LampDevice.Count<2)
+            LampDevice.Add(lamp);
         }
 
         public void addEcoLamp( EcoLamp ecolamp)
         {
-            if (lampDevice.Count < 2)
-                lampDevice.Add(ecolamp);
+            if (LampDevice.Count < 2)
+                LampDevice.Add(ecolamp);
         }
 
         public void removeLamp( Lamp lamp)
         {
-            lampDevice.Remove(lamp);
+            LampDevice.Remove(lamp);
         }   
         public void removeEcoLamp( EcoLamp ecolamp)
         {
-            lampDevice.Remove(ecolamp);
+            LampDevice.Remove(ecolamp);
         }
 
        
 
         public void turnOnOneLamp(int index)
         {
-            if (lampDevice[index] is Lamp lamp)
+            if (LampDevice[index] is Lamp lamp)
             {
                 lamp.turnOn();
             }
-            else if (lampDevice[index] is EcoLamp ecolamp)
+            else if (LampDevice[index] is EcoLamp ecolamp)
             {
                 ecolamp.turnOn();
             }
         }
         public void turnOnAllLamps()
         {
-            foreach (var item in lampDevice)
+            foreach (var item in LampDevice)
             {
                 if (item is Lamp lamp)
                 {
@@ -63,11 +64,11 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void turnOffOneLamp(int index)
         {
-            if (lampDevice[index] is Lamp lamp)
+            if (LampDevice[index] is Lamp lamp)
             {
                 lamp.turnOff();
             }
-            else if (lampDevice[index] is EcoLamp ecolamp)
+            else if (LampDevice[index] is EcoLamp ecolamp)
             {
                 ecolamp.turnOff();
             }
@@ -75,7 +76,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void turnOffAllLamps()
         {
-            foreach (var item in lampDevice)
+            foreach (var item in LampDevice)
             {
                 if (item is Lamp lamp)
                 {
@@ -90,11 +91,11 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void setColorOneLamp(int index, string color)
         {
-            if (lampDevice[index] is Lamp lamp)
+            if (LampDevice[index] is Lamp lamp)
             {
                 lamp.setColor(color);
             }
-            else if (lampDevice[index] is EcoLamp ecolamp)
+            else if (LampDevice[index] is EcoLamp ecolamp)
             {
                 ecolamp.setColor(color);
             }
@@ -102,7 +103,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void setColorAllLamps( string color)
         {
-            foreach (var item in lampDevice)
+            foreach (var item in LampDevice)
             {
                 if (item is Lamp lamp)
                 {
@@ -117,7 +118,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void ApllyScheduleAllLamps()
         {
-            foreach (var item in lampDevice)
+            foreach (var item in LampDevice)
             {
                 if (item is Lamp lamp)
                 {
@@ -128,7 +129,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void EcoActivationAllLamps()
         {
-            foreach (var item in lampDevice)
+            foreach (var item in LampDevice)
             {
                 if (item is EcoLamp ecolamp)
                 {

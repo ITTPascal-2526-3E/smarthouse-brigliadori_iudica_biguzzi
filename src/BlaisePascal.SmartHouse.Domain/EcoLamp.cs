@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain
         public Guid Id { get; }
 
         // costructor for lamp
-        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon, Guid id)
+        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon)
         {
             if (consumationvalue < 20)
             {
@@ -38,7 +38,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 maxTimeOn = maxtimeon;
             }
 
-            Id = id;
+            
         }
         //metod for the light on
         public void turnOn()
