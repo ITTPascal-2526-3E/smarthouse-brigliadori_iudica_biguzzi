@@ -14,7 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain
         public RollerShutter(bool isopen, int _position)
         {
             isOpen = isopen;
-            if (_position > 0 && _position < 100)
+            if (_position > 0 && _position < 100 && isopen==true)
             {
                 position = _position;
             }

@@ -40,7 +40,12 @@ internal class Program
         lampDevice.turnOnAllLamps();
         lampDevice.turnOffOneLamp(0);
         Console.WriteLine("--------------------------------------------");
-        
+        RollerShutter rollerShutter = new RollerShutter(true, 50);
+        Console.WriteLine("rollerShutter is open: " + rollerShutter.isOpen);
+        Console.Write("insert rollerShutter position: ");
+        rollerShutter.ShutterPosition=Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("rollerShutter position is: " + rollerShutter.ShutterPosition + "%");
+
 
 
 
