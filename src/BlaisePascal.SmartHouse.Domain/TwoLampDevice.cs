@@ -12,30 +12,34 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         public ArrayList LampDevice = new ArrayList();
 
-        
+        // add a lamp to the device
         public void addLamp( Lamp lamp)
         { 
            if (LampDevice.Count<2)
             LampDevice.Add(lamp);
         }
 
+        // add an ecolamp to the device
         public void addEcoLamp( EcoLamp ecolamp)
         {
             if (LampDevice.Count < 2)
                 LampDevice.Add(ecolamp);
         }
 
+        // remove a lamp to the device
         public void removeLamp( Lamp lamp)
         {
             LampDevice.Remove(lamp);
-        }   
+        }
+
+        // remove an ecolamp to the device
         public void removeEcoLamp( EcoLamp ecolamp)
         {
             LampDevice.Remove(ecolamp);
         }
 
        
-
+        // method to turn on one lamp or ecolamp 
         public void turnOnOneLamp(int index)
         {
             if (LampDevice[index] is Lamp lamp)
@@ -47,6 +51,8 @@ namespace BlaisePascal.SmartHouse.Domain
                 ecolamp.turnOn();
             }
         }
+
+        // method to turn on all lamp and ecolamp
         public void turnOnAllLamps()
         {
             foreach (var item in LampDevice)
@@ -62,6 +68,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method to turn off one lamp or ecolamp 
         public void turnOffOneLamp(int index)
         {
             if (LampDevice[index] is Lamp lamp)
@@ -74,6 +81,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method to turn off all lamp and ecolamp
         public void turnOffAllLamps()
         {
             foreach (var item in LampDevice)
@@ -89,6 +97,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method to set a color to one lamp or ecolamp
         public void setColorOneLamp(int index, string color)
         {
             if (LampDevice[index] is Lamp lamp)
@@ -101,6 +110,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method to set a color to all lamp and ecolamp
         public void setColorAllLamps( string color)
         {
             foreach (var item in LampDevice)
@@ -116,6 +126,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method to apply schedule to all lamp
         public void ApllyScheduleAllLamps()
         {
             foreach (var item in LampDevice)
@@ -127,6 +138,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
+        // method that apply ecoactivation to all ecolamp
         public void EcoActivationAllLamps()
         {
             foreach (var item in LampDevice)

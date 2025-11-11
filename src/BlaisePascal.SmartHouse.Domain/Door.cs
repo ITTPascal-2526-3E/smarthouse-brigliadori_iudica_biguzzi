@@ -10,6 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         public bool isOpen { get; private set; }
         public bool isLocked { get; private set; }
+        public string name { get; set; }
         public Guid Id { get; } = Guid.NewGuid();
 
         // costructor for Door
@@ -34,13 +35,13 @@ namespace BlaisePascal.SmartHouse.Domain
         //metod for unlocking the door
         public void unlockDoor()
         {
-            if ( isOpen==false)
+            if ( isLocked==true && isOpen==false)
                 isLocked = false;
         }
         //metod for locking the door
         public void lockDoor()
         {  
-            if (isOpen==true)
+            if (isOpen==false)
                 isLocked = true;
         }
 

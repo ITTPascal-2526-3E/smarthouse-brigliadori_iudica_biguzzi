@@ -8,8 +8,11 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class RollerShutter
     {
-        public bool isOpen { get; private set; } 
+        public bool isOpen { get; private set; }
+        public string name { get; set; }
         public int position { get; private set; } // position from 0 to 100
+        public Guid Id { get; } = Guid.NewGuid();
+
         // costructor for RollerShutter
         public RollerShutter(bool isopen, int _position)
         {
