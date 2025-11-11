@@ -45,11 +45,5 @@ internal class Program
         Console.Write("insert rollerShutter position: ");
         rollerShutter.ShutterPosition=Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("rollerShutter position is: " + rollerShutter.ShutterPosition + "%");
-
-
-
-
-
-
     }
 }

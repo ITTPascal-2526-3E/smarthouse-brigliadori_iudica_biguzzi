@@ -46,12 +46,5 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-
-
-
-
-
-
-
     }
 }
