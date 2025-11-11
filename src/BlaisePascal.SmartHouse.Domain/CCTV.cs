@@ -14,6 +14,8 @@ namespace BlaisePascal.SmartHouse.Domain
         private DateTime salvaOrario;
         public int turnOnHour { get; private set; }
         public int turnOffHour { get; private set; }
+
+
         public CCTV(bool ison, int turnonhour, int turnoffhour)
         {
             isOn = ison;
@@ -23,23 +25,23 @@ namespace BlaisePascal.SmartHouse.Domain
                 turnOffHour = turnoffhour;
             }
         }
+
         public void turnOn()
         {
-            SaveAccensionTime();
             isOn = true;
         }
+
         public void turnOff()
         {
             isOn = false;
         }
 
-        public void SaveAccensionTime()
-        {
-            salvaOrario = DateTime.Now;
-        }
+        
 
-        private void AutomaticTurnOn(DateTime currentTime)
+        // Automatic turn on/off based on the set hours
+        private void AutomaticTurnOn()
         {
+            DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
 
             bool shouldBeOn;
