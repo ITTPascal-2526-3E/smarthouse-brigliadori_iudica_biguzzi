@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class CCTV
+    public class CCTV
     {
         public bool isOn { get; private set; }
         public string name { get; set; }
@@ -39,7 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain
         
 
         // Automatic turn on/off based on the set hours
-        private void AutomaticTurnOn()
+        public void AutomaticTurnOn()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;

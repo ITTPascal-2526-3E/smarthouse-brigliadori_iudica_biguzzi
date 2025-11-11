@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class Door
+    public class Door
     {
         public bool isOpen { get; private set; }
         public bool isLocked { get; private set; }

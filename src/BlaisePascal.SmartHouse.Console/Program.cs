@@ -45,5 +45,25 @@ internal class Program
         Console.Write("insert rollerShutter position: ");
         rollerShutter.ShutterPosition=Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("rollerShutter position is: " + rollerShutter.ShutterPosition + "%");
+        Console.WriteLine("--------------------------------------------");
+        CCTV cctv = new CCTV(false, 20, 6);
+        Console.WriteLine("CCTV is on: " + cctv.isOn);
+        cctv.turnOn();
+        Console.WriteLine("CCTV is on after turnOn method: " + cctv.isOn);
+        cctv.AutomaticTurnOn();
+        Console.WriteLine("CCTV is on after AutomaticTurnOn method: " + cctv.isOn);
+        Console.WriteLine("--------------------------------------------");
+        Door door = new Door(false, true);
+        Console.WriteLine("Door is open: " + door.isOpen);
+        door.openDoor();
+        Console.WriteLine("Door is open after OpenDoor method: " + door.isOpen);
+        Console.WriteLine("Door is locked: " + door.isLocked);
+        door.unlockDoor();
+        Console.WriteLine("Door is locked after UnlockDoor method: " + door.isLocked);
+        door.closeDoor();
+        Console.WriteLine("Door is open after CloseDoor method: " + door.isOpen);
+        door.lockDoor();
+        Console.WriteLine("Door is locked after LockDoor method: " + door.isLocked);
+        Console.WriteLine("--------------------------------------------");
     }
 }
