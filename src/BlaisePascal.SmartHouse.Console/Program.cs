@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain;
+﻿using BlaisePascal.SmartHouse.Domain.Lamp;
+using BlaisePascal.SmartHouse.Domain.Security;
 internal class Program
 {
     static void Main(string[] args)

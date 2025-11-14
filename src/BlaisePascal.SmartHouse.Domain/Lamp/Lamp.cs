@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.Metrics;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.Lamp
 {
      public class Lamp
     {
@@ -106,12 +106,12 @@ namespace BlaisePascal.SmartHouse.Domain
             else if (lightOnSpecificTime < lightOffSpecificTime)
             {
                 // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
-                shouldBeOn = (h >= lightOnSpecificTime && h < lightOffSpecificTime);
+                shouldBeOn = h >= lightOnSpecificTime && h < lightOffSpecificTime;
             }
             else
             {
                 //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
-                shouldBeOn = (h >= lightOnSpecificTime || h < lightOffSpecificTime);
+                shouldBeOn = h >= lightOnSpecificTime || h < lightOffSpecificTime;
             }
 
             if (shouldBeOn == true)
