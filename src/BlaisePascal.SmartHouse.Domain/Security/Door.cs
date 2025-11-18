@@ -12,7 +12,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         public int doorCode { get; private set; }
         public bool isLocked { get; private set; }
         public string name { get; set; }
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; } 
 
         // costructor for Door
         public Door(bool isopen, bool islocked, int doorcode)
@@ -20,6 +20,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             isOpen = isopen;
             isLocked = islocked;
             doorCode = doorcode;
+            Id = Guid.NewGuid();
         }
         //metod for open the door
         public void openDoor()

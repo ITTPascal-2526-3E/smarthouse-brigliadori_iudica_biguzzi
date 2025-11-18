@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Lamp;
+using BlaisePascal.SmartHouse.Domain.Lamp;
 using BlaisePascal.SmartHouse.Domain.Security;
 internal class Program
 {
@@ -54,12 +55,12 @@ internal class Program
         cctv.AutomaticTurnOn();
         Console.WriteLine("CCTV is on after AutomaticTurnOn method: " + cctv.isOn);
         Console.WriteLine("--------------------------------------------");
-        Door door = new Door(false, true);
+        Door door = new Door(false, true,10);
         Console.WriteLine("Door is open: " + door.isOpen);
         door.openDoor();
         Console.WriteLine("Door is open after OpenDoor method: " + door.isOpen);
         Console.WriteLine("Door is locked: " + door.isLocked);
-        door.unlockDoor();
+        door.unlockDoor(10);
         Console.WriteLine("Door is locked after UnlockDoor method: " + door.isLocked);
         door.closeDoor();
         Console.WriteLine("Door is open after CloseDoor method: " + door.isOpen);
