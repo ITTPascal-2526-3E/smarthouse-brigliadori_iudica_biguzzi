@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamp
+namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class EcoLamp
     {
@@ -46,7 +46,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamp
         {
             SaveAccensionTime();
             isOn = true;
-            lightIntensity = 100;
+            lightIntensity = 20;
         }
         //metod for the light off
         public void turnOff()

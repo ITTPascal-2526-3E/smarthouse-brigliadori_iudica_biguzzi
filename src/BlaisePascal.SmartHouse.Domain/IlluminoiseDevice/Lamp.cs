@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.Metrics;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamp
+namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
      public class Lamp
-    {
+     {
         public bool isOn { get; private set; }// true = on , false = off
         private int lightIntensity;// how much light power the lamp has range 1-100
         public string name { get; set; }// name of the ecolamp
@@ -87,7 +87,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lamp
         // metod to set the schedule of the lamp
         public void ApllyScheduleNow()
         {
-            
                 //apply the schedule hours immediately
                 AutomaticLightOn(DateTime.Now);
             
