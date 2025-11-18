@@ -46,7 +46,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             SaveAccensionTime();
             isOn = true;
-            lightIntensity = 100;
+            lightIntensity = 20;
         }
         //metod for the light off
         public void turnOff()
