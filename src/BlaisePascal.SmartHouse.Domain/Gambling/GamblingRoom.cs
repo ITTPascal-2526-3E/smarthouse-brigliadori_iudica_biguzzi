@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-enum Game 
+public enum Game 
 {
-    ROULETTE,
-    BLACKJACK,
-   SLOTT
+   ROULETTE,
+   BLACKJACK,
+   SLOTT,
+    RUSSIANROULETTE
 }
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    internal class GamblingRoom
+    public class GamblingRoom
     {
-        public void selectGame(Game game,int bet) 
+        public void SelectGame(Game game,int bet) 
         {
             if (game == Game.ROULETTE)
             {
-                RussianRoulette newRoulette = new RussianRoulette(bet);
+                Roulette newRoulette = new Roulette(bet);
             }
             else if (game == Game.BLACKJACK)
             {
@@ -27,6 +28,10 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
             else if (game == Game.SLOTT) 
             {
                 Slot newSlott= new Slot(bet);
+            }
+            else if (game == Game.RUSSIANROULETTE) 
+            {
+                RussianRoulette newRussianRoulette = new RussianRoulette(bet);
             }
         }
 

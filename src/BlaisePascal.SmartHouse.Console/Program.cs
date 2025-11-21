@@ -1,6 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using BlaisePascal.SmartHouse.Domain.Security;
+using BlaisePascal.SmartHouse.Domain.Gambling;
 internal class Program
 {
     static void Main(string[] args)
@@ -67,5 +68,17 @@ internal class Program
         door.lockDoor();
         Console.WriteLine("Door is locked after LockDoor method: " + door.isLocked);
         Console.WriteLine("--------------------------------------------");
+        GamblingRoom gamblingRoom = new GamblingRoom();
+        Console.WriteLine("select a game: slott, roulette, russianRoulette, blackjack");
+        Console.Write("your choice: ");
+        Game gameChoice = Convert.Console.ReadLine();
+        Console.Write("insert your bet amount: ");
+        int betAmount = Convert.ToInt32(Console.ReadLine());
+        gamblingRoom.SelectGame(gameChoice, betAmount);
+
+
+
+
+
     }
 }
