@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         { 
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
             lamp.turnOff();
-            Assert.Equal(false, lamp.isOn);
+            Assert.False( lamp.isOn);
         }
 
         [Fact]
@@ -18,6 +18,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
             Assert.Equal(50, lamp.lightIntensityPropriety);
         }
+
         [Fact]
         public void lamp_isOn_turnOffMethod_checkLitghIntensity_AssertEquals()
         {
@@ -31,7 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
             lamp.turnOn();
-            Assert.Equal(true, lamp.isOn);
+            Assert.True( lamp.isOn);
         }
 
         [Fact]
@@ -46,14 +47,15 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void lamp_setColor_colorDontExistInList_AssertThrow()
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Assert.Throws<ArgumentException>(() => lamp.setColor("rouge"));
+            Assert.Throws<InvalidOperationException>( () => lamp.setColor("C"));
         }
 
         [Fact]
-        public void lamp_setColor_emptyString_AssertThrow()
+        public void lamp_setColor_emptyString_AssertEqual()
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Assert.Throws<ArgumentException>(() => lamp.setColor(" "));
+
+            Assert.Throws<InvalidOperationException>(() => lamp.setColor(" ")); 
         }
 
         [Fact]
@@ -69,7 +71,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp(false, 50, true, 60, DateTime.Now.Hour, DateTime.Now.Hour);
             lamp.ApllyScheduleNow();
-            Assert.Equal(false, lamp.isOn);
+            Assert.False( lamp.isOn);
         }
 
         [Fact]
@@ -77,7 +79,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp(false, 50, true, 60, DateTime.Now.Hour, DateTime.Now.Hour+1);
             lamp.ApllyScheduleNow();
-            Assert.Equal(true, lamp.isOn);
+            Assert.True( lamp.isOn);
         }
 
         [Fact]
@@ -85,7 +87,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp(false, 50, true, 60, DateTime.Now.Hour+1, DateTime.Now.Hour);
             lamp.ApllyScheduleNow();
-            Assert.Equal(false, lamp.isOn);
+            Assert.False( lamp.isOn);
         }
     }
 }

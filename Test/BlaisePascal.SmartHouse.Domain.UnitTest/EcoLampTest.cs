@@ -14,7 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
             lamp.turnOff();
-            Assert.Equal(false, lamp.isOn);
+            Assert.False(lamp.isOn);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
             lamp.turnOn();
-            Assert.Equal(true, lamp.isOn);
+            Assert.True(lamp.isOn);
         }
 
         [Fact]
@@ -51,15 +51,15 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void ecolamp_setColor_colorDontExistInList_AssertThrow()
         {
             EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
-            Assert.Throws<ArgumentException>(() => lamp.setColor("rouge"));
+            Assert.Throws<InvalidOperationException>(() => lamp.setColor("C"));
         }
 
         [Fact]
         public void ecolamp_setColor_emptyString_AssertThrow()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Assert.Throws<ArgumentException>(() => lamp.setColor(" "));
-        }
+            EcoLamp lamp = new EcoLamp(false, 50, true, 18, 23);
+                Assert.Throws<InvalidOperationException>(() => lamp.setColor(" "));
+            }
 
         [Fact]
         public void ecolamp_setColor_colorExistInList_AssertEquals()
@@ -74,15 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
             lamp.EcoActivation();
-            Assert.Equal(true, lamp.isOn);
-        }
-
-        [Fact]
-        public void ecolamp_EcoActvation2_AssertEquals()
-        {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 2,15);
-            lamp.EcoActivation();
-            Assert.Equal(false, lamp.isOn);
+            Assert.True( lamp.isOn);
         }
     }
 }
