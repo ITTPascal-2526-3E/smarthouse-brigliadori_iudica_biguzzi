@@ -64,8 +64,8 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             // ceck if the color is valid
             if (string.IsNullOrEmpty(color))
-            {
-                _ = new InvalidOperationException("the color can't be an empty string");
+            { 
+                throw new ArgumentNullException("color");
             }
             foreach (string c in ligthColorsArray)
             {
@@ -77,7 +77,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             }
             if (actualColor != color)
             {
-                _ = new InvalidOperationException(" the color doesn't exist in the list");
+                throw new InvalidOperationException(" the color doesn't exist in the list");
             }
         }
         public string getColor()
