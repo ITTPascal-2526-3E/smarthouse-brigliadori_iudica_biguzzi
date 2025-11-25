@@ -42,6 +42,7 @@ internal class Program
         lampDevice.addEcoLamp(ecoLamp);
         lampDevice.turnOnAllLamps();
         lampDevice.turnOffOneLamp(0);
+       Console.WriteLine(lamp.isOn);
         Console.WriteLine("--------------------------------------------");
         RollerShutter rollerShutter = new RollerShutter(true, 50);
         Console.WriteLine("rollerShutter is open: " + rollerShutter.isOpen);
@@ -71,10 +72,9 @@ internal class Program
         GamblingRoom gamblingRoom = new GamblingRoom();
         Console.WriteLine("select a game: slott, roulette, russianRoulette, blackjack");
         Console.Write("your choice: ");
-        Game gameChoice = Convert.Console.ReadLine();
-        Console.Write("insert your bet amount: ");
-        int betAmount = Convert.ToInt32(Console.ReadLine());
-        gamblingRoom.SelectGame(gameChoice, betAmount);
+        
+       
+
 
 
 
