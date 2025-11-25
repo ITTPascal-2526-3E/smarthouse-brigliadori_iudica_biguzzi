@@ -12,11 +12,15 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
     {
         public ArrayList LampDevice = new ArrayList();
 
+        public TwoLampDevice() { }
+
         // add a lamp to the device
-        public void addLamp( Lamp lamp)
-        { 
-           if (LampDevice.Count<2)
-            LampDevice.Add(lamp);
+        public void addLamp(Lamp lamp)
+        {
+            if (LampDevice.Count < 2)
+                LampDevice.Add(lamp);
+            else
+                throw new ArgumentOutOfRangeException("Cannot add more than two lamps or ecolamps");
         }
 
         // add an ecolamp to the device
@@ -24,6 +28,8 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             if (LampDevice.Count < 2)
                 LampDevice.Add(ecolamp);
+            else
+                throw new ArgumentOutOfRangeException("Cannot add more than two lamps or ecolamps");
         }
 
         // remove a lamp to the device

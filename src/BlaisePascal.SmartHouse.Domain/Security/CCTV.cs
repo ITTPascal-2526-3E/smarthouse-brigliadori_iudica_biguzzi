@@ -52,12 +52,12 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             }
             else if (turnOnHour < turnOffHour)
             {
-                // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
+                
                 shouldBeOn = h >= turnOnHour && h < turnOffHour;
             }
             else
             {
-                //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
+                
                 shouldBeOn = h >= turnOnHour || h < turnOffHour;
             }
 
