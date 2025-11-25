@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    internal class BlackJack
+    public class BlackJack
     {
         private int benchExtractedNumber;
         private int benchExtractedNumber2;
@@ -15,7 +15,14 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         public int bet { get; private set; }
         public BlackJack(int _bet) 
         {
-            bet = _bet;
+            if (bet > 0)
+            {
+                bet = _bet;
+            }
+            else 
+            {
+                throw new   ArgumentException("bet cant be lower than 0");
+            }
         }
         private int BjBenchNumber() 
         {
