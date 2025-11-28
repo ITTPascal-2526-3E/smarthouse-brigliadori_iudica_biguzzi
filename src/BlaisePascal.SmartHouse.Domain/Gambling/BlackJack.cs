@@ -15,7 +15,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         public int bet { get; private set; }
         public BlackJack(int _bet) 
         {
-            if (bet > 0)
+            if (_bet > 0)
             {
                 bet = _bet;
             }
@@ -27,26 +27,26 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         private int BjBenchNumber() 
         {
             Random random = new Random();
-            benchExtractedNumber = random.Next(0,22);
+            benchExtractedNumber = random.Next(0,10);
             Random random2 = new Random();
-            benchExtractedNumber2 = random.Next(0, 22);
+            benchExtractedNumber2 = random.Next(0, 10);
             
             return benchExtractedNumber+benchExtractedNumber2;
         }
 
-        public int PlayerNumber() 
+        private int PlayerNumber() 
         {
             Random random = new Random();
-            playExtractedNumber = random.Next(0, 22);
+            playExtractedNumber = random.Next(0, 10);
             Random random2 = new Random();
-            playExtractedNumber2 = random.Next(0, 22);
+            playExtractedNumber2 = random.Next(0, 10);
 
             return playExtractedNumber+playExtractedNumber2;
         }
 
         public int PlayNumber() 
         {
-            int player=PlayerNumber();
+            int player = PlayerNumber();
             int bench = BjBenchNumber();
 
             if (player > bench)

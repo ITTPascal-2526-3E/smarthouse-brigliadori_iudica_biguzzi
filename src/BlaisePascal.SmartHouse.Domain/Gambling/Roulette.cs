@@ -7,16 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-
+enum Color
+{
+    Red,
+    Black
+}
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    enum Color
-    {
-        Red,
-        Black
-    }
-    internal class Roulette
+    
+    public class Roulette
     {
         private int extractedNumber;
         

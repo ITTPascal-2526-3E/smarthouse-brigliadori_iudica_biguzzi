@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 public enum Game 
 {
    ROULETTE,
@@ -14,24 +15,33 @@ public enum Game
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
     public class GamblingRoom
+
     {
-        public void SelectGame(Game game,int bet) 
+        public Game game { get; private set; }
+        public void SelectGame(Game _game, int bet)
         {
-            if (game == Game.ROULETTE)
+            game = _game;
+            if (bet <= 0 || _game == null)
             {
-                Roulette newRoulette = new Roulette(bet);
+                throw new ArgumentException("Bet must be greater than zero and a valid game must be selected.");
             }
-            else if (game == Game.BLACKJACK)
-            {
-                BlackJack newBlackJack = new BlackJack(bet);
-            }
-            else if (game == Game.SLOTT) 
-            {
-                Slot newSlott= new Slot(bet);
-            }
-            else if (game == Game.RUSSIANROULETTE) 
-            {
-                RussianRoulette newRussianRoulette = new RussianRoulette(bet);
+            else { 
+                if (game == Game.ROULETTE)
+                {
+                    Roulette newRoulette = new Roulette(bet);
+                }
+                else if (game == Game.BLACKJACK)
+                {
+                    BlackJack newBlackJack = new BlackJack(bet);
+                }
+                else if (game == Game.SLOTT)
+                {
+                    Slot newSlott = new Slot(bet);
+                }
+                else if (game == Game.RUSSIANROULETTE)
+                {
+                    RussianRoulette newRussianRoulette = new RussianRoulette(bet);
+                }
             }
         }
 
