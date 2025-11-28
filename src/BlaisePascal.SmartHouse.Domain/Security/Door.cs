@@ -27,12 +27,16 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         {
             if (isLocked == false)
                 isOpen = true;
+            else
+                throw new Exception("door is locked cant be open");
         }
         //metod for close the door
         public void closeDoor()
         {
             if (isLocked == true)
                 isOpen = false;
+            else
+                throw new Exception("door is locked cant be close");
         }
 
         //metod for unlocking the door
@@ -40,13 +44,18 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         {
             if ( isLocked==true && isOpen==false && code == doorCode)
                 isLocked = false;
+            else
+                throw new Exception("cant be locked if the code isn't rigth or the door is already unloocked")
         }
         //metod for locking the door
         public void lockDoor()
-        {  
-            if (isOpen==false)
+        {
+            if (isOpen == false)
                 isLocked = true;
-        }
+            else
+                throw new Exception("cant close if door is open");
+
+    }
 
     }
 }
