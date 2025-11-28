@@ -10,16 +10,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
     public class RouletteTest
     {
         [Fact]
-        public void PlayNumber_ShouldReturn35TimesBet_WhenNumberIsCorrect()
+        public void Roulette_constructorbet_AssertEquals()
         {
-            // Arrange
-            int bet = 10;
-            int chosenNumber = 7;
-            Roulette roulette = new Roulette(bet);
-            // Act
-            int result = roulette.PlayNumber(chosenNumber);
-            // Assert
-            Assert.Equal(bet * 35, result);
+            Roulette roulette = new Roulette(10);
+            Assert.Equal(10, roulette.bet);
+        }
+        public void Roulette_constructorbet_LowerThanZero_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new Roulette(0));
         }
     }
 }
