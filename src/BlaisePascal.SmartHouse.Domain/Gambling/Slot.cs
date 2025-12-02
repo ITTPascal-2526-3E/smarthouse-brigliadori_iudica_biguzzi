@@ -49,7 +49,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
 
         }
 
-        public int playBonus() 
+        private int playBonus() 
         {
             return bet * 10;
         }

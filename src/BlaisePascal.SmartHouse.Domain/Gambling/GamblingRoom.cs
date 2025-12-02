@@ -8,7 +8,7 @@ public enum Game
 {
    ROULETTE,
    BLACKJACK,
-   SLOTT,
+   SLOT,
     RUSSIANROULETTE
 }
 
@@ -34,7 +34,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
                 {
                     BlackJack newBlackJack = new BlackJack(bet);
                 }
-                else if (game == Game.SLOTT)
+                else if (game == Game.SLOT)
                 {
                     Slot newSlott = new Slot(bet);
                 }
