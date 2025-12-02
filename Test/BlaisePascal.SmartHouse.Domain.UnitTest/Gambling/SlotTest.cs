@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlaisePascal.SmartHouse.Domain.Gambling;
 
-namespace BlaisePascal.SmartHouse.Domain.UnitTest
+namespace BlaisePascal.SmartHouse.Domain.UnitTest.Gambling
 {
     public class SlotTest
     {

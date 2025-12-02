@@ -38,8 +38,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             // Arrange
             GamblingRoom gamblingRoom = new GamblingRoom();
-            gamblingRoom.SelectGame(Game.SLOTT, 200);
-            Game expectedGame = Game.SLOTT;
+            gamblingRoom.SelectGame(Game.SLOT, 200);
+            Game expectedGame = Game.SLOT;
             // Act & Assert
             Assert.Equal(gamblingRoom.game, expectedGame); // If no exception is thrown, the test passes
         }

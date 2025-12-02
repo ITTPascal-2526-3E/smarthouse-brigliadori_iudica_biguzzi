@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
             return playExtractedNumber+playExtractedNumber2;
         }
 
-        public int PlayNumber() 
+        public int Play() 
         {
             int player = PlayerNumber();
             int bench = BjBenchNumber();
