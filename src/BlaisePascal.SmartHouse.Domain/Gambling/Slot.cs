@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    internal class Slot
+    public class Slot
     {
         private int ExtractedNumber;
         private int ExtractedNumber2;
@@ -16,6 +16,10 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
 
         public Slot(int _bet)
         {
+            if (_bet <= 0)
+            {
+                throw new ArgumentException("Bet must be greater than zero");
+            }
             bet = _bet;
 
         }

@@ -15,9 +15,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Roulette roulette = new Roulette(10);
             Assert.Equal(10, roulette.bet);
         }
+        [Fact]
         public void Roulette_constructorbet_LowerThanZero_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new Roulette(0));
         }
+
     }
 }

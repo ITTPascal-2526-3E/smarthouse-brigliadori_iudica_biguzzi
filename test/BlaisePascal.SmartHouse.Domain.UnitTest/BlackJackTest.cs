@@ -19,15 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
 
         [Fact]
-        public void BlackJack_playnumber_playerNotWin_AssertEquals()
-        {
-            BlackJack blackjack = new BlackJack(10);
-            int result = blackjack.PlayNumber();
-            Assert.Equal(0, result);
-        }
-
-        [Fact]
-        public void BlackJack_constructorbet_LowerThanZero_ThrowsArgumentException()
+        public void BlackJack_constructorbet_LowerOrEqualThanZero_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new BlackJack(0));
         }

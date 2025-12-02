@@ -27,6 +27,10 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         private List<int> blackNumber = new List<int> { 2, 4, 6, 8, 10, 11 ,13, 15, 17, 20, 22, 24, 26, 18, 29, 31, 33, 35 };
         public Roulette(int _bet)
         {
+            if (_bet <= 0)
+            {
+                throw new ArgumentException("Bet must be greater than zero");
+            }
             bet = _bet;
             
         }
