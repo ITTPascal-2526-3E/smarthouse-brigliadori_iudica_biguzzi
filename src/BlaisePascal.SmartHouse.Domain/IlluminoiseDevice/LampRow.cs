@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class LampRow 
     {
-        private List<Lamp> lamps;
+        public List<Lamp> lamps;
 
         public LampRow()
         {
@@ -141,27 +141,29 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             return null;
         }
 
-        public Lamp FindAllOn()
+        public List<Lamp> FindAllOn()
         {
+            List<Lamp> onLamps = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
                 if (lamp.isOn)
                 {
-                    return lamp;
+                    onLamps.Add(lamp);
                 }
             }
-            return null;
+            return onLamps;
         }
-        public Lamp FindAllOff()
+        public List<Lamp> FindAllOff()
         {
+            List<Lamp> offLamps = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
                 if (lamp.isOn==false)
                 {
-                    return lamp;
+                    offLamps.Add(lamp);
                 }
             }
-            return null;
+            return offLamps;
         }
         public Lamp FindLampById(Guid id)
         {
@@ -175,7 +177,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             return null;
         }
 
-        public void SortByIntensity(bool descending)
+        public List<Lamp> SortByIntensity(bool descending)
         {
             if (descending == true)
             {
@@ -207,6 +209,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                     }
                 }
             }
+            return lamps;
         }
 
 
