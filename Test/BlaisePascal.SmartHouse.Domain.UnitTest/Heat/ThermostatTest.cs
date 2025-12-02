@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Heat;
 
-namespace BlaisePascal.SmartHouse.Domain.UnitTest
+namespace BlaisePascal.SmartHouse.Domain.UnitTest.Heat
 {
     public class ThermostatTest
     {
