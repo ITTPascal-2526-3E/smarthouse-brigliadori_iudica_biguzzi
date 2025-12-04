@@ -6,27 +6,27 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public class Door
+    public class Door : Device
     {
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
         public bool isLocked { get; private set; }
         public string name { get; set; }
-        public Guid Id { get; } 
-
+        
         // costructor for Door
         public Door(bool isopen, bool islocked, int doorcode)
         {
             isOpen = isopen;
             isLocked = islocked;
             doorCode = doorcode;
-            Id = Guid.NewGuid();
+            
         }
         //metod for open the door
         public void openDoor()
         {
             if (isLocked == false)
             {
+                lastMod = DateTime.Now;
                 isOpen = true;
             }
             else
@@ -39,6 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         {
             if (isLocked == true)
             {
+                lastMod = DateTime.Now;
                 isOpen = false;
             }
             else
@@ -52,6 +53,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         {
             if (isLocked == true && code == doorCode)
             {
+                lastMod = DateTime.Now;
                 isLocked = false;
             }
             else
@@ -65,6 +67,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         {
             if (isOpen == false)
             {
+                lastMod = DateTime.Now;
                 isLocked = true;
             }
             else

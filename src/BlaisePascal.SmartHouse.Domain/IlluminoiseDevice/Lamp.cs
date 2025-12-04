@@ -2,18 +2,18 @@
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-     public class Lamp
-     {
-        public bool isOn { get; private set; }// true = on , false = off
-        private int lightIntensity;// how much light power the lamp has range 1-100
+    public class Lamp : Device
+    {
+        public bool isOn { get; protected set; }// true = on , false = off
+        protected int lightIntensity;// how much light power the lamp has range 1-100
         public string name { get; set; }// name of the ecolamp
         public bool isWireless { get; }// true = wireless , false = wired
-        private string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
-        private string actualColor = "white";// actual color of the lamp at the beggining is white
-        public int consumationValue { get;}// how much energy the lamp consumes in W
-        public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
-        public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
-        public Guid Id { get; }= Guid.NewGuid();
+        protected string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
+        protected string actualColor = "white";// actual color of the lamp at the beggining is white
+        public int consumationValue { get; }// how much energy the lamp consumes in W
+        public int lightOnSpecificTime { get; protected set; }// at what time the lamp goes on every day
+        public int lightOffSpecificTime { get; protected set; } // at what time the lamp goes off every day
+        public DateTime? startTime;
 
         // costructor for lamp
         public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int lightonspecifictime, int lightoffspecifictime)
@@ -37,19 +37,25 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 lightOffSpecificTime = lightoffspecifictime;
             }
 
-            
+
         }
 
-
+        private void SaveAccensionTime()
+        {
+            startTime = DateTime.Now;
+        }
         //metod for the light on
         public void turnOn()
         {
+            lastMod = DateTime.Now;
+            SaveAccensionTime();
             isOn = true;
             lightIntensity = 100;
         }
         //metod for the light off
         public void turnOff()
         {
+            lastMod = DateTime.Now;
             isOn = false;
             lightIntensity = 0;
         }
@@ -64,13 +70,14 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             // ceck if the color is valid
             if (string.IsNullOrEmpty(color))
-            { 
+            {
                 throw new ArgumentNullException("color");
             }
             foreach (string c in ligthColorsArray)
             {
                 if (c == color)
                 {
+                    lastMod = DateTime.Now;
                     actualColor = color;// if the color is in the array set the actual color
 
                 }
@@ -87,28 +94,33 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         // metod to set the schedule of the lamp
         public void ApllyScheduleNow()
         {
-                //apply the schedule hours immediately
-                AutomaticLightOn(DateTime.Now);
+            //apply the schedule hours immediately
+            AutomaticLightOn(DateTime.Now);
             
+
         }
 
         private void AutomaticLightOn(DateTime currentTime)
         {
+            
             int h = currentTime.Hour;
 
             bool shouldBeOn;
             if (lightOnSpecificTime == lightOffSpecificTime)
             {
+                lastMod = DateTime.Now;
                 //choosen same hour for always off
                 shouldBeOn = false;
             }
             else if (lightOnSpecificTime < lightOffSpecificTime)
             {
+                lastMod = DateTime.Now;
                 // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
                 shouldBeOn = h >= lightOnSpecificTime && h < lightOffSpecificTime;
             }
             else
             {
+                lastMod = DateTime.Now;
                 //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
                 shouldBeOn = h >= lightOnSpecificTime || h < lightOffSpecificTime;
             }

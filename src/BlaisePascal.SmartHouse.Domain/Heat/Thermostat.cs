@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat
 {
-    public   class Thermostat
+    public   class Thermostat : Device
     {
-        public Guid Id { get; private set; }
+        
         
         public double CurrentTemperature { get; private set; }
         public double TargetTemperature { get;private set; }
@@ -31,7 +31,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             }
             else
             {
-                Id = Guid.NewGuid();
+                
                 CurrentTemperature = currentTemperature;
                 TargetTemperature = targetTemperature;
                 IsOn = isOn;
@@ -41,11 +41,13 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 
         public void AdjustTemperature(double newTargetTemperature)
         {
+            lastMod = DateTime.Now;
             TargetTemperature = newTargetTemperature;
         }
 
         public void UpdateCurrentTemperature(double newCurrentTemperature)
         {
+            lastMod = DateTime.Now;
             if (newCurrentTemperature < -30 || newCurrentTemperature > 50)
             {
                 throw new ArgumentOutOfRangeException( "New current temperature cannot be lower than the existing current temperature.");
@@ -55,12 +57,14 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 
         public void TurnOn()
         {
+            lastMod = DateTime.Now;
             IsOn = true;
             CurrentTemperature = TargetTemperature;
         }  
         
         public void TurnOff()
         {
+            lastMod = DateTime.Now;
             IsOn = false;
 
         }
@@ -71,12 +75,14 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             {
                 throw new ArgumentOutOfRangeException( "Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
             }
+            lastMod = DateTime.Now;
             atWhatExternalTemperatureTurnAutomaticalyOn = externalTemperature;
         }
         public void CheckAndTurnOnAutomatically(double externalTemperature)
         {
             if (externalTemperature <= atWhatExternalTemperatureTurnAutomaticalyOn)
             {
+                lastMod = DateTime.Now;
                 TurnOn();
             }
         }

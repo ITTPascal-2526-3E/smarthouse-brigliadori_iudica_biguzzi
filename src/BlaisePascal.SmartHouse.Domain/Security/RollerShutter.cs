@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public class RollerShutter
+    public class RollerShutter : Device
     {
         public bool isOpen { get; private set; }
         public string name { get; set; }
         public int position { get; private set; } // position from 0 to 100
-        public Guid Id { get; } = Guid.NewGuid();
+        
 
         // costructor for RollerShutter
         public RollerShutter(bool isopen, int _position)
@@ -26,12 +26,14 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         //metod for open the roller shutter
         public void openShutter()
         {
+            lastMod = DateTime.Now;
             isOpen = true;
             position = 100;
         }
         //metod for close the roller shutter
         public void closeShutter()
         {
+            lastMod = DateTime.Now;
             isOpen = false;
             position = 0;
         }
@@ -43,6 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             { 
                 if (value >= 0 && value <= 100)
                 {
+                    lastMod = DateTime.Now;
                     position = value;
                     isOpen = position > 0;
                 }

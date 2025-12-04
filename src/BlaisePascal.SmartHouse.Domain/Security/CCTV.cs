@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public class CCTV
+    public class CCTV : Device
     {
         public bool isOn { get; private set; }
         public string name { get; set; }
-        public Guid Id { get; } = Guid.NewGuid();
+        
         private DateTime salvaOrario;
         public int turnOnHour { get; private set; }
         public int turnOffHour { get; private set; }
@@ -21,18 +21,25 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             isOn = ison;
             if (turnonhour > 0 && turnonhour > 0 && turnoffhour <= 23 && turnoffhour <= 23)
             {
+
                 turnOnHour = turnonhour;
                 turnOffHour = turnoffhour;
+            }
+            else 
+            { 
+                throw new ArgumentException("Hours must be between 0 and 23.");
             }
         }
 
         public void turnOn()
         {
+            lastMod = DateTime.Now;
             isOn = true;
         }
 
         public void turnOff()
         {
+            lastMod = DateTime.Now;
             isOn = false;
         }
 
@@ -47,17 +54,20 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             bool shouldBeOn;
             if (turnOnHour == turnOffHour)
             {
+                lastMod = DateTime.Now;
                 //choosen same hour for always off
                 shouldBeOn = false;
             }
             else if (turnOnHour < turnOffHour)
             {
-                
+                lastMod = DateTime.Now;
+
                 shouldBeOn = h >= turnOnHour && h < turnOffHour;
             }
             else
             {
-                
+                lastMod = DateTime.Now;
+
                 shouldBeOn = h >= turnOnHour || h < turnOffHour;
             }
 
