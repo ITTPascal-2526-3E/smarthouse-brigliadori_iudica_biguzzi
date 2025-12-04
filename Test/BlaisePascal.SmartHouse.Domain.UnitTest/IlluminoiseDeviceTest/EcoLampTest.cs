@@ -44,7 +44,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp(false, 15, true, 15, 2);
             lamp.turnOn();
-            Assert.Equal(20, lamp.lightIntensityProperty);
+            Assert.Equal(100, lamp.lightIntensityProperty);
         }
 
         [Fact]

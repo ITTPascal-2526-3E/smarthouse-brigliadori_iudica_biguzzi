@@ -23,8 +23,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         {
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
             LampRow lampRow = new LampRow();
-            lampRow.AddLampInPosition(lamp, 2);
-            Assert.Equal(lamp, lampRow.lamps[2]);
+            lampRow.AddLamp(new Lamp(true, 50, true, 60, 18, 23));
+            lampRow.AddLampAtPosition(lamp, 0);
+            Assert.Equal(lamp, lampRow.lamps[0]);
         }
 
         [Fact]
@@ -77,6 +78,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp2 = new Lamp(false, 50, true, 60, 18, 23);
             Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
             LampRow lampRow = new LampRow();
+            lamp2.name = "LampToSwitchOn";
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
@@ -108,6 +110,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
             Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
             Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
+            lamp2.name = "LampToSwitchOff";
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);

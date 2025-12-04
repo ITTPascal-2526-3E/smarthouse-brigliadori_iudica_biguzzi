@@ -20,11 +20,19 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lastMod = DateTime.Now;
             lamps.Add(lamp);
         }
-        public void AddLampInPosition(Lamp lamp, int position)
+        public void AddLampAtPosition(Lamp lamp, int position)
         {
             lastMod = DateTime.Now;
-            lamps[position]=lamp;
-        }
+            if (position >= 0)
+            {
+                lamps[position] = lamp;
+            }
+            else
+            {
+                throw new ArgumentException("Position must be non-negative");
+
+            }
+        } 
         public void RemoveLamp(string name)
         {
             foreach (Lamp lamp in lamps) {
@@ -180,7 +188,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             }
             return offLamps;
         }
-        public Lamp FindLampById(Guid id)
+        /*public Lamp FindLampById(Guid id)
         {
             foreach (Lamp lamp in lamps)
             {
@@ -190,7 +198,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 }
             }
             return null;
-        }
+        }*/
 
         public List<Lamp> SortByIntensity(bool descending)
         {
