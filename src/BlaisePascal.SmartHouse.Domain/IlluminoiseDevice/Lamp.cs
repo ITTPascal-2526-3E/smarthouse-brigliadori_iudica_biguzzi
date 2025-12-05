@@ -40,15 +40,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
         }
 
-        private void SaveAccensionTime()
-        {
-            startTime = DateTime.Now;
-        }
+        
         //metod for the light on
-        public void turnOn()
+        public virtual void turnOn()
         {
             lastMod = DateTime.Now;
-            SaveAccensionTime();
+            
             isOn = true;
             lightIntensity = 100;
         }

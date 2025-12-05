@@ -22,6 +22,17 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         }
+        public override void turnOn()
+        {
+            lastMod = DateTime.Now;
+            SaveAccensionTime();
+            isOn = true;
+            lightIntensity = 100;
+        }
+        private void SaveAccensionTime()
+        {
+            startTime = DateTime.Now;
+        }
 
         // property for lightPower you can set your light power from 0 to 100
         public int lightIntensityProperty
