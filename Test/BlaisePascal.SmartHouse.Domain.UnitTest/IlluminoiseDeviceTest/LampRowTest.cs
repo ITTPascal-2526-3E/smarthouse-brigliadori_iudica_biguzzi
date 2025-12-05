@@ -199,8 +199,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            Lamp lampex = lampRow.FindLampsByIntensityRange(49,50);
-            Assert.Equal(lamp2, lampex);
+            List<Lamp> lampeq = new List<Lamp>();
+            lampeq.Add(lamp2);          
+            List<Lamp> lampex = lampRow.FindLampsByIntensityRange(30,59);
+            Assert.Equal(lampeq, lampex);
         }
 
         [Fact]

@@ -144,19 +144,18 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             return minLamp;
         }
 
-        public Lamp FindLampsByIntensityRange(int min, int max)
+        public List<Lamp> FindLampsByIntensityRange(int min, int max)
         {
+            List<Lamp> lampsInRange = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
                 if (lamp.lightIntensityPropriety >= min && lamp.lightIntensityPropriety <= max)
                 {
                     lastMod = DateTime.Now;
-                    return lamp;
+                    lampsInRange.Add(lamp);
+                    return lampsInRange;
                 }
-                else
-                {
-                    return null;
-                }
+             
                 
             }
             return null;
