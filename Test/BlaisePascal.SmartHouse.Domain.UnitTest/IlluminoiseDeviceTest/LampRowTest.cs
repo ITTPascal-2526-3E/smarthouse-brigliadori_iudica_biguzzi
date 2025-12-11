@@ -184,7 +184,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
             Lamp lampex = lampRow.FindLampWithMinIntensity();
-            Assert.Equal(lamp2, lam pex);
+            Assert.Equal(lamp2, lampex);
         }
 
         [Fact]
