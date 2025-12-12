@@ -42,6 +42,21 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         }
 
         [Fact]
+        public void MatrixLed_SetIntensityAll_AssertEquals()
+        {
+            Led led = new Led("red", 100);
+            MatrixLed matrixled = new MatrixLed(3, 3, led);
+            matrixled.SetIntensityAll(30);
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.Equal(30, led.lightIntensityPropriety);
+                }
+            }
+        }
+
+        [Fact]
         public void MatrixLed_GetLamp_AssertEquals()
         {
             Led led = new Led("red", 100);

@@ -29,10 +29,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public void turnOn()
         {
             isOn = true;
+            lightIntensity = 100;
         }
         public void turnOff()
         {
             isOn = false;
+            lightIntensity = 0;
         }
 
         public int lightIntensityPropriety
