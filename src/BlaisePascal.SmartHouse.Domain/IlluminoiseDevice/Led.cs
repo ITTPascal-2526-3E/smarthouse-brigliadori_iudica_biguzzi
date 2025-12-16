@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class Led
     {
-        public int lightIntensity;
+        private int lightIntensity;
 
         public string color { get; set; }
         public bool isOn { get; private set; }
