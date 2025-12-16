@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class MatrixLed : Device
     {
-        Led[,] matrix;
+        public Led[,] matrix { get; }
         public MatrixLed(int rows, int cols, Led led)
         {
             matrix = new Led[rows, cols];
