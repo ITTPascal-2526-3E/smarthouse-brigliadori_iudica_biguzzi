@@ -10,10 +10,10 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
     {
         
         
-        public double CurrentTemperature { get; private set; }
-        public double TargetTemperature { get;private set; }
+        public double CurrentTemperature { get; protected set; }
+        public double TargetTemperature { get;protected set; }
         public bool IsOn { get; set; }  
-        public double atWhatExternalTemperatureTurnAutomaticalyOn { get; private  set; }
+        public double atWhatExternalTemperatureTurnAutomaticalyOn { get; protected  set; }
 
         public Thermostat(double currentTemperature, double targetTemperature, bool isOn, double _atWhatExternalTemperatureTurnAutomaticalyOn)
         {

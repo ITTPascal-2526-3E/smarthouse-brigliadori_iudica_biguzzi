@@ -8,8 +8,8 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class Device
     {
-        protected Guid Id { get; set; } = Guid.NewGuid();
-        protected DateTime installationDate { get; set; } = DateTime.Now;
-        protected DateTime lastMod { get; set; } = DateTime.Now;
+        public Guid Id { get; protected set; } = Guid.NewGuid();
+        public DateTime installationDate { get; protected set; } = DateTime.Now;
+        public DateTime lastMod { get; protected set; } = DateTime.Now;
     }
 }

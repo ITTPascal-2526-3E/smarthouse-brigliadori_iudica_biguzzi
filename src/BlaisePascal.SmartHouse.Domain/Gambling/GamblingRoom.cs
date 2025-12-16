@@ -17,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
     public class GamblingRoom
 
     {
-        public Game game { get; private set; }
+        public Game game { get; protected set; }
         public void SelectGame(Game _game, int bet)
         {
             game = _game;

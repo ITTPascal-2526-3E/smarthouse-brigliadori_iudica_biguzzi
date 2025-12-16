@@ -8,8 +8,8 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
     internal class RussianRoulette
     {
-        public int bet { get; private set; }
-        public int TotalCash { get; private set; }
+        public int bet { get; protected set; }
+        public int TotalCash { get; protected set; }
         Random random = new Random();
         public RussianRoulette(int Bet)
         {

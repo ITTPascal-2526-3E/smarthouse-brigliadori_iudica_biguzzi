@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         private int benchExtractedNumber2;
         private int playExtractedNumber;
         private int playExtractedNumber2;
-        public int bet { get; private set; }
+        public int bet { get; protected set; }
         public BlackJack(int _bet) 
         {
             if (_bet > 0)

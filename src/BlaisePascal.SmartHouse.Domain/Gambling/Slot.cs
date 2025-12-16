@@ -12,7 +12,7 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
         private int ExtractedNumber2;
         private int ExtractedNumber3;
 
-        public int bet { get; private set; }
+        public int bet { get; protected set; }
 
         public Slot(int _bet)
         {

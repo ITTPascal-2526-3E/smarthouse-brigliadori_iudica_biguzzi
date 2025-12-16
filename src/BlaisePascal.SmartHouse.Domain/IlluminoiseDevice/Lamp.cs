@@ -6,10 +6,10 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
     {
         public bool isOn { get; protected set; }// true = on , false = off
         protected int lightIntensity;// how much light power the lamp has range 1-100
-        public string name { get; set; }// name of the ecolamp
+        public string name { get; protected set; }// name of the ecolamp
         public bool isWireless { get; }// true = wireless , false = wired
-        protected string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
-        protected string actualColor = "white";// actual color of the lamp at the beggining is white
+        public string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
+        public string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }// how much energy the lamp consumes in W
         public int lightOnSpecificTime { get; protected set; }// at what time the lamp goes on every day
         public int lightOffSpecificTime { get; protected set; } // at what time the lamp goes off every day
@@ -50,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lightIntensity = 100;
         }
         //metod for the light off
-        public void turnOff()
+        public virtual void turnOff()
         {
             lastMod = DateTime.Now;
             isOn = false;
@@ -63,7 +63,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             set { lightIntensity = value; }
         }
         // metod to set the color of the lamp
-        public void setColor(string color)
+        public virtual void setColor(string color)
         {
             // ceck if the color is valid
             if (string.IsNullOrEmpty(color))
@@ -84,12 +84,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 throw new InvalidOperationException(" the color doesn't exist in the list");
             }
         }
-        public string getColor()
+        public virtual string getColor()
         {
             return actualColor;
         }
         // metod to set the schedule of the lamp
-        public void ApllyScheduleNow()
+        public virtual void ApllyScheduleNow()
         {
             //apply the schedule hours immediately
             AutomaticLightOn(DateTime.Now);
@@ -97,7 +97,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
         }
 
-        private void AutomaticLightOn(DateTime currentTime)
+        protected virtual void AutomaticLightOn(DateTime currentTime)
         {
             
             int h = currentTime.Hour;

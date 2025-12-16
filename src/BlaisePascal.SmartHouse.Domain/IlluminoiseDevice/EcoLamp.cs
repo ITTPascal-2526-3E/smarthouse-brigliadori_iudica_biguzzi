@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class EcoLamp : Lamp
     {
-        public int maxTimeOn { get; private set; } // max time the lamp can stay on in hours
+        public int maxTimeOn { get; protected set; } // max time the lamp can stay on in hours
         
 
         // costructor for lamp
