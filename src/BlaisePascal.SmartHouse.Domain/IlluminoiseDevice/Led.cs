@@ -16,6 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public Led(string color, int lightIntensity)
         {
             this.color = color;
+
             isOn = false;
             if (lightIntensity < 0)
             {

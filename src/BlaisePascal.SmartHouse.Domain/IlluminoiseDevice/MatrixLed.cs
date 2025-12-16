@@ -72,12 +72,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             }
         }
 
-        public Led GetLamp(int row, int column)
+        public Led GetLed(int row, int column)
         {
             return matrix[row, column];
         }
 
-        public List<Led> GetLampsInRow(int row)
+        public List<Led> GetLedsInRow(int row)
         {
             List<Led> lampsInRow = new List<Led>();
             for (int j = 0; j < matrix.GetLength(1); j++)
@@ -87,7 +87,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             return lampsInRow;
         }
 
-        public List<Led> GetLampsInColumn(int column)
+        public List<Led> GetLedsInColumn(int column)
         {
             List<Led> lampsInColumn = new List<Led>();
             for (int i = 0; i < matrix.GetLength(0); i++)

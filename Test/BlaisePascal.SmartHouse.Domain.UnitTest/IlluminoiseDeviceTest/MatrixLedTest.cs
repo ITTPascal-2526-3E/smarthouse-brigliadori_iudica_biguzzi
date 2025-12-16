@@ -57,30 +57,30 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         }
 
         [Fact]
-        public void MatrixLed_GetLamp_AssertEquals()
+        public void MatrixLed_GetLed_AssertEquals()
         {
             Led led = new Led("red", 100);
             MatrixLed matrixled = new MatrixLed(3, 3, led);
-            Led ledex = matrixled.GetLamp(0,0);
+            Led ledex = matrixled.GetLed(0,0);
             Assert.Equal(led, ledex);
         }
 
         [Fact]
-        public void MatrixLed_GetLampsInRow_AssertEquals()
+        public void MatrixLed_GetLedsInRow_AssertEquals()
         {
             Led led = new Led("red", 100);
             MatrixLed matrixled = new MatrixLed(3, 3, led);
-            List<Led> ledex = matrixled.GetLampsInRow(0);
+            List<Led> ledex = matrixled.GetLedsInRow(0);
             List<Led> leds = new List<Led> { led, led, led };
             Assert.Equal(leds, ledex);
         }
 
         [Fact]
-        public void MatrixLed_GetLampsInCollum_AssertEquals()
+        public void MatrixLed_GetLedsInCollum_AssertEquals()
         {
             Led led = new Led("red", 100);
             MatrixLed matrixled = new MatrixLed(3, 3, led);
-            List<Led> ledex = matrixled.GetLampsInColumn(0);
+            List<Led> ledex = matrixled.GetLedsInColumn(0);
             List<Led> leds = new List<Led> { led, led, led };
             Assert.Equal(leds, ledex);
         }
