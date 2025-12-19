@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
     public class RollerShutter : Device
     {
         public bool isOpen { get; private set; }
-        public string name { get; set; }
+        public string name { get; private set; }
         public int position { get; private set; } // position from 0 to 100
         
 
@@ -22,6 +22,15 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 position = _position;
             }
             
+        }
+        public void SetName(string shuttername)
+        {
+            if (string.IsNullOrEmpty(shuttername))
+            {
+                throw new ArgumentNullException("shuttername");
+            }
+            lastMod = DateTime.Now;
+            name = shuttername;
         }
         //metod for open the roller shutter
         public void openShutter()
