@@ -11,7 +11,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
         public bool isLocked { get; private set; }
-        public string name { get; set; }
+        public string name { get; private set; }
         
         // costructor for Door
         public Door(bool isopen, bool islocked, int doorcode)
@@ -20,6 +20,15 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             isLocked = islocked;
             doorCode = doorcode;
             
+        }
+        public void SetName(string doorname)
+        {
+            if (string.IsNullOrEmpty(doorname))
+            {
+                throw new ArgumentNullException("doorname");
+            }
+            lastMod = DateTime.Now;
+            name = doorname;
         }
         //metod for open the door
         public void openDoor()

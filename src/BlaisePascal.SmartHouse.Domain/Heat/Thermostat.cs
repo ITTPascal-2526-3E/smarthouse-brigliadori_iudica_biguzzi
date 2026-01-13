@@ -10,8 +10,8 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
     {
         
         
-        public double CurrentTemperature { get; protected set; }
-        public double TargetTemperature { get;protected set; }
+        public double CurrentTemperature { get; private set; }
+        public double TargetTemperature { get;private set; }
         public bool IsOn { get; set; }  
         public double atWhatExternalTemperatureTurnAutomaticalyOn { get; protected  set; }
 
@@ -37,6 +37,24 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
                 IsOn = isOn;
                 atWhatExternalTemperatureTurnAutomaticalyOn = _atWhatExternalTemperatureTurnAutomaticalyOn;
             }
+        }
+        public void SetTargetTemperature(double newTargetTemperature)
+        {
+            if (newTargetTemperature < 5 || newTargetTemperature > 30)
+            {
+                throw new ArgumentOutOfRangeException( "Target temperature must be between 5 and 30 degrees Celsius.");
+            }
+            lastMod = DateTime.Now;
+            TargetTemperature = newTargetTemperature;
+        }
+        public void SetCurrentTemperature(double newCurrentTemperature)
+        {
+            if (newCurrentTemperature < -30 || newCurrentTemperature > 50)
+            {
+                throw new ArgumentOutOfRangeException( "Current temperature must be between -30 and 50 degrees Celsius.");
+            }
+            lastMod = DateTime.Now;
+            CurrentTemperature = newCurrentTemperature;
         }
 
         public void AdjustTemperature(double newTargetTemperature)

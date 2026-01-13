@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
     public class CCTV : Device
     {
         public bool isOn { get; private set; }
-        public string name { get; set; }
+        public string name { get; private set; }
         
         private DateTime salvaOrario;
         public int turnOnHour { get; private set; }
@@ -30,6 +30,15 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 throw new ArgumentException("Hours must be between 0 and 23.");
             }
         }
+        public void SetName(string cctvname)
+        {
+            if (string.IsNullOrEmpty(cctvname))
+            {
+                throw new ArgumentNullException("cctvname");
+            }
+            lastMod = DateTime.Now;
+            name = cctvname;
+        }
 
         public void turnOn()
         {
@@ -42,8 +51,25 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             lastMod = DateTime.Now;
             isOn = false;
         }
+        public void SetTurnOnHour(int hour)
+        {
+            if (hour < 0 || hour > 23)
+            {
+                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
+            }
+            lastMod = DateTime.Now;
+            turnOnHour = hour;
+        }
+        public void SetTurnOffHour(int hour)
+        {
+            if (hour < 0 || hour > 23)
+            {
+                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
+            }
+            lastMod = DateTime.Now;
+            turnOffHour = hour;
+        }
 
-        
 
         // Automatic turn on/off based on the set hours
         public void AutomaticTurnOn()

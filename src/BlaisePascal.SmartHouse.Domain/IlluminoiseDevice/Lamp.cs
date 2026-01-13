@@ -4,15 +4,15 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class Lamp : Device
     {
-        public bool isOn { get; protected set; }// true = on , false = off
+        public bool isOn { get; private set; }// true = on , false = off
         protected int lightIntensity;// how much light power the lamp has range 1-100
-        public string name { get; protected set; }// name of the ecolamp
+        public string name { get; private set; }// name of the ecolamp
         public bool isWireless { get; }// true = wireless , false = wired
         public string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         public string actualColor = "white";// actual color of the lamp at the beggining is white
         public int consumationValue { get; }// how much energy the lamp consumes in W
-        public int lightOnSpecificTime { get; protected set; }// at what time the lamp goes on every day
-        public int lightOffSpecificTime { get; protected set; } // at what time the lamp goes off every day
+        public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
+        public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
         public DateTime? startTime;
 
         // costructor for lamp
@@ -39,8 +39,35 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         }
+        public void SetName(string lampname)
+        {
+            if (string.IsNullOrEmpty(lampname))
+            {
+                throw new ArgumentNullException("lampname");
+            }
+            lastMod = DateTime.Now;
+            name = lampname;
+        }
+        public void SetLightOnSpecificTime(int hour)
+        {
+            if (hour < 0 || hour > 23)
+            {
+                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
+            }
+            lastMod = DateTime.Now;
+            lightOnSpecificTime = hour;
+        }
+        public void SetLightOffSpecificTime(int hour)
+        {
+            if (hour < 0 || hour > 23)
+            {
+                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
+            }
+            lastMod = DateTime.Now;
+            lightOffSpecificTime = hour;
+        }
 
-        
+
         //metod for the light on
         public virtual void turnOn()
         {
