@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    public class Slot
+    public sealed class Slot
     {
         private int ExtractedNumber;
         private int ExtractedNumber2;

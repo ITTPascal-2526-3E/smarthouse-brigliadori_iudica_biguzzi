@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat
 {
-    public   class Thermostat : Device
+    public sealed class Thermostat : Device
     {
         
         

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class EcoLamp : Lamp
+    public sealed class EcoLamp : Lamp
     {
         public int maxTimeOn { get; protected set; } // max time the lamp can stay on in hours
         

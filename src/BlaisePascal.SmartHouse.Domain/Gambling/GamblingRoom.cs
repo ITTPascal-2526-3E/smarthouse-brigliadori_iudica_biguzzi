@@ -14,7 +14,7 @@ public enum Game
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    public class GamblingRoom
+    public sealed class GamblingRoom
 
     {
         public Game game { get; protected set; }

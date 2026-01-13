@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public class CCTV : Device
+    public sealed class CCTV : Device
     {
         public bool isOn { get; private set; }
         public string name { get; private set; }

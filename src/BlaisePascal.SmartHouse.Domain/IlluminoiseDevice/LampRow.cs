@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class LampRow : Device
+    public sealed class LampRow : Device
     {
         public List<Lamp> lamps;
 

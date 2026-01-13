@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class TwoLampDevice
+    public sealed class TwoLampDevice
     {
         public ArrayList LampDevice = new ArrayList();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public class RollerShutter : Device
+    public sealed class RollerShutter : Device
     {
         public bool isOpen { get; private set; }
         public string name { get; private set; }

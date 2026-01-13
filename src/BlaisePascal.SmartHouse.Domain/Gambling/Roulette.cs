@@ -16,7 +16,7 @@ public enum Color
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
     
-    public class Roulette
+    public sealed class Roulette
     {
         private int extractedNumber;
         

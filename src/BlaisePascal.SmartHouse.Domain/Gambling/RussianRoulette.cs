@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    internal class RussianRoulette
+    public sealed class RussianRoulette
     {
         public int bet { get; protected set; }
         public int TotalCash { get; protected set; }

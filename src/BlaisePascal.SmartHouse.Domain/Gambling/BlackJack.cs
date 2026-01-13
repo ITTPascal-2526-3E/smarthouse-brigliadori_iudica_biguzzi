@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Gambling
 {
-    public class BlackJack
+    public sealed class BlackJack
     {
         private int benchExtractedNumber;
         private int benchExtractedNumber2;
