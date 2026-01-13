@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class Door : Device , ISwitchable
+    public sealed class Door : Device , ISwitchable , ILockable
     {
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
@@ -59,7 +59,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         }
 
         //metod for unlocking the door
-        public void unlockDoor(int code)
+        public void UnlockDoor(int code)
         {
             if (isLocked == true && code == doorCode)
             {
@@ -73,7 +73,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         }
 
         //metod for locking the door
-        public void lockDoor()
+        public void LockDoor()
         {
             if (isOpen == false)
             {

@@ -152,10 +152,10 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
             if (shouldBeOn == true)
             {
-                turnOn();
+                TurnOn();
             }
             else
-                turnOff();
+                TurnOff();
         }
 
 
