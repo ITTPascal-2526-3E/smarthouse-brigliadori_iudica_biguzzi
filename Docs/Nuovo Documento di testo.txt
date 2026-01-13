@@ -1,0 +1,10 @@
+												MODIFICHE CONSIGLIATE DAL PROF DURANTE LE CODE REVIEW
+
+
+Modifiche code review 16/12/2025:
+UML: gestire in maniera gerarchica le relazioni
+Documentaqzione: riscrivere il problema, spiegazioni discorsiva delle varie sezioni, nella sezione testing aggiungere le varie componenti a quali tipologie di test resistono
+Sw: 
+nelle classi madri/padri: public Guid Id { get; protected set; } = Guid.NewGuid();
+virtual nelle funzioni delle classi madr/padri
+public con private set ion tutte le properties (public string color { get; private set; })
