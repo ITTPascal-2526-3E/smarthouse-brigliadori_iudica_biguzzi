@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class Led
+    public sealed class Led : ISwitchable
     {
         private int lightIntensity;
-
         public string color { get;  set; }
         public bool isOn { get; private set; }
 
@@ -27,12 +27,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 lightIntensity = 100;
             }
         }
-        public void turnOn()
+        public void TurnOn()
         {
             isOn = true;
             lightIntensity = 100;
         }
-        public void turnOff()
+        public void TurnOff()
         {
             isOn = false;
             lightIntensity = 0;

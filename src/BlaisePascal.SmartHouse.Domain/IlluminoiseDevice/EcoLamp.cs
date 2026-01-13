@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class EcoLamp : Lamp
+    public sealed class EcoLamp : Lamp 
     {
         public int maxTimeOn { get; protected set; } // max time the lamp can stay on in hours
         
@@ -22,12 +23,19 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         }
-        public override void turnOn()
+        public override void TurnOn()
         {
             lastMod = DateTime.Now;
             SaveAccensionTime();
             isOn = true;
             lightIntensity = 100;
+        }
+
+        public override void TurnOff()
+        {
+            lastMod = DateTime.Now;
+            isOn = false;
+            lightIntensity = 0;
         }
         private void SaveAccensionTime()
         {

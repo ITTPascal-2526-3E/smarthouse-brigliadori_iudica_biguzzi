@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class Door : Device
+    public sealed class Door : Device , ISwitchable
     {
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
@@ -31,7 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             name = doorname;
         }
         //metod for open the door
-        public void openDoor()
+        public void TurnOn()
         {
             if (isLocked == false)
             {
@@ -44,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             }
         }
         //metod for close the door
-        public void closeDoor()
+        public void TurnOff()
         {
             if (isLocked == true)
             {

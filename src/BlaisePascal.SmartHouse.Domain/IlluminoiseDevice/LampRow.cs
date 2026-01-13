@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class LampRow : Device
+    public sealed class LampRow : Device 
     {
         public List<Lamp> lamps;
 
@@ -55,7 +55,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lastMod = DateTime.Now;
             foreach (var lamp in lamps)
             {
-                lamp.turnOn();
+                lamp.TurnOn();
             }
         }
 
@@ -66,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 if (lamp.name == name)
                 {
                     lastMod = DateTime.Now;
-                    lamp.turnOn();
+                    lamp.TurnOn();
                     break;
                 }
             }
@@ -79,7 +79,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 if (lamp.name == name)
                 {
                     lastMod = DateTime.Now;
-                    lamp.turnOff();
+                    lamp.TurnOff();
                     break;
                 }
             }
@@ -90,7 +90,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lastMod = DateTime.Now;
             foreach (var lamp in lamps)
             {
-                lamp.turnOff();
+                lamp.TurnOff();
             }
         }
 

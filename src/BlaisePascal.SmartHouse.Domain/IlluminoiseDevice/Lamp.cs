@@ -1,10 +1,11 @@
-﻿using System.Diagnostics.Metrics;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System.Diagnostics.Metrics;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class Lamp : Device
+    public class Lamp : Device , ISwitchable
     {
-        public bool isOn { get; private set; }// true = on , false = off
+        public bool isOn { get; protected set; }// true = on , false = off
         protected int lightIntensity;// how much light power the lamp has range 1-100
         public string name { get; private set; }// name of the ecolamp
         public bool isWireless { get; }// true = wireless , false = wired
@@ -69,7 +70,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         //metod for the light on
-        public virtual void turnOn()
+        public virtual void TurnOn()
         {
             lastMod = DateTime.Now;
             
@@ -77,7 +78,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lightIntensity = 100;
         }
         //metod for the light off
-        public virtual void turnOff()
+        public virtual void TurnOff()
         {
             lastMod = DateTime.Now;
             isOn = false;

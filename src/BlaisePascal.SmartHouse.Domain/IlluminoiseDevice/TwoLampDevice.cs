@@ -50,11 +50,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             if (LampDevice[index] is Lamp lamp)
             {
-                lamp.turnOn();
+                lamp.TurnOn();
             }
             else if (LampDevice[index] is EcoLamp ecolamp)
             {
-                ecolamp.turnOn();
+                ecolamp.TurnOn();
             }
         }
 
@@ -65,11 +65,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 if (item is Lamp lamp)
                 {
-                    lamp.turnOn();
+                    lamp.TurnOn();
                 }
                 else if (item is EcoLamp ecolamp)
                 {
-                    ecolamp.turnOn();
+                    ecolamp.TurnOn();
                 }
             }
         }
@@ -79,11 +79,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             if (LampDevice[index] is Lamp lamp)
             {
-                lamp.turnOff();
+                lamp.TurnOff();
             }
             else if (LampDevice[index] is EcoLamp ecolamp)
             {
-                ecolamp.turnOff();
+                ecolamp.TurnOff();
             }
         }
 
@@ -94,11 +94,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 if (item is Lamp lamp)
                 {
-                    lamp.turnOff();
+                    lamp.TurnOff();
                 }
                 else if (item is EcoLamp ecolamp)
                 {
-                    ecolamp.turnOff();
+                    ecolamp.TurnOff();
                 }
             }
         }

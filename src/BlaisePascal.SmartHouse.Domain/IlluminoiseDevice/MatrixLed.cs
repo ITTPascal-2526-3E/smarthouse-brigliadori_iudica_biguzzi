@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class MatrixLed : Device
+    public sealed class MatrixLed : Device 
     {
         public Led[,] matrix { get; }
         public MatrixLed(int rows, int cols, Led led)
@@ -27,7 +28,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    matrix[i, j].turnOn();
+                    matrix[i, j].TurnOn();
                 }
             }
         }
@@ -38,7 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    matrix[i, j].turnOff();
+                    matrix[i, j].TurnOff();
                 }
             }
         }
@@ -62,11 +63,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 {
                     if ((i + j) % 2 == 0)
                     {
-                        matrix[i, j].turnOn();
+                        matrix[i, j].TurnOn();
                     }
                     else
                     {
-                        matrix[i, j].turnOff();
+                        matrix[i, j].TurnOff();
                     }
                 }
             }

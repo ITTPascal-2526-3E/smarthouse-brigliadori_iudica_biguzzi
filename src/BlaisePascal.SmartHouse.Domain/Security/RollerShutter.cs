@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class RollerShutter : Device
+    public sealed class RollerShutter : Device , ISwitchable
     {
         public bool isOpen { get; private set; }
         public string name { get; private set; }
@@ -33,14 +34,14 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             name = shuttername;
         }
         //metod for open the roller shutter
-        public void openShutter()
+        public void TurnOn()
         {
             lastMod = DateTime.Now;
             isOpen = true;
             position = 100;
         }
         //metod for close the roller shutter
-        public void closeShutter()
+        public void TurnOff()
         {
             lastMod = DateTime.Now;
             isOpen = false;
