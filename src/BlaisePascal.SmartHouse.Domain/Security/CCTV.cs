@@ -8,9 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
 {
     public sealed class CCTV : Device
     {
-        public bool isOn { get; private set; }
-        public string name { get; private set; }
-        
+        public bool isOn { get; private set; }        
         private DateTime salvaOrario;
         public int turnOnHour { get; private set; }
         public int turnOffHour { get; private set; }

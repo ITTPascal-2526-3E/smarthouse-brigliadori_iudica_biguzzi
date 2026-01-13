@@ -10,7 +10,6 @@ namespace BlaisePascal.SmartHouse.Domain.Security
     public sealed class RollerShutter : Device , ISwitchable
     {
         public bool isOpen { get; private set; }
-        public string name { get; private set; }
         public int position { get; private set; } // position from 0 to 100
         
 

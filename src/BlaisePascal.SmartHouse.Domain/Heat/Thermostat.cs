@@ -9,8 +9,6 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 {
     public sealed class Thermostat : Device , ISwitchable
     {
-        
-        
         public double CurrentTemperature { get; private set; }
         public double TargetTemperature { get;private set; }
         public bool IsOn { get; set; }  

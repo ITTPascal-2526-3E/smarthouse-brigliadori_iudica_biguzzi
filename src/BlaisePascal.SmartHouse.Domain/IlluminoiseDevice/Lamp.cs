@@ -7,7 +7,6 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
     {
         public bool isOn { get; protected set; }// true = on , false = off
         protected int lightIntensity;// how much light power the lamp has range 1-100
-        public string name { get; private set; }// name of the ecolamp
         public bool isWireless { get; }// true = wireless , false = wired
         public string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         public string actualColor = "white";// actual color of the lamp at the beggining is white

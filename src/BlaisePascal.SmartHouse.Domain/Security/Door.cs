@@ -12,7 +12,6 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
         public bool isLocked { get; private set; }
-        public string name { get; private set; }
         
         // costructor for Door
         public Door(bool isopen, bool islocked, int doorcode)
