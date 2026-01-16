@@ -13,7 +13,7 @@ internal class Program
         Console.WriteLine("lamp consumption value: " + lamp.consumationValue);
         Console.WriteLine("lamp turns on at: " + lamp.lightOnSpecificTime + "h");
         Console.WriteLine("lamp turns off at: " + lamp.lightOffSpecificTime + "h");
-        lamp.turnOff();
+        lamp.TurnOff();
         Console.WriteLine("lamp is on after turnOff method: " + lamp.isOn);
         lamp.lightIntensityPropriety = 80;
         Console.WriteLine("lamp light intensity after setting to 80: " + lamp.lightIntensityPropriety);
@@ -28,7 +28,7 @@ internal class Program
         Console.WriteLine("ecoLamp is wireless: " + ecoLamp.isWireless);
         Console.WriteLine("ecoLamp consumption value: " + ecoLamp.consumationValue);
         Console.WriteLine("ecoLamp max time on: " + ecoLamp.maxTimeOn + "h");
-        ecoLamp.turnOn();
+        ecoLamp.TurnOn();
         Console.WriteLine("ecoLamp is on after turnOn method: " + ecoLamp.isOn);
         ecoLamp.lightIntensityProperty = 18;
         Console.WriteLine("ecoLamp light intensity after setting to 18: " + ecoLamp.lightIntensityProperty);
@@ -59,14 +59,14 @@ internal class Program
         Console.WriteLine("--------------------------------------------");
         Door door = new Door(false, true,10);
         Console.WriteLine("Door is open: " + door.isOpen);
-        door.openDoor();
+        door.TurnOn();
         Console.WriteLine("Door is open after OpenDoor method: " + door.isOpen);
         Console.WriteLine("Door is locked: " + door.isLocked);
-        door.unlockDoor(10);
+        door.UnlockDoor(10);
         Console.WriteLine("Door is locked after UnlockDoor method: " + door.isLocked);
-        door.closeDoor();
+        door.TurnOff();
         Console.WriteLine("Door is open after CloseDoor method: " + door.isOpen);
-        door.lockDoor();
+        door.LockDoor();
         Console.WriteLine("Door is locked after LockDoor method: " + door.isLocked);
         Console.WriteLine("--------------------------------------------");
         GamblingRoom gamblingRoom = new GamblingRoom();

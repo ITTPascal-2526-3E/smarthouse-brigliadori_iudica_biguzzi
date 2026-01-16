@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Lamp_isOn_turnOffMethod_AssertEquals() 
         { 
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
-            lamp.turnOff();
+            lamp.TurnOff();
             Assert.False( lamp.isOn);
         }
 
@@ -23,7 +23,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Lamp_isOn_turnOffMethod_checkLitghIntensity_AssertEquals()
         {
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
-            lamp.turnOff();
+            lamp.TurnOff();
             Assert.Equal(0, lamp.lightIntensityPropriety);
         }
 
@@ -31,7 +31,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Lamp_isOff_turnOnMethod_AssertEquals()
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            lamp.turnOn();
+            lamp.TurnOn();
             Assert.True( lamp.isOn);
         }
 
@@ -39,7 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Lamp_isOff_turnOnMethod_checkLitghIntensity_AssertEquals()
         {
             Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            lamp.turnOn();
+            lamp.TurnOn();
             Assert.Equal(100, lamp.lightIntensityPropriety);
         }
 

@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RollerShutter_openShutter_assertTrue()
         {
             RollerShutter rollerShutter = new RollerShutter(false, 0);
-            rollerShutter.openShutter();
+            rollerShutter.TurnOn();
             Assert.True(rollerShutter.isOpen);
         }
 
@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RollerShutter_openShutter_position100_assertEquals()
         {
             RollerShutter rollerShutter = new RollerShutter(false, 0);
-            rollerShutter.openShutter();
+            rollerShutter.TurnOn();
             Assert.Equal(100, rollerShutter.position);
         }
 
@@ -29,7 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RollerShutter_closeShutter_assertFalse()
         {
             RollerShutter rollerShutter = new RollerShutter(true, 100);
-            rollerShutter.closeShutter();
+            rollerShutter.TurnOn();
             Assert.False(rollerShutter.isOpen);
         }
 
@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RollerShutter_closeShutter_position0_assertEquals()
         {
             RollerShutter rollerShutter = new RollerShutter(true, 100);
-            rollerShutter.closeShutter();
+            rollerShutter.TurnOff();
             Assert.Equal(0, rollerShutter.position);
         }
 

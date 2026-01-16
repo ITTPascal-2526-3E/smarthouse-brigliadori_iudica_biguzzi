@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
+using BlaisePascal.SmartHouse.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +79,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp2 = new Lamp(false, 50, true, 60, 18, 23);
             Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
             LampRow lampRow = new LampRow();
-            lamp2.name = "LampToSwitchOn";
+            lamp2.SetName("lamp kaiba");
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
@@ -110,7 +111,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
             Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
             Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
-            lamp2.name = "LampToSwitchOff";
+            lamp2.SetName("lamp kaiba"); 
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);

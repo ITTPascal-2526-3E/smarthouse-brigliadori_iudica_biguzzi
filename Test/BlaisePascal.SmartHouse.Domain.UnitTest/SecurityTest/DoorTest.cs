@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Door_openDoor_unlocked_assertTrue()
         {
             Door door = new Door(false, false, 012);
-            door.openDoor();
+            door.TurnOn();
             Assert.Equal(true,door.isOpen);
         }
 
@@ -21,14 +21,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Door_openDoor_locked_assertThrow()
         {
             Door door = new Door(false,true, 012);
-            Assert.Throws<Exception>(door.openDoor);
+            Assert.Throws<Exception>(door.TurnOn);
         }
 
         [Fact]
         public void Door_closeDoor_unlocked_assertFalse()
         {
             Door door = new Door(true, true, 012);
-            door.closeDoor();
+            door.TurnOff();
             Assert.False(door.isOpen);
         }
 
@@ -36,14 +36,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Door_closeDoor_locked_assertThrown()
         {
             Door door = new Door(true, false, 012);
-            Assert.Throws<Exception>(door.closeDoor);
+            Assert.Throws<Exception>(door.TurnOff);
         }
 
         [Fact]
         public void Door_unlocked_assertTrue()
         {
             Door door = new Door(false, true , 012);
-            door.unlockDoor(012);
+            door.UnlockDoor(012);
             Assert.Equal(false , door.isLocked);
         }
 
@@ -51,28 +51,28 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Door_unlocked_wrongCode_assertThrow()
         {
             Door door = new Door(false, false, 012);
-            Assert.Throws<Exception>(() => door.unlockDoor(123));
+            Assert.Throws<Exception>(() => door.UnlockDoor(123));
         }
 
         [Fact]
         public void Door_unlocked_doorOpen_assertThrow()
         {
             Door door = new Door(true, false, 012);
-            Assert.Throws<Exception>(() => door.unlockDoor(012));
+            Assert.Throws<Exception>(() => door.UnlockDoor(012));
         }
 
         [Fact]
         public void Door_unlocked_doorunlocked_assertThrow()
         {
             Door door = new Door(false, true, 012);
-            Assert.Throws<Exception>(() => door.unlockDoor(010));
+            Assert.Throws<Exception>(() => door.UnlockDoor(010));
         }
 
         [Fact]
         public void Door_locked_doorClose_assertFalse()
         {
             Door door = new Door(false, false, 012);
-            door.lockDoor();
+            door.LockDoor();
             Assert.True(door.isLocked);
         }
 
@@ -80,7 +80,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Door_locked_doorOpen_assertFalse()
         {
             Door door = new Door(true, false, 012);
-            Assert.Throws<Exception>(() => door.lockDoor());
+            Assert.Throws<Exception>(() => door.LockDoor());
         }
 
     }
