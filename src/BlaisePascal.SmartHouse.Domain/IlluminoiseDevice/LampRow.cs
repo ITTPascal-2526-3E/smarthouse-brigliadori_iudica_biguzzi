@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,7 +100,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lastMod = DateTime.Now;
             foreach (var lamp in lamps)
             {
-                lamp.lightIntensityPropriety = intensity;
+                lamp.LightIntensityPropriety = intensity;
             }
         }
 
@@ -110,7 +111,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 if (lamp.name == name)
                 {
                     lastMod = DateTime.Now;
-                    lamp.lightIntensityPropriety = intensity;
+                    lamp.LightIntensityPropriety = intensity;
                     break;
                 }
             }
@@ -121,7 +122,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             Lamp maxLamp = new Lamp(true, 1, true, 60, 18, 23);
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.lightIntensityPropriety > maxLamp.lightIntensityPropriety)
+                if (lamp.LightIntensityPropriety > maxLamp.LightIntensityPropriety)
                 {
                     lastMod = DateTime.Now;
                     maxLamp = lamp;
@@ -135,7 +136,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             Lamp minLamp = new Lamp(true, 99, true, 60, 18, 23);
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.lightIntensityPropriety < minLamp.lightIntensityPropriety)
+                if (lamp.LightIntensityPropriety < minLamp.LightIntensityPropriety)
                 {
                     lastMod = DateTime.Now; 
                     minLamp = lamp;
@@ -149,7 +150,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             List<Lamp> lampsInRange = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.lightIntensityPropriety >= min && lamp.lightIntensityPropriety <= max)
+                if (lamp.LightIntensityPropriety >= min && lamp.LightIntensityPropriety <= max)
                 {
                     lastMod = DateTime.Now;
                     lampsInRange.Add(lamp);
@@ -206,8 +207,8 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 for (int i = 0; i < lamps.Count - 1; i++)
                 {
                     for (int j = i + 1; j < lamps.Count; j++)
-                    {
-                        if (lamps[i].lightIntensityPropriety < lamps[j].lightIntensityPropriety)
+                    {       
+                        if (lamps[i].LightIntensityPropriety < lamps[j].LightIntensityPropriety)
                         {
                             lastMod = DateTime.Now;
                             var temp = lamps[i];
@@ -223,7 +224,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 {
                     for (int j = i + 1; j < lamps.Count; j++)
                     {
-                        if (lamps[i].lightIntensityPropriety > lamps[j].lightIntensityPropriety)
+                        if (lamps[i].LightIntensityPropriety > lamps[j].LightIntensityPropriety)
                         {
                             lastMod = DateTime.Now;
                             var temp = lamps[i];

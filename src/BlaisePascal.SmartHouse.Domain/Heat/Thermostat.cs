@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat
 {
-    public sealed class Thermostat : Device , ISwitchable
+    public sealed class Thermostat : Device , ISwitchable , IAutomaticSwicth
     {
         public double CurrentTemperature { get; private set; }
         public double TargetTemperature { get;private set; }
         public bool IsOn { get; set; }  
         public double atWhatExternalTemperatureTurnAutomaticalyOn { get; protected  set; }
+        public double atWhatExternalTemperatureTurnAutomaticalyOff { get; protected set; }
+        public double externalTemperature { get; set; }
 
-        public Thermostat(double currentTemperature, double targetTemperature, bool isOn, double _atWhatExternalTemperatureTurnAutomaticalyOn)
+
+
+        public Thermostat(double currentTemperature, double targetTemperature, bool isOn, double _atWhatExternalTemperatureTurnAutomaticalyOn, double _atWhatExternalTemperatureTurnAutomaticalyOff)
         {
             if (targetTemperature < 5 || targetTemperature > 30)
             {
@@ -27,14 +32,19 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             else if (_atWhatExternalTemperatureTurnAutomaticalyOn < -30 || _atWhatExternalTemperatureTurnAutomaticalyOn > 50)
             {
                 throw new ArgumentOutOfRangeException( "Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
+            }else if (_atWhatExternalTemperatureTurnAutomaticalyOff > -30 || _atWhatExternalTemperatureTurnAutomaticalyOff < 50) 
+            {
+                throw new ArgumentOutOfRangeException("Automatic turn-off temperature must be between -30 and 50 degrees Celsius.");
+
             }
             else
             {
-                
+
                 CurrentTemperature = currentTemperature;
                 TargetTemperature = targetTemperature;
                 IsOn = isOn;
                 atWhatExternalTemperatureTurnAutomaticalyOn = _atWhatExternalTemperatureTurnAutomaticalyOn;
+                atWhatExternalTemperatureTurnAutomaticalyOff = _atWhatExternalTemperatureTurnAutomaticalyOff;
             }
         }
         public void SetTargetTemperature(double newTargetTemperature)
@@ -95,15 +105,37 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             lastMod = DateTime.Now;
             atWhatExternalTemperatureTurnAutomaticalyOn = externalTemperature;
         }
-        public void CheckAndTurnOnAutomatically(double externalTemperature)
+        public void SetAutomaticTurnOff(double externalTemperature)
         {
-            if (externalTemperature <= atWhatExternalTemperatureTurnAutomaticalyOn)
+            if (externalTemperature > -30 || externalTemperature < 50)
+            {
+                throw new ArgumentOutOfRangeException("Automatic turn-off temperature must be between -30 and 50 degrees Celsius.");
+            }
+            lastMod = DateTime.Now;
+            atWhatExternalTemperatureTurnAutomaticalyOff = externalTemperature;
+        }
+        public double SetexternalTemperature(double temp)
+        {
+            externalTemperature = temp;
+            return externalTemperature;
+        }
+
+        public void AutomaticSwicthOn()
+        {
+            if (externalTemperature <= atWhatExternalTemperatureTurnAutomaticalyOn )
             {
                 lastMod = DateTime.Now;
                 TurnOn();
             }
         }
-
+        public void AutomaticSwicthOff( )
+        {
+            if (externalTemperature >= atWhatExternalTemperatureTurnAutomaticalyOff)
+            {
+                lastMod = DateTime.Now;
+                TurnOff();
+            }
+        }
 
     }
 }

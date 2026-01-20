@@ -43,7 +43,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // property for lightPower you can set your light power from 0 to 100
-        public int lightIntensityProperty
+        public int LightIntensityProperty
         {
             get { return lightIntensity; }
             set

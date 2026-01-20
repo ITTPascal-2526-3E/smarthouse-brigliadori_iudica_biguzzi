@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    matrix[i, j].lightIntensityPropriety = intensity;
+                    matrix[i, j].LightIntensityPropriety = intensity;
                 }
             }
         }

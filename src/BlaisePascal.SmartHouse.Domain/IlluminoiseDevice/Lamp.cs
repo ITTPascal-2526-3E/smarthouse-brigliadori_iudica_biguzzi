@@ -1,9 +1,10 @@
-﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System.Diagnostics.Metrics;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class Lamp : Device , ISwitchable
+    public class Lamp : Device , ISwitchable , IDimmable , IAutomaticSwicth
     {
         public bool isOn { get; protected set; }// true = on , false = off
         protected int lightIntensity;// how much light power the lamp has range 1-100
@@ -84,7 +85,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lightIntensity = 0;
         }
         // property for lightPower you can set your light power from 0 to 100
-        public int lightIntensityPropriety
+        public int LightIntensityPropriety
         {
             get { return lightIntensity; }
             set { lightIntensity = value; }
@@ -119,14 +120,14 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public virtual void ApllyScheduleNow()
         {
             //apply the schedule hours immediately
-            AutomaticLightOn(DateTime.Now);
+            AutomaticSwicthOn();
             
 
         }
 
-        protected virtual void AutomaticLightOn(DateTime currentTime)
+        protected virtual void AutomaticSwicthOn( )
         {
-            
+            DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
 
             bool shouldBeOn;
@@ -155,6 +156,39 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             }
             else
                 TurnOff();
+        }
+
+        protected virtual void AutomaticSwicthOff( )
+        {
+            DateTime currentTime = DateTime.Now;
+            int h = currentTime.Hour;
+
+            bool shouldBeOff;
+            if (lightOnSpecificTime == lightOffSpecificTime)
+            {
+                lastMod = DateTime.Now;
+                //choosen same hour for always off
+                shouldBeOff = false;
+            }
+            else if (lightOnSpecificTime < lightOffSpecificTime)
+            {
+                lastMod = DateTime.Now;
+                // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
+                shouldBeOff = h >= lightOnSpecificTime && h < lightOffSpecificTime;
+            }
+            else
+            {
+                lastMod = DateTime.Now;
+                //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
+                shouldBeOff = h >= lightOnSpecificTime || h < lightOffSpecificTime;
+            }
+
+            if (shouldBeOff == true)
+            {
+                TurnOff();
+            }
+            else
+                TurnOn();
         }
 
 

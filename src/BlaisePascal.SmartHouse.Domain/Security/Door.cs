@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

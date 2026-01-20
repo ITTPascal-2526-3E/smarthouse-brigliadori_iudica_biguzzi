@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class Led : ISwitchable
+    public sealed class Led : ISwitchable , IDimmable
     {
         private int lightIntensity;
         public string color { get;  set; }
@@ -38,7 +38,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lightIntensity = 0;
         }
 
-        public int lightIntensityPropriety
+        public int LightIntensityPropriety
         {
             get { return lightIntensity; }
             set

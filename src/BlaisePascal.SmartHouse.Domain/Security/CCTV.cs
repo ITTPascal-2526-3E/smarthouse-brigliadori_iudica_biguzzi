@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class CCTV : Device
+    public sealed class CCTV : Device ,ISwitchable, IAutomaticSwicth
     {
         public bool isOn { get; private set; }        
         private DateTime salvaOrario;
@@ -38,13 +40,13 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             name = cctvname;
         }
 
-        public void turnOn()
+        public void TurnOn()
         {
             lastMod = DateTime.Now;
             isOn = true;
         }
 
-        public void turnOff()
+        public void TurnOff()
         {
             lastMod = DateTime.Now;
             isOn = false;
@@ -70,7 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
 
 
         // Automatic turn on/off based on the set hours
-        public void AutomaticTurnOn()
+        public void AutomaticSwicthOn()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
@@ -97,12 +99,43 @@ namespace BlaisePascal.SmartHouse.Domain.Security
 
             if (shouldBeOn == true)
             {
-                turnOn();
+                TurnOn();
             }
             else
-                turnOff();
+                TurnOff();
         }
 
+         public void AutomaticSwicthOff()
+        {
+            DateTime currentTime = DateTime.Now;
+            int h = currentTime.Hour;
 
+            bool shouldBeOff;
+            if (turnOnHour == turnOffHour)
+            {
+                lastMod = DateTime.Now;
+                //choosen same hour for always off
+                shouldBeOff = false;
+            }
+            else if (turnOnHour < turnOffHour)
+            {
+                lastMod = DateTime.Now;
+
+                shouldBeOff = h >= turnOnHour && h < turnOffHour;
+            }
+            else
+            {
+                lastMod = DateTime.Now;
+
+                shouldBeOff = h >= turnOnHour || h < turnOffHour;
+            }
+
+            if (shouldBeOff == true)
+            {
+                TurnOff();
+            }
+            else
+                TurnOn();
+        }
     }
 }
