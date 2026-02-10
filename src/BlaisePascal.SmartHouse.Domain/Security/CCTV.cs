@@ -31,14 +31,11 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 throw new ArgumentException("Hours must be between 0 and 23.");
             }
         }
-        public void SetName(string cctvname)
+        public void SetName(Name cctvname)
         {
-            if (string.IsNullOrEmpty(cctvname))
-            {
-                throw new ArgumentNullException("cctvname");
-            }
+           
             lastMod = DateTime.Now;
-            name = new Name(cctvname);
+            name = cctvname;
         }
 
         public void TurnOn()

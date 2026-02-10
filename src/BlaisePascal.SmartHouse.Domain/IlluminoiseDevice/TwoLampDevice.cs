@@ -104,7 +104,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // method to set a color to one lamp or ecolamp
-        public void setColorOneLamp(int index, string color)
+        public void setColorOneLamp(int index, Color color)
         {
             if (LampDevice[index] is Lamp lamp)
             {
@@ -117,7 +117,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // method to set a color to all lamp and ecolamp
-        public void setColorAllLamps(string color)
+        public void setColorAllLamps(Color color)
         {
             foreach (var item in LampDevice)
             {

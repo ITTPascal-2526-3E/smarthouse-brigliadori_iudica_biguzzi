@@ -23,14 +23,11 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             doorCode = doorcode;
 
         }
-        public void SetName(string doorname)
+        public void SetName(Name doorname)
         {
-            if (string.IsNullOrEmpty(doorname))
-            {
-                throw new ArgumentNullException("doorname");
-            }
+           
             lastMod = DateTime.Now;
-            name = new Name(doorname);
+            name = doorname;
         }
         //metod for open the door
         public void TurnOn()

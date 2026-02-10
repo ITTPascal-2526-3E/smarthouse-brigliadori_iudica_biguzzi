@@ -24,14 +24,10 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             }
 
         }
-        public void SetName(string shuttername)
+        public void SetName(Name shuttername)
         {
-            if (string.IsNullOrEmpty(shuttername))
-            {
-                throw new ArgumentNullException("shuttername");
-            }
             lastMod = DateTime.Now;
-            name = new Name(shuttername);
+            name = shuttername;
         }
         //metod for open the roller shutter
         public void TurnOn()

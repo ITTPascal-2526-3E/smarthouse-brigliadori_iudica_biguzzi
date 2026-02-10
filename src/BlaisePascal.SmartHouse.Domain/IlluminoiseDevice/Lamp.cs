@@ -4,6 +4,7 @@ using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System.Diagnostics.Metrics;
 
+
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public class Lamp : Device, ISwitchable, IAutomaticSwicth
@@ -12,8 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public Brigthness brigthness;// how much light power the lamp has range 1-100
 
         public bool isWireless { get; }// true = wireless , false = wired
-        public string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
-        public string actualColor = "white";// actual color of the lamp at the beggining is white
+        public Color actualColor = Color.WHITE;// actual color of the lamp at the beggining is white
         public int consumationValue { get; }// how much energy the lamp consumes in W
         public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
         public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
@@ -40,6 +40,18 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         }
+        public void setBrightness(Brigthness _brightness) 
+        {
+            lastMod = DateTime.Now;
+            brigthness = _brightness;
+        }
+
+        public Brigthness getBrightness() 
+        {
+           return brigthness;
+        }
+
+
         public void SetName(string lampname)
         {
             if (string.IsNullOrEmpty(lampname))
@@ -87,28 +99,16 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         // metod to set the color of the lamp
-        public virtual void setColor(string color)
+        public virtual void setColor(Color color)
         {
-            // ceck if the color is valid
-            if (string.IsNullOrEmpty(color))
+            if (color != actualColor) 
             {
-                throw new ArgumentNullException("color");
-            }
-            foreach (string c in ligthColorsArray)
-            {
-                if (c == color)
-                {
-                    lastMod = DateTime.Now;
-                    actualColor = color;// if the color is in the array set the actual color
+                actualColor = color;
 
-                }
             }
-            if (actualColor != color)
-            {
-                throw new InvalidOperationException(" the color doesn't exist in the list");
-            }
+            
         }
-        public virtual string getColor()
+        public virtual Color getColor()
         {
             return actualColor;
         }
@@ -121,7 +121,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
         }
 
-        protected virtual void AutomaticSwicthOn()
+        public virtual void AutomaticSwicthOn()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
@@ -154,7 +154,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 TurnOff();
         }
 
-        protected virtual void AutomaticSwicthOff()
+        public virtual void AutomaticSwicthOff()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
