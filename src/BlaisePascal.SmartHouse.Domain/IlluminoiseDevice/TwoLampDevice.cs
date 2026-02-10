@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // add an ecolamp to the device
-        public void addEcoLamp( EcoLamp ecolamp)
+        public void addEcoLamp(EcoLamp ecolamp)
         {
             if (LampDevice.Count < 2)
                 LampDevice.Add(ecolamp);
@@ -33,18 +33,18 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // remove a lamp to the device
-        public void removeLamp( Lamp lamp)
+        public void removeLamp(Lamp lamp)
         {
             LampDevice.Remove(lamp);
         }
 
         // remove an ecolamp to the device
-        public void removeEcoLamp( EcoLamp ecolamp)
+        public void removeEcoLamp(EcoLamp ecolamp)
         {
             LampDevice.Remove(ecolamp);
         }
 
-       
+
         // method to turn on one lamp or ecolamp 
         public void turnOnOneLamp(int index)
         {
@@ -117,7 +117,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         }
 
         // method to set a color to all lamp and ecolamp
-        public void setColorAllLamps( string color)
+        public void setColorAllLamps(string color)
         {
             foreach (var item in LampDevice)
             {

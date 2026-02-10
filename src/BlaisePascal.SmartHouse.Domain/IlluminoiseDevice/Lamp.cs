@@ -1,13 +1,16 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
+using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System.Diagnostics.Metrics;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public class Lamp : Device , ISwitchable , IDimmable , IAutomaticSwicth
+    public class Lamp : Device, ISwitchable, IAutomaticSwicth
     {
         public bool isOn { get; protected set; }// true = on , false = off
-        protected int lightIntensity;// how much light power the lamp has range 1-100
+        public Brigthness brigthness;// how much light power the lamp has range 1-100
+
         public bool isWireless { get; }// true = wireless , false = wired
         public string[] ligthColorsArray = new string[7] { "red", "yellow", "orange", "blue", "green", "purple", "white" };// array of colors the lamp can emit
         public string actualColor = "white";// actual color of the lamp at the beggining is white
@@ -24,10 +27,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 consumationValue = consumationvalue;
             }
 
-            if (ligthpower > 0 && ligthpower < 100)
-            {
-                lightIntensity = ligthpower;
-            }
+            brigthness = new Brigthness(ligthpower);
 
             isOn = ison;
 
@@ -47,7 +47,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 throw new ArgumentNullException("lampname");
             }
             lastMod = DateTime.Now;
-            name = lampname;
+            name = new Name(lampname);
         }
         public void SetLightOnSpecificTime(int hour)
         {
@@ -73,23 +73,19 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public virtual void TurnOn()
         {
             lastMod = DateTime.Now;
-            
+
             isOn = true;
-            lightIntensity = 100;
+            brigthness = new Brigthness(100);
         }
         //metod for the light off
         public virtual void TurnOff()
         {
             lastMod = DateTime.Now;
             isOn = false;
-            lightIntensity = 0;
+            brigthness = new Brigthness(0);
         }
-        // property for lightPower you can set your light power from 0 to 100
-        public int LightIntensityPropriety
-        {
-            get { return lightIntensity; }
-            set { lightIntensity = value; }
-        }
+
+
         // metod to set the color of the lamp
         public virtual void setColor(string color)
         {
@@ -121,11 +117,11 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             //apply the schedule hours immediately
             AutomaticSwicthOn();
-            
+
 
         }
 
-        protected virtual void AutomaticSwicthOn( )
+        protected virtual void AutomaticSwicthOn()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;
@@ -158,7 +154,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 TurnOff();
         }
 
-        protected virtual void AutomaticSwicthOff( )
+        protected virtual void AutomaticSwicthOff()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;

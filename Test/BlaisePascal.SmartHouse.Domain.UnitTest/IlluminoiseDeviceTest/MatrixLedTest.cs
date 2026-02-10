@@ -12,15 +12,15 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void MatrixLed_SwicthAllOn_AssertTrue()
         {
-            Led led = new Led("red",0);
-            MatrixLed matrixled = new MatrixLed(3,3,led);
+            Led led = new Led("red", 0);
+            MatrixLed matrixled = new MatrixLed(3, 3, led);
             matrixled.SwitchOnAll();
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
                     Assert.True(led.isOn);
-                    Assert.Equal(100, led.lightIntensityPropriety);
+                    Assert.Equal(100, led.brigthness.Value);
                 }
             }
         }
@@ -36,7 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
                 for (int j = 0; j < 3; j++)
                 {
                     Assert.False(led.isOn);
-                    Assert.Equal(0, led.lightIntensityPropriety);
+                    Assert.Equal(0, led.brigthness.Value);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.Equal(30, led.lightIntensityPropriety);
+                    Assert.Equal(30, led.brigthness.Value);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         {
             Led led = new Led("red", 100);
             MatrixLed matrixled = new MatrixLed(3, 3, led);
-            Led ledex = matrixled.GetLed(0,0);
+            Led ledex = matrixled.GetLed(0, 0);
             Assert.Equal(led, ledex);
         }
 

@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class CCTV : Device ,ISwitchable, IAutomaticSwicth
+    public sealed class CCTV : Device, ISwitchable, IAutomaticSwicth
     {
-        public bool isOn { get; private set; }        
+        public bool isOn { get; private set; }
         private DateTime salvaOrario;
         public int turnOnHour { get; private set; }
         public int turnOffHour { get; private set; }
@@ -25,8 +26,8 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 turnOnHour = turnonhour;
                 turnOffHour = turnoffhour;
             }
-            else 
-            { 
+            else
+            {
                 throw new ArgumentException("Hours must be between 0 and 23.");
             }
         }
@@ -37,7 +38,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 throw new ArgumentNullException("cctvname");
             }
             lastMod = DateTime.Now;
-            name = cctvname;
+            name = new Name(cctvname);
         }
 
         public void TurnOn()
@@ -105,7 +106,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 TurnOff();
         }
 
-         public void AutomaticSwicthOff()
+        public void AutomaticSwicthOff()
         {
             DateTime currentTime = DateTime.Now;
             int h = currentTime.Hour;

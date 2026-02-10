@@ -17,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Led led = new Led("red", 100);
             led.TurnOff();
-            Assert.Equal(0, led.lightIntensityPropriety);
+            Assert.Equal(0, led.brigthness.Value);
         }
 
 
@@ -35,7 +35,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Led led = new Led("red", 100);
             led.TurnOn();
-            Assert.Equal(100, led.lightIntensityPropriety);
+            Assert.Equal(100, led.brigthness.Value);
         }
     }
 }

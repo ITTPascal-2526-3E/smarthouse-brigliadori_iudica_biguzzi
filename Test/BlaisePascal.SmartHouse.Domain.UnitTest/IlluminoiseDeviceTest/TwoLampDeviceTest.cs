@@ -10,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class TwoLampDeviceTest
     {
-        
+
         [Fact]
         public void TwoLampDevice_AddLamp_lampMoreThan2_assertThrowns()
         {

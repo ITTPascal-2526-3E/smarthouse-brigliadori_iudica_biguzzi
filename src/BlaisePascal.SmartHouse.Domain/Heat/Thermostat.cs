@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 namespace BlaisePascal.SmartHouse.Domain.Heat
 {
-    public sealed class Thermostat : Device , ISwitchable , IAutomaticSwicth
+    public sealed class Thermostat : Device, ISwitchable, IAutomaticSwicth
     {
         public double CurrentTemperature { get; private set; }
-        public double TargetTemperature { get;private set; }
-        public bool IsOn { get; set; }  
-        public double atWhatExternalTemperatureTurnAutomaticalyOn { get; protected  set; }
+        public double TargetTemperature { get; private set; }
+        public bool IsOn { get; set; }
+        public double atWhatExternalTemperatureTurnAutomaticalyOn { get; protected set; }
         public double atWhatExternalTemperatureTurnAutomaticalyOff { get; protected set; }
         public double externalTemperature { get; set; }
 
@@ -23,16 +23,17 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         {
             if (targetTemperature < 5 || targetTemperature > 30)
             {
-                throw new ArgumentOutOfRangeException( "Target temperature must be between 5 and 30 degrees Celsius.");
+                throw new ArgumentOutOfRangeException("Target temperature must be between 5 and 30 degrees Celsius.");
             }
             else if (currentTemperature < -30 || currentTemperature > 50)
             {
-                throw new ArgumentOutOfRangeException( "Current temperature must be between -30 and 50 degrees Celsius.");
+                throw new ArgumentOutOfRangeException("Current temperature must be between -30 and 50 degrees Celsius.");
             }
             else if (_atWhatExternalTemperatureTurnAutomaticalyOn < -30 || _atWhatExternalTemperatureTurnAutomaticalyOn > 50)
             {
-                throw new ArgumentOutOfRangeException( "Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
-            }else if (_atWhatExternalTemperatureTurnAutomaticalyOff > -30 || _atWhatExternalTemperatureTurnAutomaticalyOff < 50) 
+                throw new ArgumentOutOfRangeException("Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
+            }
+            else if (_atWhatExternalTemperatureTurnAutomaticalyOff > -30 || _atWhatExternalTemperatureTurnAutomaticalyOff < 50)
             {
                 throw new ArgumentOutOfRangeException("Automatic turn-off temperature must be between -30 and 50 degrees Celsius.");
 
@@ -47,11 +48,20 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
                 atWhatExternalTemperatureTurnAutomaticalyOff = _atWhatExternalTemperatureTurnAutomaticalyOff;
             }
         }
+        public void SetName(string thermostatname)
+        {
+            if (string.IsNullOrEmpty(thermostatname))
+            {
+                throw new ArgumentNullException("thermostatname");
+            }
+            lastMod = DateTime.Now;
+            name = new Name(thermostatname);
+        }
         public void SetTargetTemperature(double newTargetTemperature)
         {
             if (newTargetTemperature < 5 || newTargetTemperature > 30)
             {
-                throw new ArgumentOutOfRangeException( "Target temperature must be between 5 and 30 degrees Celsius.");
+                throw new ArgumentOutOfRangeException("Target temperature must be between 5 and 30 degrees Celsius.");
             }
             lastMod = DateTime.Now;
             TargetTemperature = newTargetTemperature;
@@ -60,7 +70,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         {
             if (newCurrentTemperature < -30 || newCurrentTemperature > 50)
             {
-                throw new ArgumentOutOfRangeException( "Current temperature must be between -30 and 50 degrees Celsius.");
+                throw new ArgumentOutOfRangeException("Current temperature must be between -30 and 50 degrees Celsius.");
             }
             lastMod = DateTime.Now;
             CurrentTemperature = newCurrentTemperature;
@@ -77,18 +87,18 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             lastMod = DateTime.Now;
             if (newCurrentTemperature < -30 || newCurrentTemperature > 50)
             {
-                throw new ArgumentOutOfRangeException( "New current temperature cannot be lower than the existing current temperature.");
+                throw new ArgumentOutOfRangeException("New current temperature cannot be lower than the existing current temperature.");
             }
             CurrentTemperature = newCurrentTemperature;
-        }   
+        }
 
         public void TurnOn()
         {
             lastMod = DateTime.Now;
             IsOn = true;
             CurrentTemperature = TargetTemperature;
-        }  
-        
+        }
+
         public void TurnOff()
         {
             lastMod = DateTime.Now;
@@ -100,7 +110,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         {
             if (externalTemperature < -30 || externalTemperature > 50)
             {
-                throw new ArgumentOutOfRangeException( "Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
+                throw new ArgumentOutOfRangeException("Automatic turn-on temperature must be between -30 and 50 degrees Celsius.");
             }
             lastMod = DateTime.Now;
             atWhatExternalTemperatureTurnAutomaticalyOn = externalTemperature;
@@ -122,13 +132,13 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 
         public void AutomaticSwicthOn()
         {
-            if (externalTemperature <= atWhatExternalTemperatureTurnAutomaticalyOn )
+            if (externalTemperature <= atWhatExternalTemperatureTurnAutomaticalyOn)
             {
                 lastMod = DateTime.Now;
                 TurnOn();
             }
         }
-        public void AutomaticSwicthOff( )
+        public void AutomaticSwicthOff()
         {
             if (externalTemperature >= atWhatExternalTemperatureTurnAutomaticalyOff)
             {

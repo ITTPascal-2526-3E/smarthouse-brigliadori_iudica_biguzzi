@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class LampRow : Device 
+    public sealed class LampRow : Device
     {
         public List<Lamp> lamps;
 
@@ -33,11 +34,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 throw new ArgumentException("Position must be non-negative");
 
             }
-        } 
+        }
         public void RemoveLamp(string name)
         {
-            foreach (Lamp lamp in lamps) {
-                if (lamp.name == name)
+            foreach (Lamp lamp in lamps)
+            {
+                if (lamp.name.Value == name)
                 {
                     lastMod = DateTime.Now;
                     lamps.Remove(lamp);
@@ -48,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public void ReamoveLampAtPosition(int position)
         {
             lastMod = DateTime.Now;
-            lamps[position]=null;
+            lamps[position] = null;
         }
 
         public void SwitchOnAllLamp()
@@ -64,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.name == name)
+                if (lamp.name.Value == name)
                 {
                     lastMod = DateTime.Now;
                     lamp.TurnOn();
@@ -77,7 +79,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.name == name)
+                if (lamp.name.Value == name)
                 {
                     lastMod = DateTime.Now;
                     lamp.TurnOff();
@@ -100,7 +102,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             lastMod = DateTime.Now;
             foreach (var lamp in lamps)
             {
-                lamp.LightIntensityPropriety = intensity;
+                lamp.brigthness = new Brigthness(intensity);
             }
         }
 
@@ -108,10 +110,10 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.name == name)
+                if (lamp.name.Value == name)
                 {
                     lastMod = DateTime.Now;
-                    lamp.LightIntensityPropriety = intensity;
+                    lamp.brigthness = new Brigthness(intensity);
                     break;
                 }
             }
@@ -122,7 +124,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             Lamp maxLamp = new Lamp(true, 1, true, 60, 18, 23);
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.LightIntensityPropriety > maxLamp.LightIntensityPropriety)
+                if (lamp.brigthness.Value > maxLamp.brigthness.Value)
                 {
                     lastMod = DateTime.Now;
                     maxLamp = lamp;
@@ -136,9 +138,9 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             Lamp minLamp = new Lamp(true, 99, true, 60, 18, 23);
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.LightIntensityPropriety < minLamp.LightIntensityPropriety)
+                if (lamp.brigthness.Value < minLamp.brigthness.Value)
                 {
-                    lastMod = DateTime.Now; 
+                    lastMod = DateTime.Now;
                     minLamp = lamp;
                 }
             }
@@ -150,14 +152,14 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             List<Lamp> lampsInRange = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.LightIntensityPropriety >= min && lamp.LightIntensityPropriety <= max)
+                if (lamp.brigthness.Value >= min && lamp.brigthness.Value <= max)
                 {
                     lastMod = DateTime.Now;
                     lampsInRange.Add(lamp);
                     return lampsInRange;
                 }
-             
-                
+
+
             }
             return null;
         }
@@ -180,7 +182,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             List<Lamp> offLamps = new List<Lamp>();
             foreach (Lamp lamp in lamps)
             {
-                if (lamp.isOn==false)
+                if (lamp.isOn == false)
                 {
                     lastMod = DateTime.Now;
                     offLamps.Add(lamp);
@@ -207,8 +209,8 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 for (int i = 0; i < lamps.Count - 1; i++)
                 {
                     for (int j = i + 1; j < lamps.Count; j++)
-                    {       
-                        if (lamps[i].LightIntensityPropriety < lamps[j].LightIntensityPropriety)
+                    {
+                        if (lamps[i].brigthness.Value < lamps[j].brigthness.Value)
                         {
                             lastMod = DateTime.Now;
                             var temp = lamps[i];
@@ -224,7 +226,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 {
                     for (int j = i + 1; j < lamps.Count; j++)
                     {
-                        if (lamps[i].LightIntensityPropriety > lamps[j].LightIntensityPropriety)
+                        if (lamps[i].brigthness.Value > lamps[j].brigthness.Value)
                         {
                             lastMod = DateTime.Now;
                             var temp = lamps[i];

@@ -5,22 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 
 namespace BlaisePascal.SmartHouse.Domain.Security
 {
-    public sealed class Door : Device , ISwitchable , ILockable
+    public sealed class Door : Device, ISwitchable, ILockable
     {
         public bool isOpen { get; private set; }
         public int doorCode { get; private set; }
         public bool isLocked { get; private set; }
-        
+
         // costructor for Door
         public Door(bool isopen, bool islocked, int doorcode)
         {
             isOpen = isopen;
             isLocked = islocked;
             doorCode = doorcode;
-            
+
         }
         public void SetName(string doorname)
         {
@@ -29,7 +30,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 throw new ArgumentNullException("doorname");
             }
             lastMod = DateTime.Now;
-            name = doorname;
+            name = new Name(doorname);
         }
         //metod for open the door
         public void TurnOn()
@@ -69,7 +70,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             else
             {
                 throw new Exception("cant be locked if the code isn't rigth or the door is already unloocked");
-            }       
+            }
         }
 
         //metod for locking the door
@@ -84,7 +85,7 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             {
                 throw new Exception("cant close if door is open");
             }
-    }
+        }
 
     }
 }

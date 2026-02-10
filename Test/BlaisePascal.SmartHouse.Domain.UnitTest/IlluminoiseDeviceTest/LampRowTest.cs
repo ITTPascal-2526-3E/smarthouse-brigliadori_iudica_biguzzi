@@ -16,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
-            Assert.Equal(lamp , lampRow.lamps[0]);
+            Assert.Equal(lamp, lampRow.lamps[0]);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
-            lampRow.RemoveLamp(lamp.name);
+            lampRow.RemoveLamp(lamp.name.Value);
             Assert.Equal(0, lampRow.lamps.Count);
         }
 
@@ -51,7 +51,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            lampRow.RemoveLamp(lamp1.name);
+            lampRow.RemoveLamp(lamp1.name.Value);
             Assert.Equal(3, lampRow.lamps.Count);
         }
 
@@ -84,7 +84,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            lampRow.SwitchOn(lamp2.name);
+            lampRow.SwitchOn(lamp2.name.Value);
             Assert.True(lamp2.isOn);
         }
 
@@ -111,13 +111,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
             Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
             Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
-            lamp2.SetName("lamp kaiba"); 
+            lamp2.SetName("lamp kaiba");
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            lampRow.SwitchOff(lamp2.name);
+            lampRow.SwitchOff(lamp2.name.Value);
             Assert.False(lamp2.isOn);
         }
 
@@ -134,10 +134,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
             lampRow.SetIntensityForAllLamp(23);
-            Assert.Equal(23,lamp.lightIntensityPropriety);
-            Assert.Equal(23, lamp1.lightIntensityPropriety);
-            Assert.Equal(23, lamp2.lightIntensityPropriety);
-            Assert.Equal(23, lamp3.lightIntensityPropriety);
+            Assert.Equal(23, lamp.brigthness.Value);
+            Assert.Equal(23, lamp1.brigthness.Value);
+            Assert.Equal(23, lamp2.brigthness.Value);
+            Assert.Equal(23, lamp3.brigthness.Value);
         }
 
         [Fact]
@@ -152,8 +152,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            lampRow.SetIntensityForLamp(lamp2.name,23);
-            Assert.Equal(23 , lamp.lightIntensityPropriety);
+            lampRow.SetIntensityForLamp(lamp2.name.Value, 23);
+            Assert.Equal(23, lamp.brigthness.Value);
         }
 
         [Fact]
@@ -169,7 +169,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
             Lamp lampex = lampRow.FindLampWithMaxIntensity();
-            Assert.Equal(lamp3 , lampex);
+            Assert.Equal(lamp3, lampex);
         }
 
         [Fact]
@@ -201,8 +201,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
             List<Lamp> lampeq = new List<Lamp>();
-            lampeq.Add(lamp2);          
-            List<Lamp> lampex = lampRow.FindLampsByIntensityRange(30,59);
+            lampeq.Add(lamp2);
+            List<Lamp> lampex = lampRow.FindLampsByIntensityRange(30, 59);
             Assert.Equal(lampeq, lampex);
         }
 
@@ -218,7 +218,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
             lampRow.AddLamp(lamp3);
-            List<Lamp> lampeq =new List<Lamp>();
+            List<Lamp> lampeq = new List<Lamp>();
             lampeq.Add(lamp);
             lampeq.Add(lamp1);
             lampeq.Add(lamp3);

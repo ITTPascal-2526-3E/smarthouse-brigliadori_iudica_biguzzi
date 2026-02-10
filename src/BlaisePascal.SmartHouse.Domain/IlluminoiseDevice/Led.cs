@@ -1,4 +1,6 @@
-﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
+
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class Led : ISwitchable , IDimmable
+    public sealed class Led : ISwitchable
     {
-        private int lightIntensity;
-        public string color { get;  set; }
+        public Brigthness brigthness;
+        public string color { get; set; }
         public bool isOn { get; private set; }
 
         public Led(string color, int lightIntensity)
@@ -18,42 +20,35 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             this.color = color;
 
             isOn = false;
-            if (lightIntensity < 0)
-            {
-                lightIntensity = 0;
-            }
-            else if (lightIntensity > 100)
-            {
-                lightIntensity = 100;
-            }
+            brigthness = new Brigthness(lightIntensity);
         }
         public void TurnOn()
         {
             isOn = true;
-            lightIntensity = 100;
+            brigthness = new Brigthness(100);
         }
         public void TurnOff()
         {
             isOn = false;
-            lightIntensity = 0;
+            brigthness = new Brigthness(0);
         }
 
         public int LightIntensityPropriety
         {
-            get { return lightIntensity; }
+            get { return brigthness.Value; }
             set
             {
                 if (value < 0)
                 {
-                    lightIntensity = 0;
+                    brigthness = new Brigthness(0);
                 }
                 else if (value > 100)
                 {
-                    lightIntensity = 100;
+                    brigthness = new Brigthness(100);
                 }
                 else
                 {
-                    lightIntensity = value;
+                    brigthness = new Brigthness(value);
                 }
             }
         }

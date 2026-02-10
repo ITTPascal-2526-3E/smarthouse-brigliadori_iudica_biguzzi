@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class RollerShuttersTest
     {
-        [Fact] 
+        [Fact]
         public void RollerShutter_openShutter_assertTrue()
         {
             RollerShutter rollerShutter = new RollerShutter(false, 0);

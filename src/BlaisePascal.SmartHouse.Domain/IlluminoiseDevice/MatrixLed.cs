@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public sealed class MatrixLed : Device 
+    public sealed class MatrixLed : Device
     {
         public Led[,] matrix { get; }
         public MatrixLed(int rows, int cols, Led led)
