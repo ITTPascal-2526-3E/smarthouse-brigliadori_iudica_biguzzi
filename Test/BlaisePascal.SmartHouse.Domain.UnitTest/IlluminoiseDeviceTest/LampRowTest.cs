@@ -1,5 +1,6 @@
-﻿using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
-using BlaisePascal.SmartHouse.Domain;
+﻿using BlaisePascal.SmartHouse.Domain;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
+using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_AddLamp_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             Assert.Equal(lamp, lampRow.lamps[0]);
@@ -22,9 +26,12 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_AddLampinPosition_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
-            lampRow.AddLamp(new Lamp(true, 50, true, 60, 18, 23));
+            lampRow.AddLamp(new Lamp(true, 50, true, 60, hour2, hour));
             lampRow.AddLampAtPosition(lamp, 0);
             Assert.Equal(lamp, lampRow.lamps[0]);
         }
@@ -32,7 +39,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_RemoveLamp_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.RemoveLamp(lamp.name.Value);
@@ -42,10 +52,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_RemoveLampatPosition_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -58,10 +71,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_switchOnAllLamps_assertTrue()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -74,12 +90,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_switchOnLamp_assertTrue()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
-            lamp2.SetName("lamp kaiba");
+            Name name = new Name("lamp kaiba");
+            lamp2.SetName(name);
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
@@ -91,10 +111,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_switchOffAllLamps_assertfalse()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -107,12 +130,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_switchOffLamp_assertFalse()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
-            lamp2.SetName("lamp kaiba");
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
+            Name name = new Name("lamp kaiba");
+            
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
             lampRow.AddLamp(lamp2);
@@ -124,10 +151,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_setIntensityForAllLamps_assertEqual()
         {
-            Lamp lamp = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -143,10 +173,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_setIntensityLamp_assertEquals()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -159,10 +192,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_findLampWithMaxIntensisty_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 10, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -175,10 +211,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_findLampWithMinIntensisty_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 70, true, 60, 18, 23);
+
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -191,10 +231,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_findLampsByIntensistyRange_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -209,10 +252,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_findAllLampOn_assertEquals()
         {
-            Lamp lamp = new Lamp(true, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(true, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(false, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(true, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -229,10 +275,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_findAllLampOff_assertEquals()
         {
-            Lamp lamp = new Lamp(false, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -249,10 +298,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_sortByIntensityDesciengFalse_assertEquals()
         {
-            Lamp lamp = new Lamp(false, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);
@@ -270,10 +322,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.IlluminoiseDeviceTest
         [Fact]
         public void LampRow_sortByIntensityDesciengTrue_assertEquals()
         {
-            Lamp lamp = new Lamp(false, 60, true, 60, 18, 23);
-            Lamp lamp1 = new Lamp(false, 80, true, 60, 18, 23);
-            Lamp lamp2 = new Lamp(true, 50, true, 60, 18, 23);
-            Lamp lamp3 = new Lamp(false, 70, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp1 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp2 = new Lamp(true, 50, true, 60, hour2, hour);
+            Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             LampRow lampRow = new LampRow();
             lampRow.AddLamp(lamp);
             lampRow.AddLamp(lamp1);

@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj
 {
-    public class TargetTemperature
+    public class Hour
     {
-        public double Value { get;  set; }
-        public TargetTemperature(double value)
+        public int Value { get; private set; }
+        public Hour(int value) 
         {
-            if (value <5 || value >30) 
+            if (value < 0 || value > 23) 
             {
-                throw new ArgumentOutOfRangeException("value out of range");
+                throw new ArgumentException("Hour must be between 0 and 23.");
+
             }
             Value = value;
         }

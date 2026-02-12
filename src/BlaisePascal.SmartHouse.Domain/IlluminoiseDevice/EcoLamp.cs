@@ -10,16 +10,13 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
     public sealed class EcoLamp : Lamp
     {
-        public int maxTimeOn { get; protected set; } // max time the lamp can stay on in hours
+        public Hour maxTimeOn { get; protected set; } // max time the lamp can stay on in hours
 
 
         // costructor for lamp
-        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int maxtimeon) : base(ison, ligthpower, iswireless, consumationvalue, 0, 0)
+        public EcoLamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, Hour maxtimeon, Hour h1, Hour h2) : base(ison, ligthpower, iswireless, consumationvalue,h1, h2 )
         {
-            if (maxtimeon >= 0 && maxtimeon <= 3)
-            {
-                maxTimeOn = maxtimeon;
-            }
+            maxTimeOn = maxtimeon;
 
 
         }
@@ -51,7 +48,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             DateTime now = DateTime.Now;
 
             // after an hour till the activetion
-            if ((now - startTime.Value).TotalHours >= maxTimeOn)
+            if ((now - startTime.Value).TotalHours >= maxTimeOn.Value)
             {
                 isOn = false;
                 brigthness = new Brigthness(0);

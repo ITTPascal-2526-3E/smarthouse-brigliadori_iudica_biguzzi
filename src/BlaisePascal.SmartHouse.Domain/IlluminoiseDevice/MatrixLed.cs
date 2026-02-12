@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,17 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                     matrix[i, j] = led;
                 }
             }
+        }
+        public string getName()
+        {
+            return name.Value;
+        }
+
+        public void SetName(Name lampname)
+        {
+
+            lastMod = DateTime.Now;
+            name = lampname;
         }
 
         public void SwitchOnAll()

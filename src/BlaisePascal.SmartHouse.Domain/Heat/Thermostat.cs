@@ -10,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 {
     public sealed class Thermostat : Device, ISwitchable, IAutomaticSwicth
     {
-        public  CurrentTemperature CurrentTemperature { get; private set; }
+        public CurrentTemperature CurrentTemperature { get; private set; }
         public TargetTemperature TargetTemperature { get; private set; }
         public bool IsOn { get; set; }
         public CurrentTemperature atWhatExternalTemperatureTurnAutomaticalyOn { get; protected set; }
@@ -21,31 +21,36 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 
         public Thermostat(CurrentTemperature currentTemperature, TargetTemperature targetTemperature, bool isOn, CurrentTemperature _atWhatExternalTemperatureTurnAutomaticalyOn, CurrentTemperature _atWhatExternalTemperatureTurnAutomaticalyOff)
         {
-            
-            
 
-                CurrentTemperature = currentTemperature;
-                TargetTemperature = targetTemperature;
-                IsOn = isOn;
-                atWhatExternalTemperatureTurnAutomaticalyOn = _atWhatExternalTemperatureTurnAutomaticalyOn;
-                atWhatExternalTemperatureTurnAutomaticalyOff = _atWhatExternalTemperatureTurnAutomaticalyOff;
+
+
+            CurrentTemperature = currentTemperature;
+            TargetTemperature = targetTemperature;
+            IsOn = isOn;
+            atWhatExternalTemperatureTurnAutomaticalyOn = _atWhatExternalTemperatureTurnAutomaticalyOn;
+            atWhatExternalTemperatureTurnAutomaticalyOff = _atWhatExternalTemperatureTurnAutomaticalyOff;
         }
-        
-        public void SetName(Name thermostatname)
+
+        public string getName()
         {
-            
+            return name.Value;
+        }
+
+        public void SetName(Name lampname)
+        {
+
             lastMod = DateTime.Now;
-            name = thermostatname;
+            name = lampname;
         }
         public void SetTargetTemperature(TargetTemperature newTargetTemperature)
         {
-            
+
             lastMod = DateTime.Now;
             TargetTemperature = newTargetTemperature;
         }
         public void SetCurrentTemperature(CurrentTemperature newCurrentTemperature)
         {
-            
+
             lastMod = DateTime.Now;
             CurrentTemperature = newCurrentTemperature;
         }
@@ -59,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         public void UpdateCurrentTemperature(CurrentTemperature newCurrentTemperature)
         {
             lastMod = DateTime.Now;
-            
+
             CurrentTemperature = newCurrentTemperature;
         }
 
@@ -67,7 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         {
             lastMod = DateTime.Now;
             IsOn = true;
-            CurrentTemperature = TargetTemperature;
+            CurrentTemperature.Value = TargetTemperature.Value;
         }
 
         public void TurnOff()
@@ -79,13 +84,13 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
 
         public void SetAutomaticTurnOn(CurrentTemperature externalTemperature)
         {
-            
+
             lastMod = DateTime.Now;
             atWhatExternalTemperatureTurnAutomaticalyOn = externalTemperature;
         }
         public void SetAutomaticTurnOff(CurrentTemperature externalTemperature)
         {
-           
+
             lastMod = DateTime.Now;
             atWhatExternalTemperatureTurnAutomaticalyOff = externalTemperature;
         }
@@ -98,7 +103,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         public void AutomaticSwicthOn()
         {
 
-            if (externalTemperature. <= atWhatExternalTemperatureTurnAutomaticalyOn)
+            if (externalTemperature.Value <= atWhatExternalTemperatureTurnAutomaticalyOn.Value)
             {
                 lastMod = DateTime.Now;
                 TurnOn();
@@ -106,12 +111,11 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
         }
         public void AutomaticSwicthOff()
         {
-            if (externalTemperature >= atWhatExternalTemperatureTurnAutomaticalyOff)
+            if (externalTemperature.Value >= atWhatExternalTemperatureTurnAutomaticalyOff.Value)
             {
                 lastMod = DateTime.Now;
                 TurnOff();
             }
         }
-
     }
 }

@@ -121,7 +121,9 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
         public Lamp FindLampWithMaxIntensity()
         {
-            Lamp maxLamp = new Lamp(true, 1, true, 60, 18, 23);
+            Hour hour = new Hour(18);
+            Hour hour2 = new Hour(23);
+            Lamp maxLamp = new Lamp(true, 1, true, 60, hour, hour2);
             foreach (Lamp lamp in lamps)
             {
                 if (lamp.brigthness.Value > maxLamp.brigthness.Value)
@@ -135,7 +137,9 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
         public Lamp FindLampWithMinIntensity()
         {
-            Lamp minLamp = new Lamp(true, 99, true, 60, 18, 23);
+            Hour hour = new Hour(18);
+            Hour hour2 = new Hour(23);
+            Lamp minLamp = new Lamp(true, 99, true, 60, hour, hour2);
             foreach (Lamp lamp in lamps)
             {
                 if (lamp.brigthness.Value < minLamp.brigthness.Value)

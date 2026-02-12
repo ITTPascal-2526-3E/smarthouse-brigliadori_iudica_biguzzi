@@ -15,12 +15,12 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public bool isWireless { get; }// true = wireless , false = wired
         public Color actualColor = Color.WHITE;// actual color of the lamp at the beggining is white
         public int consumationValue { get; }// how much energy the lamp consumes in W
-        public int lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
-        public int lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
+        public Hour lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
+        public Hour lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
         public DateTime? startTime;
 
         // costructor for lamp
-        public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, int lightonspecifictime, int lightoffspecifictime)
+        public Lamp(bool ison, int ligthpower, bool iswireless, int consumationvalue, Hour _lightonspecifictime, Hour _lightoffspecifictime)
         {
             if (consumationvalue < 100 && consumationvalue > 0)
             {
@@ -32,11 +32,8 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             isOn = ison;
 
             isWireless = iswireless;
-            if (lightonspecifictime > 0 && lightoffspecifictime > 0 && lightoffspecifictime <= 23 && lightonspecifictime <= 23)
-            {
-                lightOnSpecificTime = lightonspecifictime;
-                lightOffSpecificTime = lightoffspecifictime;
-            }
+            lightOffSpecificTime = _lightoffspecifictime;
+            lightOnSpecificTime = _lightonspecifictime;
 
 
         }
@@ -50,32 +47,26 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         {
            return brigthness;
         }
-
-
-        public void SetName(string lampname)
+        public string getName()
         {
-            if (string.IsNullOrEmpty(lampname))
-            {
-                throw new ArgumentNullException("lampname");
-            }
-            lastMod = DateTime.Now;
-            name = new Name(lampname);
+            return name.Value;
         }
-        public void SetLightOnSpecificTime(int hour)
+
+        public void SetName(Name lampname)
         {
-            if (hour < 0 || hour > 23)
-            {
-                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
-            }
+            
+            lastMod = DateTime.Now;
+            name = lampname;
+        }
+        public void SetLightOnSpecificTime(Hour hour)
+        {
+           
             lastMod = DateTime.Now;
             lightOnSpecificTime = hour;
         }
-        public void SetLightOffSpecificTime(int hour)
+        public void SetLightOffSpecificTime(Hour hour)
         {
-            if (hour < 0 || hour > 23)
-            {
-                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
-            }
+            
             lastMod = DateTime.Now;
             lightOffSpecificTime = hour;
         }
@@ -133,17 +124,17 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 //choosen same hour for always off
                 shouldBeOn = false;
             }
-            else if (lightOnSpecificTime < lightOffSpecificTime)
+            else if (lightOnSpecificTime.Value < lightOffSpecificTime.Value)
             {
                 lastMod = DateTime.Now;
                 // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
-                shouldBeOn = h >= lightOnSpecificTime && h < lightOffSpecificTime;
+                shouldBeOn = h >= lightOnSpecificTime.Value && h < lightOffSpecificTime.Value;
             }
             else
             {
                 lastMod = DateTime.Now;
                 //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
-                shouldBeOn = h >= lightOnSpecificTime || h < lightOffSpecificTime;
+                shouldBeOn = h >= lightOnSpecificTime.Value  || h < lightOffSpecificTime.Value;
             }
 
             if (shouldBeOn == true)
@@ -166,17 +157,17 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
                 //choosen same hour for always off
                 shouldBeOff = false;
             }
-            else if (lightOnSpecificTime < lightOffSpecificTime)
+            else if (lightOnSpecificTime.Value < lightOffSpecificTime.Value)
             {
                 lastMod = DateTime.Now;
                 // if the on time is before the off time (e.g. on=6 off=20) -> on if h >=6 AND h <20
-                shouldBeOff = h >= lightOnSpecificTime && h < lightOffSpecificTime;
+                shouldBeOff = h >= lightOnSpecificTime.Value && h < lightOffSpecificTime.Value;
             }
             else
             {
                 lastMod = DateTime.Now;
                 //if the on time is after the off time(e.g.on= 20 off= 6) -> on if h >= 20 OR h<6
-                shouldBeOff = h >= lightOnSpecificTime || h < lightOffSpecificTime;
+                shouldBeOff = h >= lightOnSpecificTime.Value || h < lightOffSpecificTime.Value;
             }
 
             if (shouldBeOff == true)

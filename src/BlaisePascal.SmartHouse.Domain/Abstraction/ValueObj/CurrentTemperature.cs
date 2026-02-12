@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj
 {
     public class CurrentTemperature
     {
-        double Value { get; set; }
+        public double Value { get; set; }
         public CurrentTemperature(double value) 
         {
             if (value < -30 || value > 50) 

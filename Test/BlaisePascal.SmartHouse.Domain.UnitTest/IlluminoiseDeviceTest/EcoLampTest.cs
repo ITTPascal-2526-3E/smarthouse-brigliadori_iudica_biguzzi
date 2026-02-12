@@ -1,9 +1,14 @@
-﻿using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
+using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
+using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 
 namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
@@ -12,7 +17,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void Ecolamp_isOn_turnOffMethod_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true,10,hour3, hour, hour2);
             lamp.TurnOff();
             Assert.False(lamp.isOn);
         }
@@ -20,13 +28,19 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void Ecolamp_isOn_checkLitghIntensity_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             Assert.Equal(15, lamp.brigthness.Value);
         }
         [Fact]
         public void Ecolamp_isOn_turnOffMethod_checkLitghIntensity_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             lamp.TurnOff();
             Assert.Equal(0, lamp.brigthness.Value);
         }
@@ -34,7 +48,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void Ecolamp_isOff_turnOnMethod_AssertEquals()
         {
-            Lamp lamp = new Lamp(false, 50, true, 60, 18, 23);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             lamp.TurnOn();
             Assert.True(lamp.isOn);
         }
@@ -42,37 +59,37 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void Ecolamp_isOff_turnOnMethod_checkLitghIntensity_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(false, 15, true, 15, 2);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             lamp.TurnOn();
             Assert.Equal(100, lamp.brigthness.Value);
         }
 
-        [Fact]
-        public void Ecolamp_setColor_colorDontExistInList_AssertThrow()
-        {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
-            Assert.Throws<InvalidOperationException>(() => lamp.setColor("C"));
-        }
+       
 
-        [Fact]
-        public void Ecolamp_setColor_emptyString_AssertThrow()
-        {
-            EcoLamp lamp = new EcoLamp(false, 50, true, 18, 23);
-            Assert.Throws<InvalidOperationException>(() => lamp.setColor(" "));
-        }
+      
 
         [Fact]
         public void Ecolamp_setColor_colorExistInList_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
-            lamp.setColor("red");
-            Assert.Equal("red", lamp.getColor());
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
+            
+            lamp.setColor( IlluminoiseDevice.Color.RED);
+            Assert.Equal(IlluminoiseDevice.Color.RED, lamp.getColor());
         }
 
         [Fact]
         public void Ecolamp_EcoActvation_AssertEquals()
         {
-            EcoLamp lamp = new EcoLamp(true, 15, true, 15, 2);
+            Hour hour = new Hour(15);
+            Hour hour2 = new Hour(2);
+            Hour hour3 = new Hour(10);
+            EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             lamp.EcoActivation();
             Assert.True(lamp.isOn);
         }

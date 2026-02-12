@@ -13,29 +13,26 @@ namespace BlaisePascal.SmartHouse.Domain.Security
     {
         public bool isOn { get; private set; }
         private DateTime salvaOrario;
-        public int turnOnHour { get; private set; }
-        public int turnOffHour { get; private set; }
+        public Hour turnOnHour { get; private set; }
+        public Hour turnOffHour { get; private set; }
 
 
-        public CCTV(bool ison, int turnonhour, int turnoffhour)
+        public CCTV(bool ison, Hour _turnonhour, Hour _turnoffhour)
         {
             isOn = ison;
-            if (turnonhour > 0 && turnonhour > 0 && turnoffhour <= 23 && turnoffhour <= 23)
-            {
-
-                turnOnHour = turnonhour;
-                turnOffHour = turnoffhour;
-            }
-            else
-            {
-                throw new ArgumentException("Hours must be between 0 and 23.");
-            }
+            turnOnHour = _turnonhour;
+            turnOffHour = _turnoffhour;
         }
-        public void SetName(Name cctvname)
+        public string getName()
         {
-           
+            return name.Value;
+        }
+
+        public void SetName(Name lampname)
+        {
+
             lastMod = DateTime.Now;
-            name = cctvname;
+            name = lampname;
         }
 
         public void TurnOn()
@@ -49,21 +46,14 @@ namespace BlaisePascal.SmartHouse.Domain.Security
             lastMod = DateTime.Now;
             isOn = false;
         }
-        public void SetTurnOnHour(int hour)
+        public void SetTurnOnHour(Hour hour)
         {
-            if (hour < 0 || hour > 23)
-            {
-                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
-            }
-            lastMod = DateTime.Now;
+            
             turnOnHour = hour;
         }
-        public void SetTurnOffHour(int hour)
+        public void SetTurnOffHour(Hour hour)
         {
-            if (hour < 0 || hour > 23)
-            {
-                throw new ArgumentOutOfRangeException("hour", "Hour must be between 0 and 23.");
-            }
+            
             lastMod = DateTime.Now;
             turnOffHour = hour;
         }
@@ -82,17 +72,17 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 //choosen same hour for always off
                 shouldBeOn = false;
             }
-            else if (turnOnHour < turnOffHour)
+            else if (turnOnHour.Value < turnOffHour.Value)
             {
                 lastMod = DateTime.Now;
 
-                shouldBeOn = h >= turnOnHour && h < turnOffHour;
+                shouldBeOn = h >= turnOnHour.Value && h < turnOffHour.Value;
             }
             else
             {
                 lastMod = DateTime.Now;
 
-                shouldBeOn = h >= turnOnHour || h < turnOffHour;
+                shouldBeOn = h >= turnOnHour.Value || h < turnOffHour.Value;
             }
 
             if (shouldBeOn == true)
@@ -115,17 +105,17 @@ namespace BlaisePascal.SmartHouse.Domain.Security
                 //choosen same hour for always off
                 shouldBeOff = false;
             }
-            else if (turnOnHour < turnOffHour)
+            else if (turnOnHour.Value < turnOffHour.Value)
             {
                 lastMod = DateTime.Now;
 
-                shouldBeOff = h >= turnOnHour && h < turnOffHour;
+                shouldBeOff = h >= turnOnHour.Value && h < turnOffHour.Value;
             }
             else
             {
                 lastMod = DateTime.Now;
 
-                shouldBeOff = h >= turnOnHour || h < turnOffHour;
+                shouldBeOff = h >= turnOnHour.Value || h < turnOffHour.Value;
             }
 
             if (shouldBeOff == true)
