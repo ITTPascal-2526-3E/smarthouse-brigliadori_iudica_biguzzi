@@ -33,25 +33,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             brigthness = new Brigthness(0);
         }
 
-        public int LightIntensityPropriety
-        {
-            get { return brigthness.Value; }
-            set
-            {
-                if (value < 0)
-                {
-                    brigthness = new Brigthness(0);
-                }
-                else if (value > 100)
-                {
-                    brigthness = new Brigthness(100);
-                }
-                else
-                {
-                    brigthness = new Brigthness(value);
-                }
-            }
-        }
+
 
     }
 }

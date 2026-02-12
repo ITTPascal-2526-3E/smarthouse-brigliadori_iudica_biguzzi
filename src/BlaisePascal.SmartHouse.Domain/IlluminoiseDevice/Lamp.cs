@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
         public Brigthness brigthness;// how much light power the lamp has range 1-100
 
         public bool isWireless { get; }// true = wireless , false = wired
-        public Color actualColor = Color.WHITE;// actual color of the lamp at the beggining is white
+        public Colors actualColor = Colors.WHITE;// actual color of the lamp at the beggining is white
         public int consumationValue { get; }// how much energy the lamp consumes in W
         public Hour lightOnSpecificTime { get; private set; }// at what time the lamp goes on every day
         public Hour lightOffSpecificTime { get; private set; } // at what time the lamp goes off every day
@@ -90,7 +90,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 
 
         // metod to set the color of the lamp
-        public virtual void setColor(Color color)
+        public virtual void setColor(Colors color)
         {
             if (color != actualColor) 
             {
@@ -99,7 +99,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             }
             
         }
-        public virtual Color getColor()
+        public virtual Colors getColor()
         {
             return actualColor;
         }

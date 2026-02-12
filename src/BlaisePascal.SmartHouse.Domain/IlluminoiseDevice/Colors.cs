@@ -8,7 +8,7 @@ using BlaisePascal.SmartHouse.Domain.Interfaces;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
 {
-    public enum Color
+    public enum Colors
     {
         RED, YELLOW, OANGE, BLUE, GREEN, PURPLE, WHITE
     }

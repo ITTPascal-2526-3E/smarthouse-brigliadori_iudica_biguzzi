@@ -19,7 +19,10 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    matrix[i, j] = led;
+                    // crea una nuova istanza per ogni cella copiando proprietà rilevanti
+                    var copy = new Led(led.color, led.brigthness.Value);
+                    if (led.isOn) copy.TurnOn(); else copy.TurnOff();
+                    matrix[i, j] = copy;
                 }
             }
         }
@@ -63,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    matrix[i, j].LightIntensityPropriety = intensity;
+                    matrix[i, j].brigthness = new Brigthness(intensity);
                 }
             }
         }
