@@ -50,15 +50,10 @@ namespace BlaisePascal.SmartHouse.Domain.Security
         //metod for close the door
         public void TurnOff()
         {
-            if (isLocked == true)
-            {
+            
                 lastMod = DateTime.Now;
                 isOpen = false;
-            }
-            else
-            {
-                throw new Exception("door is locked cant be close");
-            }
+            
         }
 
         //metod for unlocking the door
