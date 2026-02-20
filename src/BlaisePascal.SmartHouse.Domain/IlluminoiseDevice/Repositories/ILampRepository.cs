@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice.Repositories
 {
-    public interface ILampRepository
-    {
+    
         public interface ILampRepository
         {
             void Add(Lamp lamp);
@@ -17,5 +16,5 @@ namespace BlaisePascal.SmartHouse.Domain.IlluminoiseDevice.Repositories
             List<Lamp> GetAll();
 
         }
-    }
+    
 }
