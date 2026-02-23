@@ -9,14 +9,10 @@ namespace BlaisePascal.SmartHouse.Domain.Security.Repositories
 {
     public interface IDoorRepository
     {
-        public interface IDoorRepository
-        {
-            void Add(Door door);
-            void Update(Door door);
-            void Remove(Guid id);
-            Lamp GetById(Guid id);
-            List<Door> GetAll();
-
-        }
+        void Add(Door door);
+        void Update(Door door);
+        void Remove(Guid id);
+        Door GetById(Guid id);
+        List<Door> GetAll();
     }
 }
