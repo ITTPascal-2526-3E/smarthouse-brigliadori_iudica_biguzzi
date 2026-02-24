@@ -55,18 +55,9 @@ namespace BlaisePascal.SmartHouse.Domain.Heat
             CurrentTemperature = newCurrentTemperature;
         }
 
-        public void AdjustTemperature(TargetTemperature newTargetTemperature)
-        {
-            lastMod = DateTime.Now;
-            TargetTemperature = newTargetTemperature;
-        }
+       
 
-        public void UpdateCurrentTemperature(CurrentTemperature newCurrentTemperature)
-        {
-            lastMod = DateTime.Now;
-
-            CurrentTemperature = newCurrentTemperature;
-        }
+        
 
         public void TurnOn()
         {
