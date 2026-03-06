@@ -7,16 +7,16 @@ using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice.Repositories;
+using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightining.Lamps;
 
 namespace BlaisePascal.SmartHouse.App
 {
     class Program
     {
+        static ILampRepository lampRepo = new InMemoryLampRepository();
         // --- DISPOSITIVI ---
         static Thermostat termostato;
-
-        // Illuminazione: lista generale che può contenere Lamp ed EcoLamp
-        static List<Lamp> lamps = new();
 
         // MatrixLed (singolo esempio)
         static MatrixLed matrixLed;
@@ -73,14 +73,14 @@ namespace BlaisePascal.SmartHouse.App
             termostato.SetName(new Name("Termostato Main"));
             termostato.SetexternalTemperature(new CurrentTemperature(10));
 
-            // Illuminazione: inizializziamo qualche lampada di esempio
+            // Illuminazione: inizializziamo qualche lampada di esempio e le salviamo nel repository
             var lamp1 = new Lamp(false, 50, false, 60, new Hour(18), new Hour(23));
             lamp1.SetName(new Name("Lampada Salotto"));
-            lamps.Add(lamp1);
+            lampRepo.Add(lamp1);
 
             var eco1 = new EcoLamp(false, 100, true, 10, new Hour(4), new Hour(20), new Hour(6));
             eco1.SetName(new Name("Luce Eco Corridoio"));
-            lamps.Add(eco1);
+            lampRepo.Add(eco1);
 
             // Matrix
             matrixLed = new MatrixLed(4, 4, new Led("White", 0));
@@ -131,7 +131,8 @@ namespace BlaisePascal.SmartHouse.App
         {
             Console.Clear();
             Console.WriteLine("=== ELENCO LAMPADE ===");
-            if (lamps.Count == 0)
+            var all = lampRepo.GetAll();
+            if (all == null || all.Count == 0)
             {
                 Console.WriteLine("Nessuna lampada registrata.");
                 Console.WriteLine("\nPremi un tasto per tornare...");
@@ -139,9 +140,9 @@ namespace BlaisePascal.SmartHouse.App
                 return;
             }
 
-            for (int i = 0; i < lamps.Count; i++)
+            for (int i = 0; i < all.Count; i++)
             {
-                var L = lamps[i];
+                var L = all[i];
                 string tipo = L is EcoLamp ? "EcoLamp" : "Lamp";
                 Console.WriteLine($"{i}. [{tipo}] {L.getName()} | Stato: {(L.isOn ? "ON" : "OFF")} | Lum: {L.getBrightness().Value}% | Colore: {L.getColor()}");
             }
@@ -149,10 +150,10 @@ namespace BlaisePascal.SmartHouse.App
             Console.WriteLine();
             Console.Write("Indice per gestire o invio per tornare: ");
             var input = Console.ReadLine();
-            if (int.TryParse(input, out int idx) && idx >= 0 && idx < lamps.Count)
+            if (int.TryParse(input, out int idx) && idx >= 0 && idx < all.Count)
             {
                 Console.Clear();
-                GestioneLamp(lamps[idx]);
+                GestioneLamp(all[idx]);
             }
         }
 
@@ -177,7 +178,7 @@ namespace BlaisePascal.SmartHouse.App
                 {
                     var lamp = new Lamp(isOn, brightness, wireless, consumption, new Hour(onHour), new Hour(offHour));
                     lamp.SetName(new Name(nome));
-                    lamps.Add(lamp);
+                    lampRepo.Add(lamp);
                     Console.WriteLine("Lampada standard aggiunta.");
                 }
                 else
@@ -185,7 +186,7 @@ namespace BlaisePascal.SmartHouse.App
                     int maxTime = (int)ReadDoubleAsNumber("Max time on (ore):");
                     var eco = new EcoLamp(isOn, brightness, wireless, consumption, new Hour(maxTime), new Hour(onHour), new Hour(offHour));
                     eco.SetName(new Name(nome));
-                    lamps.Add(eco);
+                    lampRepo.Add(eco);
                     Console.WriteLine("EcoLamp aggiunta.");
                 }
             }
@@ -201,21 +202,30 @@ namespace BlaisePascal.SmartHouse.App
         {
             Console.Clear();
             Console.WriteLine("--- RIMUOVI LAMPADA ---");
-            for (int i = 0; i < lamps.Count; i++)
+            var all = lampRepo.GetAll();
+            if (all == null || all.Count == 0)
             {
-                var L = lamps[i];
+                Console.WriteLine("Nessuna lampada da rimuovere.");
+                Console.WriteLine("Premi un tasto per tornare...");
+                Console.ReadKey(true);
+                return;
+            }
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                var L = all[i];
                 string tipo = L is EcoLamp ? "EcoLamp" : "Lamp";
                 Console.WriteLine($"{i}. [{tipo}] {L.getName()}");
             }
             Console.Write("Indice da rimuovere (o invio per tornare): ");
             var raw = Console.ReadLine();
-            if (!int.TryParse(raw, out int idx) || idx < 0 || idx >= lamps.Count)
+            if (!int.TryParse(raw, out int idx) || idx < 0 || idx >= all.Count)
             {
                 return;
             }
 
-            var removed = lamps[idx];
-            lamps.RemoveAt(idx);
+            var removed = all[idx];
+            lampRepo.Remove(removed.Id);
             Console.WriteLine($"Rimossa: {removed.getName()}");
             Console.WriteLine("Premi un tasto per continuare...");
             Console.ReadKey(true);
@@ -252,15 +262,18 @@ namespace BlaisePascal.SmartHouse.App
                 {
                     case "1":
                         lamp.TurnOn();
+                        lampRepo.Update(lamp);
                         break;
                     case "2":
                         lamp.TurnOff();
+                        lampRepo.Update(lamp);
                         break;
                     case "3":
                         Console.Write("Valore (0-100): ");
                         if (int.TryParse(Console.ReadLine(), out int val))
                         {
                             lamp.setBrightness(new Brigthness(val));
+                            lampRepo.Update(lamp);
                         }
                         break;
                     case "4":
@@ -268,14 +281,17 @@ namespace BlaisePascal.SmartHouse.App
                         string c = Console.ReadLine();
                         Colors chosen = c == "1" ? Colors.RED : c == "2" ? Colors.GREEN : c == "3" ? Colors.BLUE : Colors.WHITE;
                         lamp.setColor(chosen);
+                        lampRepo.Update(lamp);
                         break;
                     case "5":
                         lamp.ApllyScheduleNow();
+                        lampRepo.Update(lamp);
                         break;
                     case "6":
                         if (lamp is EcoLamp ecoLamp)
                         {
                             ecoLamp.EcoActivation();
+                            lampRepo.Update(lamp);
                         }
                         break;
                     case "0": back = true; continue;
@@ -934,12 +950,13 @@ namespace BlaisePascal.SmartHouse.App
 
             // Lampade
             Console.WriteLine("-- Illuminazione --");
-            if (lamps.Count == 0) Console.WriteLine("Nessuna lampada.");
+            var all = lampRepo.GetAll();
+            if (all == null || all.Count == 0) Console.WriteLine("Nessuna lampada.");
             else
             {
-                for (int i = 0; i < lamps.Count; i++)
+                for (int i = 0; i < all.Count; i++)
                 {
-                    var L = lamps[i];
+                    var L = all[i];
                     string tipo = L is EcoLamp ? "EcoLamp" : "Lamp";
                     Console.WriteLine($"[{i}] {tipo} - {L.getName()} | Stato: {(L.isOn ? "ON" : "OFF")} | Lum: {L.getBrightness().Value}% | Colore: {L.getColor()}");
                 }

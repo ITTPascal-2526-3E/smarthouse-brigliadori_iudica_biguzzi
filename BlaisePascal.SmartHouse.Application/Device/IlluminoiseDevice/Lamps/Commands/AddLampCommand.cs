@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice;
 using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice.Repositories;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObj;
 
 
 namespace BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Commands
@@ -21,7 +22,14 @@ namespace BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Com
 
         public void Execute(string name)
         {
-            var lamp = new Lamp(name , 0 , false , 10 );
+            var lamp = new Lamp(
+                ison: false,
+                ligthpower: 50,
+                iswireless: true,
+                consumationvalue: 10,
+                _lightonspecifictime: new Hour(18),
+                _lightoffspecifictime: new Hour(6)
+            );
             _lampRepository.Add(lamp);
         }
     }
