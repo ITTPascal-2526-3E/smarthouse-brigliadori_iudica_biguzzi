@@ -9,22 +9,24 @@ using System.Collections.Generic;
 using System.Threading;
 using BlaisePascal.SmartHouse.Domain.IlluminoiseDevice.Repositories;
 using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightining.Lamps;
+using BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Commands;
+using BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Queris;
 
 namespace BlaisePascal.SmartHouse.App
 {
     class Program
     {
         static ILampRepository lampRepo = new InMemoryLampRepository();
-        // --- DISPOSITIVI ---
-        static Thermostat termostato;
+
+        // --- LISTE DISPOSITIVI ---
+        static List<EcoLamp> ecoLamps = new();
+        static List<Door> doors = new();
+        static List<RollerShutter> shutters = new();
+        static List<CCTV> cctvs = new();
+        static List<Thermostat> thermostats = new();
 
         // MatrixLed (singolo esempio)
         static MatrixLed matrixLed;
-
-        // Sicurezza
-        static Door portaIngresso;
-        static RollerShutter tapparella;
-        static CCTV telecamera;
 
         // CASINO - session state
         static int casinoBalance = 1000;
@@ -45,8 +47,8 @@ namespace BlaisePascal.SmartHouse.App
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("[1] Gestione Illuminazione (Lamp, EcoLamp, Matrix)");
-                Console.WriteLine("[2] Gestione Sicurezza (Door, Shutter, CCTV)");
-                Console.WriteLine("[3] Gestione Termostato");
+                Console.WriteLine("[2] Gestione Sicurezza (Porte, Tapparelle, CCTV)");
+                Console.WriteLine("[3] Gestione Termostati");
                 Console.WriteLine("[4] Casino");
                 Console.WriteLine("[5] Esci");
                 Console.WriteLine("[6] Mostra tutti i dispositivi");
@@ -68,34 +70,58 @@ namespace BlaisePascal.SmartHouse.App
 
         static void InizializzaCasa()
         {
-            // Termostato
-            termostato = new Thermostat(new CurrentTemperature(19), new TargetTemperature(21), false, new CurrentTemperature(15), new CurrentTemperature(25));
-            termostato.SetName(new Name("Termostato Main"));
-            termostato.SetexternalTemperature(new CurrentTemperature(10));
+            // Termostato iniziale
+            var t = new Thermostat(new CurrentTemperature(19), new TargetTemperature(21), false, new CurrentTemperature(15), new CurrentTemperature(25));
+            t.SetName(new Name("Termostato Main"));
+            t.SetexternalTemperature(new CurrentTemperature(10));
+            thermostats.Add(t);
 
-            // Illuminazione: inizializziamo qualche lampada di esempio e le salviamo nel repository
-            var lamp1 = new Lamp(false, 50, false, 60, new Hour(18), new Hour(23));
-            lamp1.SetName(new Name("Lampada Salotto"));
-            lampRepo.Add(lamp1);
+            // Illuminazione: qualche lampada di esempio salvata nel repository
+            new AddLampCommand(lampRepo).Execute(true, 80, true, 15, new Hour(6), new Hour(23), new Name("Luce Soggiorno"));
 
-            var eco1 = new EcoLamp(false, 100, true, 10, new Hour(4), new Hour(20), new Hour(6));
+            var eco1 = new EcoLamp(false, 100, true, 10, new Hour(4), new Hour(6), new Hour(20));
             eco1.SetName(new Name("Luce Eco Corridoio"));
-            lampRepo.Add(eco1);
+            ecoLamps.Add(eco1);
 
             // Matrix
             matrixLed = new MatrixLed(4, 4, new Led("White", 0));
             matrixLed.SetName(new Name("Wall LED"));
 
-            // Sicurezza
-            portaIngresso = new Door(false, true, 1234); // Chiusa, Bloccata, PIN 1234
-            portaIngresso.SetName(new Name("Porta Ingresso"));
+            // Sicurezza: porta, tapparella, cctv
+            var door = new Door(false, true, 1234);
+            door.SetName(new Name("Porta Ingresso"));
+            doors.Add(door);
 
-            tapparella = new RollerShutter(false, 0); // Chiusa
-            tapparella.SetName(new Name("Tapparella Studio"));
+            var shutter = new RollerShutter(false, 0);
+            shutter.SetName(new Name("Tapparella Studio"));
+            shutters.Add(shutter);
 
-            telecamera = new CCTV(true, new Hour(22), new Hour(7)); // Accesa
-            telecamera.SetName(new Name("CCTV Esterna"));
+            var cam = new CCTV(true, new Hour(22), new Hour(7));
+            cam.SetName(new Name("CCTV Esterna"));
+            cctvs.Add(cam);
         }
+
+        #region HELPERS LAMP
+        static List<Lamp> GetCombinedLampList()
+        {
+            var query = new GetAllLampQuerie(lampRepo);
+            var repoLamps = query.Execute() ?? new List<Lamp>();
+            // clone to avoid mutating repository list
+            var combined = new List<Lamp>(repoLamps);
+            combined.AddRange(ecoLamps);
+            return combined;
+        }
+
+        static bool IsLampFromRepo(Lamp lamp)
+        {
+            try
+            {
+                var found = lampRepo.GetById(lamp.Id);
+                return found != null;
+            }
+            catch { return false; }
+        }
+        #endregion
 
         #region MENU ILLUMINAZIONE
         static void MenuIlluminazione()
@@ -107,6 +133,7 @@ namespace BlaisePascal.SmartHouse.App
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("╔═════════ ILLUMINAZIONE ═════════");
                 Console.ResetColor();
+                Console.WriteLine();
                 Console.WriteLine("[1] Lista lampade");
                 Console.WriteLine("[2] Aggiungi lampada");
                 Console.WriteLine("[3] Rimuovi lampada");
@@ -131,7 +158,7 @@ namespace BlaisePascal.SmartHouse.App
         {
             Console.Clear();
             Console.WriteLine("=== ELENCO LAMPADE ===");
-            var all = lampRepo.GetAll();
+            var all = GetCombinedLampList();
             if (all == null || all.Count == 0)
             {
                 Console.WriteLine("Nessuna lampada registrata.");
@@ -176,18 +203,20 @@ namespace BlaisePascal.SmartHouse.App
 
                 if (tipo == "1")
                 {
-                    var lamp = new Lamp(isOn, brightness, wireless, consumption, new Hour(onHour), new Hour(offHour));
-                    lamp.SetName(new Name(nome));
-                    lampRepo.Add(lamp);
-                    Console.WriteLine("Lampada standard aggiunta.");
+                    new AddLampCommand(lampRepo).Execute(isOn, brightness, wireless, consumption, new Hour(onHour), new Hour(offHour), new Name(nome));
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Lampada {nome} aggiunta al repository.");
+                    Console.ResetColor();
                 }
                 else
                 {
                     int maxTime = (int)ReadDoubleAsNumber("Max time on (ore):");
                     var eco = new EcoLamp(isOn, brightness, wireless, consumption, new Hour(maxTime), new Hour(onHour), new Hour(offHour));
                     eco.SetName(new Name(nome));
-                    lampRepo.Add(eco);
-                    Console.WriteLine("EcoLamp aggiunta.");
+                    ecoLamps.Add(eco);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("EcoLamp aggiunta alla lista EcoLamp.");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
@@ -202,7 +231,7 @@ namespace BlaisePascal.SmartHouse.App
         {
             Console.Clear();
             Console.WriteLine("--- RIMUOVI LAMPADA ---");
-            var all = lampRepo.GetAll();
+            var all = GetCombinedLampList();
             if (all == null || all.Count == 0)
             {
                 Console.WriteLine("Nessuna lampada da rimuovere.");
@@ -225,8 +254,21 @@ namespace BlaisePascal.SmartHouse.App
             }
 
             var removed = all[idx];
-            lampRepo.Remove(removed.Id);
-            Console.WriteLine($"Rimossa: {removed.getName()}");
+            if (IsLampFromRepo(removed))
+            {
+                lampRepo.Remove(removed.Id);
+                Console.WriteLine($"Rimossa dal repository: {removed.getName()}");
+            }
+            else
+            {
+                // find in ecoLamps by Id
+                int ecoIdx = ecoLamps.FindIndex(e => e.Id == removed.Id);
+                if (ecoIdx >= 0)
+                {
+                    ecoLamps.RemoveAt(ecoIdx);
+                    Console.WriteLine($"Rimossa EcoLamp: {removed.getName()}");
+                }
+            }
             Console.WriteLine("Premi un tasto per continuare...");
             Console.ReadKey(true);
         }
@@ -234,6 +276,7 @@ namespace BlaisePascal.SmartHouse.App
         // Metodo unico per gestire sia Lamp che EcoLamp (polimorfismo)
         static void GestioneLamp(Lamp lamp)
         {
+            // ensure we handle repository vs eco list updates
             bool back = false;
             while (!back)
             {
@@ -261,19 +304,35 @@ namespace BlaisePascal.SmartHouse.App
                 switch (scelta)
                 {
                     case "1":
-                        lamp.TurnOn();
-                        lampRepo.Update(lamp);
+                        if (IsLampFromRepo(lamp))
+                        {
+                            new SwitchLampOnCommand(lampRepo).Execute(lamp.Id);
+                        }
+                        else
+                            lamp.TurnOn();
                         break;
                     case "2":
-                        lamp.TurnOff();
-                        lampRepo.Update(lamp);
+                        if (IsLampFromRepo(lamp))
+                        {
+                            new SwitchLampOffCommand(lampRepo).Execute(lamp.Id);
+                        }
+                        else
+                            lamp.TurnOff();
+
+                        if (IsLampFromRepo(lamp)) lampRepo.Update(lamp);
                         break;
                     case "3":
                         Console.Write("Valore (0-100): ");
                         if (int.TryParse(Console.ReadLine(), out int val))
                         {
-                            lamp.setBrightness(new Brigthness(val));
-                            lampRepo.Update(lamp);
+                            if (IsLampFromRepo(lamp))
+                            {
+                                new ChangeIntensityCommand(lampRepo).Execute(lamp.Id, new Brigthness(val));
+                            }
+                            else
+                                lamp.setBrightness(new Brigthness(val));
+
+                            if (IsLampFromRepo(lamp)) lampRepo.Update(lamp);
                         }
                         break;
                     case "4":
@@ -281,25 +340,31 @@ namespace BlaisePascal.SmartHouse.App
                         string c = Console.ReadLine();
                         Colors chosen = c == "1" ? Colors.RED : c == "2" ? Colors.GREEN : c == "3" ? Colors.BLUE : Colors.WHITE;
                         lamp.setColor(chosen);
-                        lampRepo.Update(lamp);
+                        if (IsLampFromRepo(lamp)) lampRepo.Update(lamp);
                         break;
                     case "5":
                         lamp.ApllyScheduleNow();
-                        lampRepo.Update(lamp);
+                        if (IsLampFromRepo(lamp)) lampRepo.Update(lamp);
                         break;
                     case "6":
                         if (lamp is EcoLamp ecoLamp)
                         {
                             ecoLamp.EcoActivation();
-                            lampRepo.Update(lamp);
+                            if (!IsLampFromRepo(lamp))
+                            {
+                                // ecoLamps are stored in-memory, nothing else to do
+                            }
+                            else
+                            {
+                                lampRepo.Update(lamp);
+                            }
                         }
                         break;
                     case "0": back = true; continue;
                     default: break;
                 }
 
-                // dopo ogni azione rinfresca automaticamente (nessuna conferma)
-                // loop continua e la console viene cancellata in cima alla iterazione
+                // dopo ogni azione rinfresca automaticamente
             }
         }
 
@@ -363,9 +428,10 @@ namespace BlaisePascal.SmartHouse.App
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("╔══════ SICUREZZA ══════");
                 Console.ResetColor();
-                Console.WriteLine("[1] Porta Principale");
-                Console.WriteLine("[2] Tapparella");
-                Console.WriteLine("[3] CCTV");
+                Console.WriteLine();
+                Console.WriteLine($"[1] Porte ({doors.Count})");
+                Console.WriteLine($"[2] Tapparelle ({shutters.Count})");
+                Console.WriteLine($"[3] CCTV ({cctvs.Count})");
                 Console.WriteLine("[4] Indietro");
                 Console.WriteLine();
                 Console.Write("Premi il tasto... ");
@@ -375,15 +441,15 @@ namespace BlaisePascal.SmartHouse.App
                 {
                     case "1":
                         Console.Clear();
-                        GestisciDoor(); // quando entri nella gestione della porta la console è già pulita
+                        ListaPorteInteractive();
                         break;
                     case "2":
                         Console.Clear();
-                        GestisciShutter();
+                        ListaTapparelleInteractive();
                         break;
                     case "3":
                         Console.Clear();
-                        GestisciCCTV();
+                        ListaCCTVInteractive();
                         break;
                     case "4":
                         back = true;
@@ -394,14 +460,73 @@ namespace BlaisePascal.SmartHouse.App
             }
         }
 
-        static void GestisciDoor()
+        static void ListaPorteInteractive()
         {
             bool back = false;
             while (!back)
             {
                 Console.Clear();
-                Console.WriteLine($"\n--- {portaIngresso.getName()} ---");
-                Console.WriteLine($"Aperta: {portaIngresso.isOpen} | Bloccata: {portaIngresso.isLocked}");
+                Console.WriteLine("--- PORTE ---");
+                if (doors.Count == 0) Console.WriteLine("Nessuna porta registrata.");
+                else
+                {
+                    for (int i = 0; i < doors.Count; i++)
+                    {
+                        var d = doors[i];
+                        Console.WriteLine($"{i}. {d.getName()} | Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
+                    }
+                }
+                Console.WriteLine();
+                Console.WriteLine("[A] Aggiungi porta  [I] Indice per gestire  [R] Rimuovi  [0] Indietro");
+                Console.Write("Scelta: ");
+                string s = Console.ReadLine().Trim().ToUpper();
+                if (s == "A") { AddDoorInteractive(); }
+                else if (s == "0") back = true;
+                else if (s == "R")
+                {
+                    Console.Write("Indice da rimuovere: ");
+                    if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 0 && idx < doors.Count)
+                    {
+                        Console.WriteLine($"Rimossa porta: {doors[idx].getName()}");
+                        doors.RemoveAt(idx);
+                        Thread.Sleep(700);
+                    }
+                }
+                else
+                {
+                    if (int.TryParse(s, out int idx) && idx >= 0 && idx < doors.Count)
+                    {
+                        GestisciDoor(doors[idx]);
+                    }
+                }
+            }
+        }
+
+        static void AddDoorInteractive()
+        {
+            Console.Write("Nome porta: ");
+            var nome = Console.ReadLine() ?? $"Porta {doors.Count + 1}";
+            bool isOpen = ReadBool("Aperta? (s/n):");
+            bool isLocked = ReadBool("Bloccata? (s/n):");
+            Console.Write("PIN (numero): ");
+            int pin = int.TryParse(Console.ReadLine(), out int p) ? p : 1234;
+            var d = new Door(isOpen, isLocked, pin);
+            d.SetName(new Name(nome));
+            doors.Add(d);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Porta aggiunta.");
+            Console.ResetColor();
+            Thread.Sleep(700);
+        }
+
+        static void GestisciDoor(Door porta)
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.Clear();
+                Console.WriteLine($"\n--- {porta.getName()} ---");
+                Console.WriteLine($"Aperta: {porta.isOpen} | Bloccata: {porta.isLocked}");
                 Console.WriteLine();
                 Console.WriteLine("[A] Apri (TurnOn)");
                 Console.WriteLine("[B] Chiudi (TurnOff)");
@@ -417,19 +542,19 @@ namespace BlaisePascal.SmartHouse.App
                     switch (op)
                     {
                         case "A":
-                            portaIngresso.TurnOn();
+                            porta.TurnOn();
                             break;
                         case "B":
-                            portaIngresso.TurnOff();
+                            porta.TurnOff();
                             break;
                         case "C":
-                            portaIngresso.LockDoor();
+                            porta.LockDoor();
                             break;
                         case "D":
                             Console.Write("Inserisci codice sblocco: ");
                             if (int.TryParse(Console.ReadLine(), out int code))
                             {
-                                portaIngresso.UnlockDoor(code);
+                                porta.UnlockDoor(code);
                             }
                             break;
                         case "0":
@@ -438,8 +563,6 @@ namespace BlaisePascal.SmartHouse.App
                         default:
                             break;
                     }
-
-                    // dopo ogni azione si rinfresca automaticamente (loop) senza chiedere conferme
                 }
                 catch (Exception ex)
                 {
@@ -451,7 +574,61 @@ namespace BlaisePascal.SmartHouse.App
             }
         }
 
-        static void GestisciShutter()
+        static void ListaTapparelleInteractive()
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.Clear();
+                Console.WriteLine("--- TAPPARELLE ---");
+                if (shutters.Count == 0) Console.WriteLine("Nessuna tapparella registrata.");
+                else
+                {
+                    for (int i = 0; i < shutters.Count; i++)
+                    {
+                        var t = shutters[i];
+                        Console.WriteLine($"{i}. {t.getName()} | Stato: {(t.isOpen ? "Aperta" : "Chiusa")} | Posizione: {t.ShutterPosition}%");
+                    }
+                }
+                Console.WriteLine();
+                Console.WriteLine("[A] Aggiungi tapparella  [I] Indice per gestire  [R] Rimuovi  [0] Indietro");
+                Console.Write("Scelta: ");
+                string s = Console.ReadLine().Trim().ToUpper();
+                if (s == "A")
+                {
+                    Console.Write("Nome tapparella: ");
+                    var nome = Console.ReadLine() ?? $"Tapparella {shutters.Count + 1}";
+                    var t = new RollerShutter(false, 0);
+                    t.SetName(new Name(nome));
+                    shutters.Add(t);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Tapparella aggiunta.");
+                    Console.ResetColor();
+                    Thread.Sleep(700);
+                }
+                else if (s == "0") back = true;
+                else if (s == "R")
+                {
+                    Console.Write("Indice da rimuovere: ");
+                    if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 0 && idx < shutters.Count)
+                    {
+                        Console.WriteLine($"Rimossa tapparella: {shutters[idx].getName()}");
+                        shutters.RemoveAt(idx);
+                        Thread.Sleep(700);
+                    }
+                }
+                else
+                {
+                    if (int.TryParse(s, out int idx) && idx >= 0 && idx < shutters.Count)
+                    {
+                        GestisciShutter(shutters[idx]);
+                    }
+                }
+            }
+        }
+
+        // overload to accept specific shutter
+        static void GestisciShutter(RollerShutter tapparella)
         {
             bool back = false;
             while (!back)
@@ -486,7 +663,66 @@ namespace BlaisePascal.SmartHouse.App
             }
         }
 
-        static void GestisciCCTV()
+        static void ListaCCTVInteractive()
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.Clear();
+                Console.WriteLine("--- CCTV ---");
+                if (cctvs.Count == 0) Console.WriteLine("Nessuna CCTV registrata.");
+                else
+                {
+                    for (int i = 0; i < cctvs.Count; i++)
+                    {
+                        var c = cctvs[i];
+                        Console.WriteLine($"{i}. {c.getName()} | Stato: {(c.isOn ? "REGISTRAZIONE ATTIVA" : "STANDBY")} | Orari: {c.turnOnHour.Value} - {c.turnOffHour.Value}");
+                    }
+                }
+                Console.WriteLine();
+                Console.WriteLine("[A] Aggiungi CCTV  [I] Indice per gestire  [R] Rimuovi  [0] Indietro");
+                Console.Write("Scelta: ");
+                string s = Console.ReadLine().Trim().ToUpper();
+                if (s == "A") AddCCTVInteractive();
+                else if (s == "0") back = true;
+                else if (s == "R")
+                {
+                    Console.Write("Indice da rimuovere: ");
+                    if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 0 && idx < cctvs.Count)
+                    {
+                        Console.WriteLine($"Rimossa CCTV: {cctvs[idx].getName()}");
+                        cctvs.RemoveAt(idx);
+                        Thread.Sleep(700);
+                    }
+                }
+                else
+                {
+                    if (int.TryParse(s, out int idx) && idx >= 0 && idx < cctvs.Count)
+                    {
+                        GestisciCCTV(cctvs[idx]);
+                    }
+                }
+            }
+        }
+
+        static void AddCCTVInteractive()
+        {
+            Console.Write("Nome CCTV: ");
+            var nome = Console.ReadLine() ?? $"CCTV {cctvs.Count + 1}";
+            Console.Write("Ora ON (0-23): ");
+            int on = int.TryParse(Console.ReadLine(), out int o) ? o : 22;
+            Console.Write("Ora OFF (0-23): ");
+            int off = int.TryParse(Console.ReadLine(), out int f) ? f : 7;
+            var c = new CCTV(true, new Hour(on), new Hour(off));
+            c.SetName(new Name(nome));
+            cctvs.Add(c);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("CCTV aggiunta.");
+            Console.ResetColor();
+            Thread.Sleep(700);
+        }
+
+        static void GestisciCCTV(CCTV telecamera)
         {
             bool back = false;
             while (!back)
@@ -519,6 +755,68 @@ namespace BlaisePascal.SmartHouse.App
             while (!back)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("╔══════ TERMOSTATI ══════");
+                Console.ResetColor();
+                Console.WriteLine();
+                if (thermostats.Count == 0) Console.WriteLine("Nessun termostato registrato.");
+                else
+                {
+                    for (int i = 0; i < thermostats.Count; i++)
+                    {
+                        var t = thermostats[i];
+                        Console.WriteLine($"{i}. {t.getName()} | Current: {t.CurrentTemperature.Value}°C | Target: {t.TargetTemperature.Value}°C | IsOn: {t.IsOn}");
+                    }
+                }
+                Console.WriteLine();
+                Console.WriteLine("[A] Aggiungi termostato  [I] Indice per gestire  [R] Rimuovi  [0] Indietro");
+                Console.Write("Scelta: ");
+                string s = Console.ReadLine().Trim().ToUpper();
+                if (s == "A") AddThermostatInteractive();
+                else if (s == "0") back = true;
+                else if (s == "R")
+                {
+                    Console.Write("Indice da rimuovere: ");
+                    if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 0 && idx < thermostats.Count)
+                    {
+                        Console.WriteLine($"Rimosso termostato: {thermostats[idx].getName()}");
+                        thermostats.RemoveAt(idx);
+                        Thread.Sleep(700);
+                    }
+                }
+                else
+                {
+                    if (int.TryParse(s, out int idx) && idx >= 0 && idx < thermostats.Count)
+                    {
+                        GestisciTermostato(thermostats[idx]);
+                    }
+                }
+            }
+        }
+
+        static void AddThermostatInteractive()
+        {
+            Console.Write("Nome termostato: ");
+            var nome = Console.ReadLine() ?? $"Thermo {thermostats.Count + 1}";
+            Console.Write("Temp attuale: ");
+            double cur = double.TryParse(Console.ReadLine(), NumberStyles.Float, CultureInfo.InvariantCulture, out double dcur) ? dcur : 18;
+            Console.Write("Target: ");
+            double tgt = double.TryParse(Console.ReadLine(), NumberStyles.Float, CultureInfo.InvariantCulture, out double dtgt) ? dtgt : 21;
+            var t = new Thermostat(new CurrentTemperature(cur), new TargetTemperature(tgt), false, new CurrentTemperature(15), new CurrentTemperature(25));
+            t.SetName(new Name(nome));
+            thermostats.Add(t);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Termostato aggiunto.");
+            Console.ResetColor();
+            Thread.Sleep(700);
+        }
+
+        static void GestisciTermostato(Thermostat termostato)
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.Clear();
                 Console.WriteLine($"--- {termostato.getName()} ---");
                 Console.WriteLine($"Temp attuale: {termostato.CurrentTemperature.Value}°C | Target: {termostato.TargetTemperature.Value}°C");
                 Console.WriteLine($"Soglia On (ext)<= {termostato.atWhatExternalTemperatureTurnAutomaticalyOn?.Value}°C | Soglia Off (ext)>= {termostato.atWhatExternalTemperatureTurnAutomaticalyOff?.Value}°C");
@@ -526,7 +824,7 @@ namespace BlaisePascal.SmartHouse.App
                 Console.WriteLine("[1] Imposta Target");
                 Console.WriteLine("[2] Accendi/Spegni");
                 Console.WriteLine("[3] Simula Temp Esterna e controlli automatici");
-                Console.WriteLine("[4] Indietro");
+                Console.WriteLine("[0] Indietro");
                 Console.WriteLine();
                 Console.Write("Premi il tasto... ");
 
@@ -551,14 +849,12 @@ namespace BlaisePascal.SmartHouse.App
                             termostato.AutomaticSwicthOn();
                         }
                         break;
-                    case "4":
+                    case "0":
                         back = true;
                         break;
                     default:
                         break;
                 }
-
-                // ogni modifica effettua refresh automatico (loop)
             }
         }
 
@@ -653,10 +949,8 @@ namespace BlaisePascal.SmartHouse.App
 
             casinoBalance -= bet;
             Console.WriteLine($"\nScommessa accettata: {bet} credits su {number}. Lancio la roulette...");
-            // animazione spin
             AnimateSpinNumbers();
 
-            // esegui gioco di dominio e ottieni payout (assunto come int)
             int payout = 0;
             try
             {
@@ -930,13 +1224,6 @@ namespace BlaisePascal.SmartHouse.App
             char c = key.KeyChar;
             return c.ToString();
         }
-
-        private static bool Confirm(string prompt)
-        {
-            Console.Write($"{prompt} (s/n): ");
-            var input = Console.ReadLine()?.Trim().ToLowerInvariant();
-            return input == "s" || input == "y" || input == "si";
-        }
         #endregion
 
         #region UTILITY - VISUALIZZA TUTTI I DISPOSITIVI
@@ -948,9 +1235,11 @@ namespace BlaisePascal.SmartHouse.App
             Console.ResetColor();
             Console.WriteLine();
 
-            // Lampade
+            // Lampade (repository + eco)
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("-- Illuminazione --");
-            var all = lampRepo.GetAll();
+            Console.ResetColor();
+            var all = GetCombinedLampList();
             if (all == null || all.Count == 0) Console.WriteLine("Nessuna lampada.");
             else
             {
@@ -964,7 +1253,9 @@ namespace BlaisePascal.SmartHouse.App
             Console.WriteLine();
 
             // Matrix
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("-- Matrix LED --");
+            Console.ResetColor();
             if (matrixLed == null) Console.WriteLine("Nessuna matrix definita.");
             else
             {
@@ -979,23 +1270,51 @@ namespace BlaisePascal.SmartHouse.App
             Console.WriteLine();
 
             // Sicurezza
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("-- Sicurezza --");
-            if (portaIngresso != null)
-                Console.WriteLine($"Door: {portaIngresso.getName()} | Aperta: {portaIngresso.isOpen} | Bloccata: {portaIngresso.isLocked}");
-            if (tapparella != null)
-                Console.WriteLine($"RollerShutter: {tapparella.getName()} | Posizione: {tapparella.ShutterPosition}% | Stato: {(tapparella.isOpen ? "Aperta" : "Chiusa")}");
-            if (telecamera != null)
-                Console.WriteLine($"CCTV: {telecamera.getName()} | Stato: {(telecamera.isOn ? "ON" : "OFF")} | Orari: {telecamera.turnOnHour.Value} - {telecamera.turnOffHour.Value}");
+            Console.ResetColor();
+            if (doors.Count == 0) Console.WriteLine("Nessuna porta registrata.");
+            else
+            {
+                for (int i = 0; i < doors.Count; i++)
+                {
+                    var d = doors[i];
+                    Console.WriteLine($"Door [{i}]: {d.getName()} | Aperta: {d.isOpen} | Bloccata: {d.isLocked}");
+                }
+            }
+            if (shutters.Count == 0) Console.WriteLine("Nessuna tapparella registrata.");
+            else
+            {
+                for (int i = 0; i < shutters.Count; i++)
+                {
+                    var s = shutters[i];
+                    Console.WriteLine($"RollerShutter [{i}]: {s.getName()} | Posizione: {s.ShutterPosition}% | Stato: {(s.isOpen ? "Aperta" : "Chiusa")}");
+                }
+            }
+            if (cctvs.Count == 0) Console.WriteLine("Nessuna CCTV registrata.");
+            else
+            {
+                for (int i = 0; i < cctvs.Count; i++)
+                {
+                    var c = cctvs[i];
+                    Console.WriteLine($"CCTV [{i}]: {c.getName()} | Stato: {(c.isOn ? "ON" : "OFF")} | Orari: {c.turnOnHour.Value} - {c.turnOffHour.Value}");
+                }
+            }
             Console.WriteLine();
 
-            // Termostato
-            Console.WriteLine("-- Termostato --");
-            if (termostato != null)
+            // Termostati
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("-- Termostati --");
+            Console.ResetColor();
+            if (thermostats.Count == 0) Console.WriteLine("Nessun termostato definito.");
+            else
             {
-                Console.WriteLine($"{termostato.getName()} | Current: {termostato.CurrentTemperature.Value}°C | Target: {termostato.TargetTemperature.Value}°C | IsOn: {termostato.IsOn}");
-                Console.WriteLine($"Soglia On (ext)<= {termostato.atWhatExternalTemperatureTurnAutomaticalyOn?.Value}°C | Soglia Off (ext)>= {termostato.atWhatExternalTemperatureTurnAutomaticalyOff?.Value}°C");
+                for (int i = 0; i < thermostats.Count; i++)
+                {
+                    var t = thermostats[i];
+                    Console.WriteLine($"[{i}] {t.getName()} | Current: {t.CurrentTemperature.Value}°C | Target: {t.TargetTemperature.Value}°C | IsOn: {t.IsOn}");
+                }
             }
-            else Console.WriteLine("Nessun termostato definito.");
 
             Console.WriteLine();
             Console.WriteLine("Premi un tasto per tornare al menu...");

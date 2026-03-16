@@ -18,7 +18,7 @@ namespace BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Com
             _lampRepository = lampRepository;
         }
 
-        public void Execute(Guid id, int intensity, Brigthness brigthness)
+        public void Execute(Guid id, Brigthness brigthness)
         {
             var lamp = _lampRepository.GetById(id);
             if (lamp != null)

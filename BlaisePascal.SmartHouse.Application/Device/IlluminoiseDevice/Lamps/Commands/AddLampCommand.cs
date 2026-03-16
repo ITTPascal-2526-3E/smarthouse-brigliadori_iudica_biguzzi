@@ -20,16 +20,10 @@ namespace BlaisePascal.SmartHouse.Application.Device.IlluminoiseDevice.Lamps.Com
             _lampRepository = lampRepository;
         }
 
-        public void Execute(string name)
+        public void Execute(bool isOn, int ligthpower, bool iswireless, int consumationvalue, Hour _lightonspecifictime, Hour _lightoffspecifictime, Name name)
         {
-            var lamp = new Lamp(
-                ison: false,
-                ligthpower: 50,
-                iswireless: true,
-                consumationvalue: 10,
-                _lightonspecifictime: new Hour(18),
-                _lightoffspecifictime: new Hour(6)
-            );
+            var lamp = new Lamp(isOn, ligthpower, iswireless, consumationvalue, _lightonspecifictime, _lightoffspecifictime);
+            lamp.SetName(name);
             _lampRepository.Add(lamp);
         }
     }
