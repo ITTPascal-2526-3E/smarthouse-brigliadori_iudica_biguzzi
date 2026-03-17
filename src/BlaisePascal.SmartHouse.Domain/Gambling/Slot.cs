@@ -35,13 +35,17 @@ namespace BlaisePascal.SmartHouse.Domain.Gambling
 
             if (ExtractedNumber == ExtractedNumber2 && ExtractedNumber == ExtractedNumber3)
             {
-                return bet * 2;
+                return bet * 5;
             }
-            else if (ExtractedNumber == ExtractedNumber3 && ExtractedNumber == ExtractedNumber2 && ExtractedNumber == 1)
+            else if (ExtractedNumber == ExtractedNumber3 && ExtractedNumber == ExtractedNumber2 && ExtractedNumber == 7)
             {
                 return playBonus();
             }
-            else 
+            else if(ExtractedNumber == ExtractedNumber2 || ExtractedNumber== ExtractedNumber3 || ExtractedNumber2==ExtractedNumber3)
+            {
+                return bet * 2;
+            }
+            else
             {
                 return 0;
             }
