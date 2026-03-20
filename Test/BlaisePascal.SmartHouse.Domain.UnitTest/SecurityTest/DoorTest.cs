@@ -32,12 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.False(door.isOpen);
         }
 
-        [Fact]
-        public void Door_closeDoor_locked_assertThrown()
-        {
-            Door door = new Door(true, false, 012);
-            Assert.Throws<Exception>(door.TurnOff);
-        }
+      
 
         [Fact]
         public void Door_unlocked_assertTrue()

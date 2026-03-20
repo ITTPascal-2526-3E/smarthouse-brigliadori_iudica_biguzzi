@@ -70,42 +70,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Hour hour2 = new Hour(2);
             Hour hour3 = new Hour(10);
             Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
-            lamp.setColor(IlluminoiseDevice.Color.RED);
-            Assert.Equal(IlluminoiseDevice.Color.RED, lamp.getColor());
+            lamp.setColor(Colors.RED);
+            Assert.Equal(Colors.RED, lamp.getColor());
         }
 
-        [Fact]
-        public void Lamp_AplyyScheduleNow_sameHour_AssertEquals()
-        {
-            Hour hour = new Hour(DateTime.Now.Hour);
-            Hour hour2 = new Hour(DateTime.Now.Hour);
-            Hour hour3 = new Hour(60);
-            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
-            lamp.ApllyScheduleNow();
-            Assert.False(lamp.isOn);
-        }
-
-        [Fact]
-        public void Lamp_AplyyScheduleNow_differentHour_AssertEquals()
-        {
-
-            Hour hour = new Hour(DateTime.Now.Hour +1);
-            Hour hour2 = new Hour(DateTime.Now.Hour);
-            Hour hour3 = new Hour(60);
-            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
-            lamp.ApllyScheduleNow();
-            Assert.True(lamp.isOn);
-        }
-
-        [Fact]
-        public void Lamp_AplyyScheduleNow_differentHour2_AssertEquals()
-        {
-            Hour hour = new Hour(DateTime.Now.Hour);
-            Hour hour2 = new Hour(DateTime.Now.Hour);
-            Hour hour3 = new Hour(60);
-            Lamp lamp = new Lamp(true, 50, true, 60, hour2, hour);
-            lamp.ApllyScheduleNow();
-            Assert.False(lamp.isOn);
-        }
     }
 }

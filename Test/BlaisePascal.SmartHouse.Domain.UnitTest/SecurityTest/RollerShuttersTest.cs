@@ -29,7 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void RollerShutter_closeShutter_assertFalse()
         {
             RollerShutter rollerShutter = new RollerShutter(true, 100);
-            rollerShutter.TurnOn();
+            rollerShutter.TurnOff();
             Assert.False(rollerShutter.isOpen);
         }
 

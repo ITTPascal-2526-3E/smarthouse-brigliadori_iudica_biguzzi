@@ -79,8 +79,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Hour hour3 = new Hour(10);
             EcoLamp lamp = new EcoLamp(true, 15, true, 10, hour3, hour, hour2);
             
-            lamp.setColor( IlluminoiseDevice.Color.RED);
-            Assert.Equal(IlluminoiseDevice.Color.RED, lamp.getColor());
+            lamp.setColor(Colors.RED);
+            Assert.Equal(Colors.RED, lamp.getColor());
         }
 
         [Fact]

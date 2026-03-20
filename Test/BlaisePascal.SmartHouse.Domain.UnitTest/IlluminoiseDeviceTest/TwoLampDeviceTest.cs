@@ -131,8 +131,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Lamp lamp3 = new Lamp(true, 50, true, 60, hour2, hour);
             device.addLamp(lamp1);
             device.addLamp(lamp2);
-            device.setColorOneLamp(1, IlluminoiseDevice.Color.RED);
-            Assert.Equal(IlluminoiseDevice.Color.RED, lamp2.getColor());
+            device.setColorOneLamp(1,Colors.RED);
+            Assert.Equal(Colors.RED, lamp2.getColor());
         }
 
         
